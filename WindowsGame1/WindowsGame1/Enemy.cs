@@ -1,0 +1,285 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+
+namespace Spaceman
+{
+	public abstract class Enemy : Object
+	{
+		Spawn spawn;
+		int maxHealth;
+		int currentHealth;
+		int attackDamage;
+		Texture2D vulnerable;
+		Texture2D overlay;
+		public int[] attack;
+		public int[] die;
+		public bool alert = false;
+ 		public Status action;
+		public ProjectileData projectileData;
+		int attackCooldown;
+
+		public Enemy(Spawn spawn, ProjectileData projectileData, int maxHealth, int attackDamage, double worldX, double worldY, Texture2D vulnerable, Texture2D hitBox, Texture2D overlay, Vector2 destCoords, int numFrames, int frameNum, int sizeMultiplier, bool mirrorX, Nullable<int> cycleStart)
+			: base(worldX, worldY, overlay, destCoords, numFrames, frameNum, mirrorX, hitBox)
+		{
+			this.spawn = spawn;
+			this.projectileData = projectileData;
+			this.maxHealth = maxHealth;
+			this.currentHealth = maxHealth;
+			this.attackDamage = attackDamage;
+			this.vulnerable = vulnerable;
+			this.overlay = overlay;
+			this.attack = new int[] { 0 };
+			this.die = new int[] { 0 };
+			this.action = new Status("idle", 0);
+			this.attackCooldown = 120;
+		}
+
+		public void TakeDamage(int amount, Game1 game)
+		{
+			this.currentHealth -= amount;
+			Hit();
+			this.alert = true;
+			if (this.currentHealth < 0)
+			{
+				this.Die(game);
+			}
+		}
+
+		public void DeathAnimation(Game1 game)
+		{
+			if (this.status.duration == 0)
+			{
+				game.RemoveObjectToDraw(this);
+				game.worldMap[game.currentMap].enemies.Remove(this);
+				this.Reset();
+			}
+			else
+			{
+				if (this.status.duration % this.FRAME_OFFSET == 0) this.frameNum = die[die.GetLength(0)-(this.status.duration / this.FRAME_OFFSET)];
+				this.status.duration--;
+			}
+		}
+
+		public virtual void Die(Game1 game)
+		{
+			this.spawn.dead = true;
+			this.status = new Status("die", this.die.GetLength(0) * this.FRAME_OFFSET);
+		}
+
+		public void GravityUpdate(Game1 game)
+		{
+			if (game.CheckMapCollision(0, 1, this) == false)
+			{
+				int i = 0;
+				do
+				{
+					i++;
+				} while (game.CheckMapCollision(0, i, this) == false && i < 9);
+				this.worldY += (i - 1);
+			}
+		}
+
+		public void Reset()
+		{
+			this.currentHealth = maxHealth;
+			this.status.state = "ok";
+			this.frameNum = 0;
+			this.worldX = spawn.worldX;
+			this.worldY = spawn.worldY;
+		}
+
+		public void ChooseNewBehavior(Game1 game)
+		{
+			if (action.state.Equals("attack"))
+			{
+				action = new Status("idle", attackCooldown);
+			}
+			else
+			{
+				if (alert)
+				{
+					this.action = new Status("attack", this.attack.GetLength(0) * this.FRAME_OFFSET);
+				}
+				else
+				{
+					this.action = new Status("idle", attackCooldown);
+				}
+			}
+		}
+
+		public void ChooseNewDirection(Game1 game)
+		{
+			if (alert)
+			{
+				if (destRect.X < Game1.screenWidth / 2) this.mirrorX = true;
+				else this.mirrorX = false;
+			}
+		}
+
+		public void Attack(Game1 game)
+		{
+			if (this.action.duration % this.FRAME_OFFSET == 0)
+			{
+				if (attack[attack.GetLength(0) - (this.action.duration / this.FRAME_OFFSET)] == 999)
+				{
+					game.CreateProjectile(this);
+					this.action.duration -= this.FRAME_OFFSET;
+				}
+				this.frameNum = attack[attack.GetLength(0) - (this.action.duration / this.FRAME_OFFSET)];
+			}
+		}
+
+		public void UpdateSprite(Game1 game)
+		{
+			if (this.status.state.Equals("die"))
+			{
+				DeathAnimation(game);
+			}
+			else
+			{
+				if (action.duration == 0)
+				{
+					ChooseNewBehavior(game);
+				}
+				if (status.state.Equals("hit"))
+				{
+					if (status.duration > 0) status.duration--;
+				}
+				if (action.state.Equals("attack"))
+				{
+					Attack(game);
+				}
+				this.onScreen = IsOnScreen(game.worldMap[game.currentMap]);
+				if (IsNearScreen(game.worldMap[game.currentMap].mapCoordinates) == false)
+				{
+					game.RemoveObjectToDraw(this);
+					game.worldMap[game.currentMap].enemies.Remove(this);
+					this.alert = false;
+				}
+				this.nearScreen = IsNearScreen(game.worldMap[game.currentMap].mapCoordinates);
+
+				ChooseNewDirection(game);
+				this.action.duration--;
+			}
+				this.sourceRect = new Rectangle(this.spriteWidth * this.frameNum, 0, this.texture.Width / numFrames, this.texture.Height);
+				if (nearScreen)
+				{
+					this.destRect.X = (int)(this.worldX - game.worldMap[game.currentMap].mapCoordinates.X);
+					this.destRect.Y = (int)(this.worldY - game.worldMap[game.currentMap].mapCoordinates.Y);
+				}
+				GravityUpdate(game);
+		}
+
+		new public int PerPixelCollisionDetect(Sprite sprite, Game1 game)
+		{
+			Rectangle rect = new Rectangle(sprite.destRect.X - this.destRect.X, sprite.destRect.Y - this.destRect.Y, sprite.spriteWidth, sprite.spriteHeight);
+			// sets the coordinates relative to (0,0) being the top left corner of this.
+			Texture2D projTexture = sprite.texture;
+			Texture2D hitBoxTexture = this.hitbox;
+			Texture2D vulnerableTexture = this.vulnerable;
+
+			Color[] hitBoxPixels;
+			Color[] vulnerablePixels;
+			Color[] projectilePixels;
+			int results = 0;
+			Rectangle objRect = rect;
+			Rectangle projRect = new Rectangle(0, 0, sprite.spriteWidth, sprite.spriteHeight);
+
+			//initial tests to see if the box is even applicable to the object texure being checked
+			if (rect.X + rect.Width <= 0 || rect.Y + rect.Height <= 0) return 0;
+			if (rect.X >= this.spriteWidth || rect.Y >= this.spriteHeight) return 0;
+
+			if (rect.X < 0)
+			{
+				objRect.X = 0;
+				objRect.Width += rect.X;
+				projRect.X -= rect.X;
+				projRect.Width += rect.X;
+			}
+
+			if (rect.Y < 0)
+			{
+				objRect.Height += rect.Y;
+				objRect.Y = 0;
+				projRect.Y -= rect.Y;
+				projRect.Height = objRect.Height;
+			}
+
+			for (int i = 0; i <= objRect.Width; i++)
+			{
+				if (objRect.X + i == this.spriteWidth)
+				{
+					objRect.Width = i;
+					projRect.Width = objRect.Width;
+					break;
+				}
+			}
+			for (int i = 0; i <= objRect.Height; i++)
+			{
+				if (objRect.Y + i == this.spriteHeight)
+				{
+					objRect.Height = i;
+					projRect.Height = objRect.Height;
+					break;
+				}
+			}
+
+			if (objRect.Width == 0 || objRect.Height == 0) return 0;
+
+			hitBoxPixels = new Color[objRect.Width * objRect.Height];
+			vulnerablePixels = new Color[objRect.Width * objRect.Height];
+			projectilePixels = new Color[objRect.Width * objRect.Height];
+
+			if (sprite.mirrorX)
+			{
+				projTexture = MirrorTexture(sprite, game,sprite.texture);
+			}
+
+			if (this.mirrorX)
+			{
+				hitBoxTexture = MirrorTexture(this, game, this.hitbox);
+				vulnerableTexture = MirrorTexture(this, game, this.vulnerable);
+			}
+
+
+			projTexture.GetData<Color>(
+				0, projRect, projectilePixels, 0, objRect.Width * objRect.Height
+				);
+
+			hitBoxTexture.GetData<Color>(
+				0, objRect, hitBoxPixels, 0, objRect.Width * objRect.Height
+				);
+
+			vulnerableTexture.GetData<Color>(
+				0, objRect, vulnerablePixels, 0, objRect.Width * objRect.Height
+				);
+
+			for (int y = 0; y < objRect.Height; y++)
+			{
+				for (int x = 0; x < objRect.Width; x++)
+				{
+					Color colorA = hitBoxPixels[y * objRect.Width + x];
+					Color colorB = projectilePixels[y * objRect.Width + x];
+					Color colorC = vulnerablePixels[y * objRect.Width + x];
+					if (colorA.A != 0 && colorB.A != 0)
+					{
+						if(results == 0) results = 1;
+					}
+					if (colorC.A != 0 && colorB.A != 0)
+					{
+						results = 2;
+					}
+				}
+			}
+		return results;
+		}
+	}
+}

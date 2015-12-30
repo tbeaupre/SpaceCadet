@@ -1,0 +1,1287 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using System.IO;
+
+namespace Spaceman
+{
+	/// <summary>
+	/// This is the main type for your game
+	/// </summary>
+	public class Game1 : Microsoft.Xna.Framework.Game
+	{
+		public GraphicsDeviceManager graphics;
+		SpriteBatch spriteBatch;
+
+		public enum EnemyNames { BioSnail };
+		public enum Directions { left, upLeft, up, upRight, right, downRight, down, downLeft };
+		public enum PowerUps { NULL, GrasshopperJump, DoubleJump };
+		public enum Guns { Pistol, Shotgun, Railgun, MachineGun };
+
+		public int currentMap;
+
+		public List<Projectile> enemyProjectiles = new List<Projectile>();
+		public List<Projectile> allyProjectiles = new List<Projectile>();
+
+		public List<Sprite> characterSprites = new List<Sprite>();
+		public List<Gun> arsenal = new List<Gun>();
+		public List<Guns> unlockedGuns = new List<Guns>();
+		public Map[] worldMap;
+
+		const int fullScreenWidth = 1920;
+		const int fullScreenHeight = 1080;
+		const int SCREEN_MULTIPLIER = 6;
+		public const int screenWidth = fullScreenWidth / SCREEN_MULTIPLIER;
+		public const int screenHeight = fullScreenHeight / SCREEN_MULTIPLIER;
+
+		public const int spaceManX = screenWidth / 2 - spaceManWidth / 2;
+		public const int spaceManY = screenHeight / 2 - spaceManHeight / 2;
+
+		const int FRAME_OFFSET = 5;
+		public double moveSpeed;
+		public double gravity;
+		public int terminalVel;
+		public double jumpSpeed;
+		const int RECOVERY_TIME = 10;
+		public int maxJumps;
+		public int jumpsRemaining = 1;
+
+		public KeyboardState newkeys;
+		public KeyboardState oldkeys;
+
+		double maxEnergy = 100;
+		double currentEnergy = 5;
+		double energyRecoveryRate = 1/60;
+
+		double maxHealth = 100;
+		double currentHealth = 50;
+
+		public RenderTarget2D lowRes;
+
+		public Spaceman spaceMan;
+		Texture2D spaceManHeadTexture;
+		Texture2D spaceManBodyTexture;
+
+		Texture2D spaceManTexture;
+		const int spaceManWidth = 11;
+		const int spaceManHeight = 15;
+
+		CharOverlay guns;
+		Texture2D gunsTexture;
+		Texture2D gunsAngleUpTexture;
+		Texture2D gunsAngleDownTexture;
+		public int currentGun = 0;
+
+		Texture2D bulletFlatTexture;
+		Texture2D bulletAngleTexture;
+
+		Texture2D batteryTexture;
+		int[,] batteryLocations = new int[,] {{383,718},{440,718}, {1368,971}};
+		
+		Texture2D healthTexture;
+		HealthPickupData[] healthLocations = new HealthPickupData[]
+		{ 
+			new HealthPickupData(130, 965, 1),
+			new HealthPickupData(145, 965, 2),
+			new HealthPickupData(160, 965, 3),
+			new HealthPickupData(175, 965, 4),
+			new HealthPickupData(190, 965, 5) 
+		};
+
+		Sprite healthBarOverlay;
+		Texture2D healthBarOverlayTexture;
+
+		Sprite energyBar;
+		Texture2D energyBarTexture;
+
+		Sprite healthBar;
+		Texture2D healthBarTexture;
+
+		Texture2D bioSoldierTexture;
+
+		Texture2D bioSnailProjectileTexture;
+		public ProjectileData bioSnailProjectileData;
+		public EnemyTextureSet bioSnailTexture;
+
+		Texture2D doorTexture;
+		Texture2D doorHitboxTexture;
+
+		Texture2D spaceshipTexture;
+
+		Texture2D saveStationTexture;
+
+		#region Map Resources
+
+		public Vector2 initMapCoordinates = new Vector2(560, 100); // technically the world coordinates of the top left-hand corner of the screen
+
+		#endregion
+
+		#region Keys
+		public const Keys jump = Keys.Z;
+		public const Keys fire = Keys.X;
+		public const Keys left = Keys.Left;
+		public const Keys right = Keys.Right;
+		public const Keys up = Keys.Up;
+		public const Keys down = Keys.Down;
+		public const Keys hold = Keys.LeftShift;
+		public const Keys nextGun = Keys.S;
+		public const Keys back = Keys.Back;
+		public const Keys special1 = Keys.A;
+		public const Keys special2 = Keys.A;
+		#endregion
+
+		List<Portal> portals = new List<Portal>();
+
+		#region Menus
+		public Menu currentMenu;
+		public Menu lastMenu;
+		Menu startMenu;
+		List<IMenuItem> startMenuItems;
+		public Menu saveStationMenu;
+		bool saveMenuItem = false;
+		List<IMenuItem> saveStationMenuItems;
+		#endregion
+
+		PowerUpManager powerUpManager = new PowerUpManager();
+
+		public string currentSaveFilepath;
+		public StreamWriter currentSaveFile;
+
+		public Game1()
+		{
+			graphics = new GraphicsDeviceManager(this);
+
+			graphics.PreferredBackBufferWidth = fullScreenWidth;
+			graphics.PreferredBackBufferHeight = fullScreenHeight;
+			//graphics.IsFullScreen = true;
+
+			graphics.ApplyChanges();
+			Content.RootDirectory = "Content";
+		}
+
+		/// <summary>
+		/// Allows the game to perform any initialization it needs to before starting to run.
+		/// This is where it can query for any required services and load any non-graphic
+		/// related content.  Calling base.Initialize will enumerate through any components
+		/// and initialize them as well.
+		/// </summary>
+		protected override void Initialize()
+		{
+			SetStandardAttributes();
+
+			powerUpManager.UnlockPowerUp(Game1.PowerUps.GrasshopperJump);
+			powerUpManager.UnlockPowerUp(Game1.PowerUps.DoubleJump);
+			powerUpManager.UpdateAbilities(Game1.PowerUps.GrasshopperJump, Game1.PowerUps.NULL, Game1.PowerUps.NULL);
+
+			spaceshipTexture = this.Content.Load<Texture2D>("MapResources\\OtherAssets\\Spaceship");
+
+			spaceManTexture = this.Content.Load<Texture2D>("Spaceman");
+			spaceManHeadTexture = this.Content.Load<Texture2D>("Spaceman Heads");
+			spaceManBodyTexture = this.Content.Load<Texture2D>("Spaceman Body");
+			spaceMan = new Spaceman(spaceManBodyTexture,
+				spaceManHeadTexture,
+				new Vector2(spaceManX, spaceManY),
+				13,
+				1,
+				false);
+			characterSprites.Add(spaceMan);
+
+			gunsTexture = this.Content.Load<Texture2D>("Guns");
+			gunsAngleUpTexture = this.Content.Load<Texture2D>("Guns Angle");
+			gunsAngleDownTexture = this.Content.Load<Texture2D>("Guns Angle2");
+			guns = new CharOverlay(spaceMan, gunsAngleUpTexture, gunsAngleDownTexture, gunsTexture,
+				new Vector2(spaceManX, spaceManY),
+				4,
+				0,
+				1,
+				false,
+				null);
+			characterSprites.Add(guns);
+
+			healthBarOverlayTexture = this.Content.Load<Texture2D>("HUD\\HealthBarOverlay2");
+			healthBarOverlay = new Sprite(healthBarOverlayTexture,new Vector2(0,0), 1, 0, false);
+
+			energyBarTexture = this.Content.Load<Texture2D>("HUD\\EnergyBar");
+			energyBar = new Sprite(energyBarTexture, new Vector2(21, 5), 1, 0, false);
+
+			healthBarTexture = this.Content.Load<Texture2D>("HUD\\HealthBar");
+			healthBar = new Sprite(healthBarTexture, new Vector2(21, 10), 1, 0, false);
+
+			bioSoldierTexture = this.Content.Load<Texture2D>("Enemies\\BioSoldier");
+
+			bioSnailTexture = new EnemyTextureSet(this.Content.Load<Texture2D>("Enemies\\Bio-Snail\\Bio-Snail"), this.Content.Load<Texture2D>("Enemies\\Bio-Snail\\Bio-Snail Hitbox"), this.Content.Load<Texture2D>("Enemies\\Bio-Snail\\Bio-Snail Vulnerable"));
+			bioSnailProjectileTexture = this.Content.Load<Texture2D>("Enemies\\Bio-Snail\\Bio-Snail Projectile");
+			bioSnailProjectileData = new ProjectileData(		
+				5,	// int damage
+				2,	// double xVel;
+				0,	// double yVel;
+				0,	// double yAcc;
+				bioSnailProjectileTexture,	// Texture2D texture;
+				1,	// int numFrames;
+				0,	// int frameNum;
+				6,	// int xOffset;
+				10	// int yOffset;
+				);
+
+			batteryTexture = this.Content.Load<Texture2D>("PickUps\\Battery");
+			healthTexture = this.Content.Load<Texture2D>("PickUps\\HealthPickups");
+
+			bulletFlatTexture = this.Content.Load<Texture2D>("Bullets");
+			bulletAngleTexture = this.Content.Load<Texture2D>("Bullets Angled");
+
+			saveStationTexture = this.Content.Load<Texture2D>("SaveStation");
+
+			#region Menu Setup
+
+			startMenuItems = new List<IMenuItem>();
+			startMenuItems.Add(new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\StartMenuItem"), null));
+			startMenuItems.Add(new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\OptionsMenuItem"), null));
+			startMenu = new Menu(this.Content.Load<Texture2D>("Menu\\MainMenu"), startMenuItems, new Vector2(600, 200));
+			currentMenu = startMenu;
+
+			saveStationMenuItems = new List<IMenuItem>();
+			saveStationMenuItems.Add(new ActionMenuItem(this.Content.Load<Texture2D>("Menu\\SaveMenuItem"), null, saveMenuItem));
+			saveStationMenuItems.Add(new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\AlterSuitMenuItem"), null));
+			saveStationMenu = new Menu(this.Content.Load<Texture2D>("Menu\\SaveStationMenu"), saveStationMenuItems, new Vector2(340, 200));
+
+			#endregion
+
+			#region Initialize Maps
+
+			// Use Map Array
+			worldMap = new Map[] {
+				new Map(new MapResource(this, "1", true),5), // 1 X 4
+				new Map(new MapResource(this, "2", false),5), // 3 X 3
+				new Map(new MapResource(this, "3", false), 5), // 3 X 2
+			};
+			this.currentMap = 1;
+			List<IMapItem> items = new List<IMapItem>();
+			items.Add(CreateSaveStation(500, 341));
+			worldMap[currentMap].InitializeMap(items);
+			this.worldMap[currentMap].active = true;
+			this.worldMap[currentMap].mapCoordinates = initMapCoordinates;
+
+			doorTexture = this.Content.Load<Texture2D>("Doors\\Door2");
+			doorHitboxTexture = this.Content.Load<Texture2D>("Doors\\DoorHitbox3");
+
+			worldMap[currentMap].spawns.Add(new Spawn(200, 232, "BioSnail"));
+			worldMap[currentMap].assets.Add(new MapAsset(141, 232, spaceshipTexture, worldMap[currentMap].mapCoordinates, 1, 0, false));
+
+			//Initialize Batteries
+			for (int i = 0; i <= batteryLocations.GetUpperBound(0); i++)
+			{
+				worldMap[currentMap].pickUps.Add(new Battery(worldMap[currentMap].mapCoordinates, batteryLocations[i, 0], batteryLocations[i, 1], batteryTexture));
+			}
+
+			//Initialize Health
+			for (int i = 0; i <= healthLocations.GetUpperBound(0); i++)
+			{
+				worldMap[currentMap].pickUps.Add(new Health(worldMap[currentMap].mapCoordinates, healthLocations[i].x, healthLocations[i].y, healthTexture, healthLocations[i].level));
+			}
+
+			//Initialize Doors
+			//Door door1 = CreateDoor(1995, 1339, 1, true);
+			Door door2_1L = CreateDoor(907, 361, 1, true);
+			Door door3_1R = CreateDoor(4, 107, 1, false);
+			Door door3_2L = CreateDoor(907, 227, 1, true);
+			portals.Add(new Portal(worldMap[1], worldMap[2], door2_1L, door3_1R));
+			//portals.Add(new Portal(map3, map3, door3_2L, door3_1R));
+			#endregion
+
+			#region Initialize Guns
+			arsenal.Add(
+				new Gun("G-32_C Phazer Pistol", // name
+					false,						// unlocked
+					5,							// bullet velocity
+					10,							// damage
+					0,							// cooldown
+					false,						// automatic
+					13,							// barrel X
+					8,							// barrel Y
+					7,							// angled barrel X
+					8)							// angled barrel Y
+				);
+
+			arsenal.Add(
+				new Gun("Flouroantimonic Shotgun", false, 5, 20, 15, false, 16, 8, 10, 6)
+				);
+
+			arsenal.Add(
+				new Gun("IT-6.7 Rail Gun", false, 5, 50, 5, false, 14, 8, 9, 9)
+				);
+
+			arsenal.Add(
+				new Gun("Magmatorque Nail-Gun", false, 6, 10, 7, true, 18, 7,10,6)
+				);
+
+			UnlockGun(Guns.Pistol);
+			UnlockGun(Guns.Shotgun);
+			UnlockGun(Guns.Railgun);
+			UnlockGun(Guns.MachineGun);
+			#endregion
+
+			InitializePortals(this.portals);
+
+			// Set Up File System
+			if (File.Exists("save1.sav"))
+			{
+			}
+			currentSaveFilepath = "save1.sav";
+			currentSaveFile = File.CreateText(currentSaveFilepath);
+			SaveGameData();
+
+			base.Initialize();
+		}
+
+		public void InitializePortals(List<Portal> portals)
+		{
+			foreach (Portal p in portals)
+			{
+				p.Initialize();
+			}
+		}
+
+		/// <summary>
+		/// LoadContent will be called once per game and is the place to load
+		/// all of your content.
+		/// </summary>
+		protected override void LoadContent()
+		{
+			// Create a new SpriteBatch, which can be used to draw textures.
+			spriteBatch = new SpriteBatch(GraphicsDevice);
+			lowRes = new RenderTarget2D(graphics.GraphicsDevice, screenWidth, screenHeight);
+			// TODO: use this.Content to load your game content here
+		}
+
+		/// <summary>
+		/// UnloadContent will be called once per game and is the place to unload
+		/// all content.
+		/// </summary>
+		protected override void UnloadContent()
+		{
+			// TODO: Unload any non ContentManager content here
+		}
+
+		/// <summary>
+		/// Allows the game to run logic such as updating the world,
+		/// checking for collisions, gathering input, and playing audio.
+		/// </summary>
+		/// <param name="gameTime">Provides a snapshot of timing values.</param>
+		protected override void Update(GameTime gameTime)
+		{
+			oldkeys = newkeys;
+			newkeys = Keyboard.GetState();
+
+			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+				this.Exit();
+
+			if (currentMenu == null) // If the game is in progress
+			{
+				if (newkeys.IsKeyDown(back) && oldkeys.IsKeyUp(back))
+					currentMenu = startMenu;
+				UpdateAttributes(powerUpManager.GetCurrentPowerUps());
+				UpdateObjects();
+				UpdateEnergy();
+			}
+			else
+			{
+				if (newkeys.IsKeyDown(back) && oldkeys.IsKeyUp(back) && currentMenu != startMenu)
+					currentMenu = lastMenu;
+				else
+				{
+					currentMenu.UpdateMenu(this);
+					MenuListen();
+				}
+			}
+
+			base.Update(gameTime);
+		}
+
+		/// <summary>
+		/// This is called when the game should draw itself.
+		/// </summary>
+		/// <param name="gameTime">Provides a snapshot of timing values.</param>
+		protected override void Draw(GameTime gameTime)
+		{
+			if (currentMenu != this.startMenu)
+			{
+				graphics.GraphicsDevice.SetRenderTarget(lowRes);
+				spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+				GraphicsDevice.Clear(new Color(0, 0, 0, 0));
+				DrawMap(worldMap[currentMap]);
+				if (worldMap[currentMap].wasJustActivated)
+				{
+					this.worldMap[currentMap].wasJustActivated = false;
+				}
+				else
+				{
+					DrawSprite(spaceMan, 0.6f);
+					DrawSprite(guns, 0.5f);
+				}
+				DrawObjects();
+				DrawForeground(worldMap[currentMap]);
+				DrawSprite(healthBarOverlay, 0.1f);
+				DrawEnergyBar();
+				DrawHealthBar();
+				base.Draw(gameTime);
+				spriteBatch.End();
+
+				graphics.GraphicsDevice.SetRenderTarget(null);
+
+				spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
+				DrawBackground(worldMap[currentMap]);
+				spriteBatch.Draw(lowRes, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
+				base.Draw(gameTime);
+				spriteBatch.End();
+			}
+			if (currentMenu != null)
+			{
+				spriteBatch.Begin();
+				DrawMenu(currentMenu);
+				base.Draw(gameTime);
+				spriteBatch.End();
+			}
+		}
+
+		public void DrawMenu(Menu menu)
+		{
+			int rectX = (graphics.PreferredBackBufferWidth - menu.background.Width)/2;
+			int rectY = (graphics.PreferredBackBufferHeight - menu.background.Height)/2;
+			spriteBatch.Draw(menu.background,
+				new Rectangle(
+					rectX,
+					rectY,
+					menu.background.Width,
+					menu.background.Height),
+				null,
+				Color.White);
+			int deltaY = (int)menu.itemZone.Y / menu.numItems;
+			for (int i = 0; i < menu.items.Count; i++)
+			{
+				IMenuItem item = menu.items[i];
+				Rectangle sourceRect;
+				if (item.GetIsHighlighted())
+				{
+					sourceRect = new Rectangle(0, item.GetTexture().Height / 2, item.GetTexture().Width, item.GetTexture().Height / 2);
+				}
+				else
+				{
+					sourceRect = new Rectangle(0, 0, item.GetTexture().Width, item.GetTexture().Height / 2);
+				}
+				spriteBatch.Draw(item.GetTexture(),
+					new Rectangle(
+						rectX + (menu.background.Width/2) - (item.GetTexture().Width/2),
+						rectY + (int)menu.itemZone.X + (deltaY * i),
+						item.GetTexture().Width,
+						item.GetTexture().Height/2),
+					sourceRect,
+					Color.White);
+			}
+		}
+
+		public void DrawMap(Map map)
+		{
+			spriteBatch.Draw(map.hitbox, new Rectangle((int)(-map.mapCoordinates.X + map.offset.X), (int)(-map.mapCoordinates.Y + map.offset.Y), map.hitbox.Width, map.hitbox.Height), null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, 1f);
+		}
+
+        public void DrawForeground(Map map)
+        {
+			if (map.foreground!= null)
+				spriteBatch.Draw(map.foreground, new Rectangle((int)(-map.mapCoordinates.X + map.offset.X), (int)(-map.mapCoordinates.Y + map.offset.Y), map.foreground.Width, map.foreground.Height), null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, 1f);
+        }
+
+        public void DrawBackground(Map map)
+        {
+			spriteBatch.Draw(
+				map.background,
+				new Rectangle(
+					(int)((-map.mapCoordinates.X + map.offset.X) * (6 / map.parallaxFactor) * ((double)graphics.PreferredBackBufferWidth / (double)fullScreenWidth)),
+					(int)((-map.mapCoordinates.Y + map.offset.Y) * (6 / map.parallaxFactor)* ((double)graphics.PreferredBackBufferHeight / (double)fullScreenHeight)),
+					(int)(map.background.Width * 6 * ((double)graphics.PreferredBackBufferWidth / (double)fullScreenWidth)),
+					(int)(map.background.Height * 6 * ((double)graphics.PreferredBackBufferHeight / (double)fullScreenHeight))),
+				null,
+				Color.White);
+        }
+
+		public void DrawSprite(Sprite sprite, float layer)
+		{
+			Texture2D texture;
+			if (sprite.status.state.Equals("hit") && (sprite.status.duration/sprite.HIT_DURATION)%2 == 1)
+
+				texture = WhiteSilhouette(sprite.texture, sprite.sourceRect);
+			else texture = sprite.texture;
+
+			if (sprite.mirrorX)
+				spriteBatch.Draw(texture, sprite.destRect, sprite.sourceRect, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, layer);
+			else
+				spriteBatch.Draw(texture, sprite.destRect, sprite.sourceRect, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, layer);
+		}
+
+		public void DrawProjectile(Projectile sprite, float layer)
+		{
+			Texture2D texture;
+			texture = sprite.texture;
+
+			if (sprite.mirrorX)
+				spriteBatch.Draw(texture, sprite.destRect, sprite.sourceRect, Color.White, (float)FindBulletAngle(sprite.direction, sprite.mirrorX), new Vector2(0, 0), SpriteEffects.FlipHorizontally, layer);
+			else
+				spriteBatch.Draw(texture, sprite.destRect, sprite.sourceRect, Color.White, (float)FindBulletAngle(sprite.direction, sprite.mirrorX), new Vector2(0, 0), SpriteEffects.None, layer);
+		}
+
+		public void DrawAllyProjectile(Projectile sprite, float layer)
+		{
+			Texture2D texture;
+			texture = sprite.texture;
+
+			if (sprite.mirrorX)
+				spriteBatch.Draw(texture, sprite.destRect, sprite.sourceRect, Color.White, (float)FindBulletAngle(sprite.direction, sprite.mirrorX), new Vector2(0, 0), SpriteEffects.FlipHorizontally, layer);
+			else
+				spriteBatch.Draw(texture, sprite.destRect, sprite.sourceRect, Color.White, (float)FindBulletAngle(sprite.direction, sprite.mirrorX), new Vector2(0, 0), SpriteEffects.None, layer);
+		}
+
+		public void DrawSprite(CharOverlay sprite, float layer)
+		{
+			Texture2D texture;
+			if (sprite.status.state.Equals("hit") && (sprite.status.duration / sprite.HIT_DURATION) % 2 == 1)
+
+				texture = WhiteSilhouette(sprite.texture, sprite.sourceRect);
+			else texture = sprite.texture;
+
+			if (sprite.mirrorX)
+				spriteBatch.Draw(texture, new Rectangle(sprite.destRect.X + sprite.xOffset, sprite.destRect.Y + sprite.yOffset, sprite.destRect.Width, sprite.destRect.Height), sprite.sourceRect, Color.White, sprite.angle, new Vector2(0, 0), SpriteEffects.FlipHorizontally, layer);
+			else
+				spriteBatch.Draw(texture, new Rectangle(sprite.destRect.X + sprite.xOffset, sprite.destRect.Y + sprite.yOffset, sprite.destRect.Width, sprite.destRect.Height), sprite.sourceRect, Color.White, -sprite.angle, new Vector2(0, 0), SpriteEffects.None, layer);
+		}
+
+		public Texture2D WhiteSilhouette(Texture2D texture, Rectangle source)
+		{
+			Texture2D result = new Texture2D(graphics.GraphicsDevice,texture.Width,texture.Height);
+			Color[] pixels = new Color[source.Width * source.Height];
+			Color[] newPixels = new Color[source.Width * source.Height];
+			texture.GetData<Color>(0, source, pixels, 0, source.Width * source.Height);
+
+			for (int y = source.Height - 1; y >= 0; y--)
+			{
+				for (int x = source.Width - 1; x >= 0; x--)
+				{
+					newPixels[y * source.Width + x] = pixels[y * source.Width + x];
+					if (pixels[y * source.Width + x].A != 0)
+					{
+						newPixels[y * source.Width + x] = Color.White;
+					}
+				}
+			}
+
+			result.SetData<Color>(0, source, newPixels, 0, source.Width * source.Height);
+			return result;
+		}
+
+		public void ActivateMap(Map toActivate, Door door)
+		{
+			this.worldMap[currentMap].DeactivateMap(this);
+			this.worldMap[currentMap] = toActivate;
+			this.worldMap[currentMap].ActivateMap(door, this);
+		}
+
+		public void NextGun()
+		{
+			do
+			{
+				HelpNext();
+				guns.NextFrame(1);
+			} while (arsenal[currentGun].unlocked == false);
+		}
+
+		void HelpNext()
+		{
+			currentGun++;
+			if (currentGun == arsenal.Count)
+			{
+				currentGun = 0;
+			}
+		}
+
+		public void RefreshGunCooldown()
+		{
+			spaceMan.SetGunCooldown(arsenal[currentGun].cooldown);
+		}
+
+		#region CreateProjectile
+		public void CreateProjectile(Spaceman origin)
+		{
+			Gun current = arsenal[currentGun];
+			allyProjectiles.Add(
+			new Projectile(
+				origin.direction,
+				origin,
+				worldMap[currentMap].mapCoordinates,
+				current.damage,
+				//(int)mapCoordinates.X + guns.destRect.X + (guns.mirrorX ?
+				// guns.spriteWidth - current.barrelX + 2
+				//: current.barrelX - 2) - 3,
+				(int)worldMap[currentMap].mapCoordinates.X - worldMap[currentMap].offset.X + guns.destRect.X + FindBulletX(origin.direction, origin.mirrorX, current),
+				//(int)mapCoordinates.Y + guns.destRect.Y + current.barrelY - 3,
+				(int)worldMap[currentMap].mapCoordinates.Y - worldMap[currentMap].offset.Y + guns.destRect.Y + FindBulletY(origin.direction, origin.mirrorX, current),
+				FindBulletXVel(origin.direction, current.bulletVel),
+				FindBulletYVel(origin.direction, current.bulletVel),
+				0,
+				FindBulletTexture(origin.direction),
+				4,
+				guns.frameNum,
+				guns.mirrorX)
+				);
+		}
+
+		#region FindProperties
+		public Texture2D FindBulletTexture(Directions dir)
+		{
+			switch (dir)
+			{
+				case Directions.upLeft:
+					return bulletAngleTexture;
+
+				case Directions.upRight:
+					return bulletAngleTexture;
+
+				case Directions.downRight:
+					return bulletAngleTexture;
+
+				case Directions.downLeft:
+					return bulletAngleTexture;
+
+				default:
+					return bulletFlatTexture;
+			}
+		}
+
+		public double FindBulletXVel(Directions dir, double vel)
+		{
+			switch (dir)
+			{
+				case Directions.left:
+					return -vel;
+
+				case Directions.upLeft:
+					return -Math.Cos(Math.PI / 4) * vel;
+
+				case Directions.up:
+					return 0;
+
+				case Directions.upRight:
+					return Math.Cos(Math.PI / 4) * vel;
+
+				case Directions.right:
+					return vel;
+
+				case Directions.downRight:
+					return Math.Cos(Math.PI / 4) * vel;
+
+				case Directions.down:
+					return 0;
+
+				default:
+					return -Math.Cos(Math.PI / 4) * vel;
+			}
+		}
+
+		public double FindBulletX(Directions dir, bool mirrorX, Gun gun)
+		{
+			int barrelX = gun.barrelX;
+			int barrelY = gun.barrelY;
+			int angledBarrelX = gun.angledBarrelX;
+			int angledBarrelY = gun.angledBarrelY;
+			switch (dir)
+			{
+				case Directions.left:
+					return guns.spriteWidth - barrelX;
+
+				case Directions.upLeft:
+					return guns.spriteWidth - angledBarrelX - 4;
+
+				case Directions.up:
+
+					if (mirrorX) return guns.spriteHeight - barrelY + 11;
+					else return -guns.spriteHeight + barrelY + 8;
+
+				case Directions.upRight:
+					return angledBarrelX - 1;
+
+				case Directions.right:
+					return barrelX - 6;
+
+				case Directions.downRight:
+					return guns.spriteHeight - angledBarrelY + 7;
+
+				case Directions.down:
+					if (mirrorX) return barrelY + 3;
+					else return guns.spriteHeight - barrelY + 1;
+
+				default:
+					return angledBarrelY -2;
+			}
+		}
+
+		public double FindBulletY(Directions dir, bool mirrorX, Gun gun)
+		{
+			int barrelX = gun.barrelX;
+			int barrelY = gun.barrelY;
+			int angledBarrelX = gun.angledBarrelX;
+			int angledBarrelY = gun.angledBarrelY;
+			switch (dir)
+			{
+				case Directions.left:
+					return barrelY - 3;
+
+				case Directions.upLeft:
+					return angledBarrelY - 8;
+
+				case Directions.up:
+					if (mirrorX) return guns.spriteWidth-barrelX - 7;
+					else return guns.spriteWidth - barrelX - 1;
+
+				case Directions.upRight:
+					return angledBarrelY - 8;
+
+				case Directions.right:
+					return barrelY - 3;
+
+				case Directions.downRight:
+					return angledBarrelX + 3;
+
+				case Directions.down:
+					if (mirrorX) return guns.spriteWidth + barrelX - 15;
+					else return barrelX - 2;
+
+				default:
+					return angledBarrelX + 9;
+			}
+		}
+
+		public double FindBulletYVel(Directions dir, double vel)
+		{
+			switch (dir)
+			{
+				case Directions.left:
+					return 0;
+
+				case Directions.upLeft:
+					return -Math.Cos(Math.PI / 4) * vel;
+
+				case Directions.up:
+					return -vel;
+
+				case Directions.upRight:
+					return -Math.Cos(Math.PI / 4) * vel;
+
+				case Directions.right:
+					return 0;
+
+				case Directions.downRight:
+					return Math.Cos(Math.PI / 4) * vel;
+
+				case Directions.down:
+					return vel;
+
+				default:
+					return Math.Cos(Math.PI / 4) * vel;
+			}
+		}
+
+		public double FindBulletAngle(Directions dir, bool mirrorX)
+		{
+			switch (dir)
+			{
+				case Directions.left:
+					return 0;
+
+				case Directions.upLeft:
+					return 0;
+
+				case Directions.up:
+					if (mirrorX) return Math.PI / 2;
+					else return -Math.PI / 2;
+
+				case Directions.upRight:
+					return 0;
+
+				case Directions.right:
+					return 0;
+
+				case Directions.downRight:
+					return Math.PI / 2;
+
+				case Directions.down:
+					if (mirrorX) return -Math.PI / 2;
+					else return Math.PI / 2;
+
+				default:
+					return -Math.PI / 2;
+			}
+		}
+		#endregion
+
+		public void CreateProjectile(Enemy origin)
+		{
+			enemyProjectiles.Add(
+			new Projectile(
+				(origin.mirrorX?Directions.right: Directions.left),
+				origin,
+				worldMap[currentMap].mapCoordinates,
+				origin.projectileData.damage,
+				(origin.mirrorX ?
+				 origin.worldX + origin.spriteWidth - origin.projectileData.xOffset
+				: origin.worldX + origin.projectileData.xOffset),
+				origin.worldY + origin.projectileData.yOffset,
+				origin.projectileData.xVel * (origin.mirrorX ? 1 : -1),
+				origin.projectileData.yVel,
+				origin.projectileData.yAcc,
+				origin.projectileData.texture,
+				origin.projectileData.numFrames,
+				origin.projectileData.frameNum,
+				!origin.mirrorX)
+				);
+		}
+#endregion
+
+		public void MenuListen()
+		{
+			if (saveMenuItem)
+			{
+				SaveGameData();
+			}
+		}
+
+		public void UpdateObjects()
+		{
+			spaceMan.UpdateSprite(this);
+			guns.UpdateSprite();
+			worldMap[currentMap].UpdateMap(this);
+			UpdateMapAssets();
+			UpdateSpawns();
+			UpdateProjectiles(allyProjectiles);
+			UpdateProjectiles(enemyProjectiles);
+			UpdatePickUps();
+			UpdatePortals();
+			UpdateEnemies();
+		}
+
+		public void UpdatePortals()
+		{
+			foreach (Portal p in worldMap[currentMap].portals)
+			{
+				p.UpdatePortal(this);
+			}
+		}
+
+		public void SpawnEnemy(Enemy enemy)
+		{
+			worldMap[currentMap].enemies.Add(enemy);
+		}
+
+		public void UpdateMapAssets()
+		{
+			foreach (MapAsset asset in worldMap[currentMap].assets)
+			{
+				asset.UpdateSprite(this);
+				if (asset.onScreen)
+				{
+					AddObjectToDraw(asset);
+				}
+				else RemoveObjectToDraw(asset);
+			}
+		}
+
+		public void UpdateSpawns()
+		{
+			foreach (Spawn spawn in worldMap[currentMap].spawns)
+			{
+				spawn.Update(this);
+			}
+		}
+
+		public void UpdateEnemies()
+		{
+			List<Enemy> current = worldMap[currentMap].enemies;
+			for (int i = current.Count-1; i >= 0; i--)
+			{
+				int existenceCheck = current.Count;
+
+				current[i].UpdateSprite(this);
+
+				if (current.Count == existenceCheck)
+				{
+					if (current[i].onScreen)
+					{
+						AddObjectToDraw(current[i]);
+					}
+					else RemoveObjectToDraw(current[i]);
+
+					if (current[i].status.state.Equals("die") == false)
+					{
+						if (current[i].PerPixelCollisionDetect(spaceMan,this) > 0)
+						{
+							if (spaceMan.status.state != "hit")
+							{
+								spaceMan.status = new Status("hit", RECOVERY_TIME);
+								TakeDamage(5);
+							}
+						}
+						List<Projectile> currentProjectiles = allyProjectiles;
+						for (int j = currentProjectiles.Count - 1; j >= 0; j--)
+						{
+							int result = current[i].PerPixelCollisionDetect(currentProjectiles[j],this);
+							if (result > 0 && currentProjectiles[j].origin == spaceMan)
+							{
+								if (result == 2)
+								{
+									current[i].TakeDamage(currentProjectiles[j].damage, this);
+								}
+								RemoveObjectToDraw(allyProjectiles[j]);
+								allyProjectiles.RemoveAt(j);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		public void UpdatePickUps()
+		{
+			List<PickUp> current = worldMap[currentMap].pickUps;
+			for (int i = current.Count - 1; i >= 0; i--)
+			{
+				current[i].UpdateSprite(worldMap[currentMap]);
+				if (current[i].onScreen)
+				{
+					if (current[i].PerPixelCollisionDetect(this))
+					{
+						current[i].PickUpObj(this);
+						RemoveObjectToDraw(current[i]);
+						worldMap[currentMap].pickUps.RemoveAt(i);
+					}
+					else
+					AddObjectToDraw(current[i]);
+				}
+				else RemoveObjectToDraw(current[i]);
+			}
+		}
+
+		public void RemoveObjectToDraw(Object obj)
+		{
+			if (worldMap[currentMap].objectsToDraw.Contains(obj))
+				worldMap[currentMap].objectsToDraw.Remove(obj);
+		}
+
+		public void AddObjectToDraw(Object obj)
+		{
+			if (worldMap[currentMap].objectsToDraw.Contains(obj) == false)
+				worldMap[currentMap].objectsToDraw.Add(obj);
+		}
+
+		public void UpdateProjectiles(List<Projectile> projectiles)
+		{
+			List<Projectile> current = projectiles;
+			for (int i = current.Count - 1; i >= 0; i--)
+			{
+				bool draw = true;
+				bool delete = false;
+				projectiles[i].worldX += projectiles[i].xVel;
+				projectiles[i].worldY += projectiles[i].yVel;
+				projectiles[i].yVel += projectiles[i].yAcc;
+				projectiles[i].UpdateSprite(worldMap[currentMap]);
+				if (projectiles[i].PerPixelCollisionDetect(this) && enemyProjectiles.Contains(projectiles[i]))
+				{
+					TakeDamage(projectiles[i]);
+					delete = true;
+				}
+				if (CheckMapCollision(0, 0, current[i]) == false)
+				{
+					if (current[i].onScreen) AddObjectToDraw(projectiles[i]);
+					else if (current[i].nearScreen) draw = false;
+					else delete = true;
+				}
+				else
+				{
+					delete = true;
+				}
+				if (delete)
+				{
+					RemoveObjectToDraw(current[i]);
+					projectiles.RemoveAt(i);
+				}
+				else
+				{
+					if (draw == false)
+					{
+						RemoveObjectToDraw(current[i]);
+					}
+				}
+			}
+		}
+
+		public void UpdateAttributes(List<PowerUps> pUps)
+		{
+			SetStandardAttributes();
+			if (pUps.Contains(PowerUps.GrasshopperJump))
+			{
+				jumpSpeed = -6;
+			}
+			if (pUps.Contains(PowerUps.DoubleJump))
+			{
+				maxJumps = 2;
+			}
+		}
+
+		public void SetStandardAttributes()
+		{
+			moveSpeed = 2.3;
+			gravity = .25;
+			terminalVel = 9;
+			jumpSpeed = -5;
+			maxJumps = 1;
+			maxEnergy = 100;
+			energyRecoveryRate = .15;
+			maxHealth = 100;
+		}
+
+		public void DrawObjects()
+		{
+			foreach (Object obj in worldMap[currentMap].objectsToDraw)
+			{
+				if (obj is Enemy)
+				{
+					DrawSprite(obj, 0.8f);
+				}
+				else if (obj is MapAsset)
+				{
+					DrawSprite(obj, 0.35f);
+				}
+				else if (obj is Projectile)
+				{
+					Projectile projectile = (Projectile)obj;
+					if (projectile.origin == spaceMan)
+					{
+						DrawAllyProjectile(projectile, 0.7f);
+					}
+					else
+					{
+						DrawProjectile(projectile, 0.4f);
+					}
+				}
+				else DrawSprite(obj, 0.9f);
+			}
+		}
+
+		public void DrawEnergyBar()
+		{
+			int x;
+			int length;
+			if (currentEnergy == 0) length = 0;
+			else
+			{
+				double ratio = (double)currentEnergy / (double)maxEnergy;
+				length = (int)(ratio * (double)energyBarTexture.Width);
+			}
+			x = energyBarTexture.Width - length;
+			Rectangle destRect = new Rectangle(energyBar.destRect.X + x, energyBar.destRect.Y, length, energyBarTexture.Height);
+			spriteBatch.Draw(energyBar.texture, destRect, energyBar.sourceRect, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, 1f);
+		}
+
+		public void DrawHealthBar()
+		{
+			int length;
+			if (currentHealth == 0) length = 0;
+			else
+			{
+				double ratio = (double)currentHealth / (double)maxHealth;
+				length = (int)(ratio * (double)healthBarTexture.Width);
+			}
+			Rectangle destRect = new Rectangle(healthBar.destRect.X, healthBar.destRect.Y, length, healthBarTexture.Height);
+			spriteBatch.Draw(healthBar.texture, destRect, healthBar.sourceRect, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, 1f);
+		}
+
+		public Rectangle OffsetRect(Rectangle rect, int xOffset, int yOffset)
+		{
+			return new Rectangle(rect.X + xOffset, rect.Y + yOffset, rect.Width, rect.Height);
+		}
+
+		public bool CheckMapCollision(int xOffset, int yOffset, Sprite sprite)
+		{
+			return MapCollisionDetect(sprite.spriteWidth, sprite.spriteHeight, OffsetRect(sprite.destRect, xOffset, yOffset));
+		}
+
+		public bool CheckMapCollision(int xOffset, int yOffset, Spaceman sprite)
+		{
+			Rectangle newRect = new Rectangle(sprite.destRect.X + 1, sprite.destRect.Y + 1, sprite.spriteWidth - 2, sprite.spriteHeight - 1);
+			return MapCollisionDetect(sprite.spriteWidth-2, sprite.spriteHeight-1, OffsetRect(newRect, xOffset, yOffset));
+		}
+
+		public bool MapCollisionDetect(int spritewidth, int spriteheight, Rectangle rect)
+		{
+			Color[] pixels;
+			Rectangle newRect = new Rectangle((rect.X + (int)worldMap[currentMap].mapCoordinates.X - (int)worldMap[currentMap].offset.X),
+				(rect.Y + (int)worldMap[currentMap].mapCoordinates.Y - (int)worldMap[currentMap].offset.Y),
+				rect.Width,
+				rect.Height);
+
+			pixels = new Color[spritewidth * spriteheight];
+
+			// Check to see if rectangle is outside of map.
+			if (newRect.X < 0
+				|| newRect.Y < 0
+				|| newRect.X + spritewidth > worldMap[currentMap].hitbox.Width
+				|| newRect.Y + spriteheight > worldMap[currentMap].hitbox.Height) return false;
+
+			this.worldMap[currentMap].hitbox.GetData<Color>(
+				0, newRect, pixels, 0, spritewidth * spriteheight
+				);
+			for (int y = 0; y < spriteheight; y++)
+			{
+				for (int x = 0; x < spritewidth; x++)
+				{
+					Color colorA = pixels[y * spritewidth + x];
+					if (colorA.A != 0)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
+		public Door CreateDoor(double worldX, double worldY, int level, bool isLeft)
+		{
+			return new Door(worldX, worldY, doorTexture, doorHitboxTexture, this.worldMap[currentMap].mapCoordinates, level, isLeft);
+		}
+
+		public SaveStation CreateSaveStation(double worldX, double worldY)
+		{
+			return new SaveStation(worldX, worldY, saveStationTexture,this.worldMap[currentMap].mapCoordinates, 7, 0);
+		}
+
+		public void UpdateEnergy()
+		{
+			if (!spaceMan.status.state.Equals("hit") || (spaceMan.status.state.Equals("hit") && spaceMan.status.duration == 0))
+			{
+				AddEnergy(energyRecoveryRate);
+			}
+		}
+
+		public void AddEnergy(double amount)
+		{
+			currentEnergy += amount;
+			if (currentEnergy > maxEnergy) currentEnergy = maxEnergy;
+			if (currentEnergy < 0) currentEnergy = 0;
+		}
+
+		public void AddHealth(double amount)
+		{
+				currentHealth += amount;
+				if (currentHealth > maxHealth) currentHealth = maxHealth;
+				if (currentHealth < 0) currentHealth = 0;
+		}
+
+		public void PickUpBattery()
+		{
+			AddEnergy(40);
+		}
+
+		public void PickUpHealth(int level)
+		{
+			switch (level)
+			{
+				case 1:
+					AddHealth(5);
+					break;
+				case 2:
+					AddHealth(10);
+					break;
+				case 3:
+					AddHealth(15);
+					break;
+				case 4:
+					AddHealth(20);
+					break;
+				case 5:
+					AddHealth(30);
+					break;
+				case 6:
+					AddHealth(40);
+					break;
+			}
+		}
+
+		public void TakeDamage(Projectile proj)
+		{
+			TakeDamage (proj.damage);
+
+		}
+
+		public void TakeDamage(int amount)
+		{
+			if (!spaceMan.status.state.Equals("hit") || (spaceMan.status.state.Equals("hit") && spaceMan.status.duration == 0))
+			{
+				spaceMan.status = new Status("hit", spaceMan.HIT_DURATION * spaceMan.FRAME_OFFSET);
+				currentEnergy -= amount;
+				if (currentEnergy < 0)
+				{
+					currentHealth += currentEnergy;
+					currentEnergy = 0;
+				}
+			}
+		}
+
+		// Unlocks a gun in the arsenal and adds it to the list of unlocked guns
+		public void UnlockGun(Game1.Guns gun)
+		{
+			if (!unlockedGuns.Contains(gun))
+			{
+				unlockedGuns.Add(gun);
+				switch (gun)
+				{
+					case Guns.Pistol:
+						arsenal[0].unlocked = true;
+						unlockedGuns.Add(gun);
+						break;
+					case Guns.Shotgun:
+						arsenal[1].unlocked = true;
+						break;
+					case Guns.Railgun:
+						arsenal[2].unlocked = true;
+						break;
+					default:
+						arsenal[3].unlocked = true;
+						break;
+				}
+			}
+		}
+
+		// Saves Game Data by serializing it to XML and exporting it to a file
+		public void SaveGameData()
+		{
+			// SaveData is created using current game information.
+			SaveData s = new SaveData(currentMap,
+				powerUpManager.GetUnlockedPowerUps(),
+				powerUpManager.GetCurrentPowerUps(),
+				unlockedGuns,
+				worldMap[currentMap].mapCoordinates);
+
+			System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(s.GetType());
+			x.Serialize(currentSaveFile, s);
+			currentSaveFile.WriteLine();
+		}
+
+		public void OpenSaveStationMenu()
+		{
+			this.currentMenu = saveStationMenu;
+		}
+	}
+}
+

@@ -1,0 +1,49 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Spaceman
+{
+	public class Portal
+	{
+		clsMap side1;
+		clsMap side2;
+		public Door door1;
+		public Door door2;
+
+		public Portal(clsMap side1, clsMap side2, Door door1, Door door2)
+		{
+			this.side1 = side1;
+			this.side2 = side2;
+			this.door1 = door1;
+			this.door2 = door2;
+		}
+
+		public void Initialize()
+		{
+			side1.AddPortal(this);
+			side2.AddPortal(this);
+		}
+
+		public void UpdatePortal(Game1 game)
+		{
+			if (side1.active)
+			{
+				door1.UpdateDoor(game.currentMap);
+				if (door1.CollisionDetect(game.spaceMan))
+				{
+					game.ActivateMap(side2,door2);
+				}
+			}
+			if (side2.active)
+			{
+				door2.UpdateDoor(game.currentMap);
+				if (door2.CollisionDetect(game.spaceMan))
+				{
+					game.ActivateMap(side1,door1);
+				}
+			}
+		}
+	}
+}

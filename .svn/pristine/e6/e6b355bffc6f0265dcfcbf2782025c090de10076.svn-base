@@ -1,0 +1,443 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
+  <Asset Type="Pipeline:BuildItemCollection">
+    <Item>
+      <Source>Spaceman.png</Source>
+      <Name>Spaceman</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Spaceman.xnb</Output>
+      <Time>2015-07-03T13:27:17.0346638-04:00</Time>
+    </Item>
+    <Item>
+      <Source>TestMapResized.png</Source>
+      <Name>TestMapResized</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\TestMapResized.xnb</Output>
+      <Time>2015-07-03T13:27:16.1430325-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Guns.png</Source>
+      <Name>Guns</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns.xnb</Output>
+      <Time>2015-07-03T13:27:16.200072-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Bullets.png</Source>
+      <Name>Bullets</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets.xnb</Output>
+      <Time>2015-07-03T13:27:16.1910661-04:00</Time>
+    </Item>
+    <Item>
+      <Source>HUD\EnergyBar.png</Source>
+      <Name>HUD\EnergyBar</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\HUD\EnergyBar.xnb</Output>
+      <Time>2015-07-03T13:27:15.6136563-04:00</Time>
+    </Item>
+    <Item>
+      <Source>HUD\HealthBar.png</Source>
+      <Name>HUD\HealthBar</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\HUD\HealthBar.xnb</Output>
+      <Time>2015-07-03T13:27:15.6106537-04:00</Time>
+    </Item>
+    <Item>
+      <Source>HUD\HealthBarOverlay2.png</Source>
+      <Name>HUD\HealthBarOverlay2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\HUD\HealthBarOverlay2.xnb</Output>
+      <Time>2015-07-03T13:27:15.6166579-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\BioSoldier.png</Source>
+      <Name>Enemies\BioSoldier</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Enemies\BioSoldier.xnb</Output>
+      <Time>2015-07-03T13:27:15.7867787-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\Bio-Snail\Bio-Snail Hitbox.png</Source>
+      <Name>Enemies\Bio-Snail\Bio-Snail Hitbox</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Enemies\Bio-Snail\Bio-Snail Hitbox.xnb</Output>
+      <Time>2015-07-03T13:27:15.7327403-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\Bio-Snail\Bio-Snail Vulnerable.png</Source>
+      <Name>Enemies\Bio-Snail\Bio-Snail Vulnerable</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Enemies\Bio-Snail\Bio-Snail Vulnerable.xnb</Output>
+      <Time>2015-07-03T13:27:15.7377444-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\Bio-Snail\Bio-Snail.png</Source>
+      <Name>Enemies\Bio-Snail\Bio-Snail</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Enemies\Bio-Snail\Bio-Snail.xnb</Output>
+      <Time>2015-07-03T13:27:15.7417467-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\Bio-Snail\Bio-Snail Projectile.png</Source>
+      <Name>Enemies\Bio-Snail\Bio-Snail Projectile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Enemies\Bio-Snail\Bio-Snail Projectile.xnb</Output>
+      <Time>2015-07-03T13:27:15.7457501-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Spaceman Body.png</Source>
+      <Name>Spaceman Body</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Spaceman Body.xnb</Output>
+      <Time>2015-07-03T13:27:16.1870628-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Spaceman Heads.png</Source>
+      <Name>Spaceman Heads</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Spaceman Heads.xnb</Output>
+      <Time>2015-07-03T13:27:15.6076546-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Guns Angle.png</Source>
+      <Name>Guns Angle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns Angle.xnb</Output>
+      <Time>2015-07-03T13:27:16.2881345-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Guns Angle2.png</Source>
+      <Name>Guns Angle2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns Angle2.xnb</Output>
+      <Time>2015-07-03T13:27:16.1570415-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Bullets Angled.png</Source>
+      <Name>Bullets Angled</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets Angled.xnb</Output>
+      <Time>2015-07-03T13:27:16.7884896-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Doors\Door.png</Source>
+      <Name>Doors\Door</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Doors\Door.xnb</Output>
+      <Time>2015-07-03T13:27:15.8528261-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Doors\DoorHitbox.png</Source>
+      <Name>Doors\DoorHitbox</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Doors\DoorHitbox.xnb</Output>
+      <Time>2015-07-03T13:27:15.8488227-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Doors\DoorHitbox2.png</Source>
+      <Name>Doors\DoorHitbox2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Doors\DoorHitbox2.xnb</Output>
+      <Time>2015-07-20T19:46:18.1704229-04:00</Time>
+    </Item>
+    <Item>
+      <Source>MapResources\Backgrounds\Background1.png</Source>
+      <Name>MapResources\Backgrounds\Background1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\Backgrounds\Background1.xnb</Output>
+      <Time>2015-07-03T13:27:16.5933511-04:00</Time>
+    </Item>
+    <Item>
+      <Source>MapResources\Foregrounds\Foreground1.png</Source>
+      <Name>MapResources\Foregrounds\Foreground1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\Foregrounds\Foreground1.xnb</Output>
+      <Time>2015-07-03T13:27:16.4352389-04:00</Time>
+    </Item>
+    <Item>
+      <Source>MapResources\Hitboxes\Hitbox1.png</Source>
+      <Name>MapResources\Hitboxes\Hitbox1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\Hitboxes\Hitbox1.xnb</Output>
+      <Time>2015-07-03T13:27:16.3852034-04:00</Time>
+    </Item>
+    <Item>
+      <Source>MapResources\Backgrounds\Background2.png</Source>
+      <Name>MapResources\Backgrounds\Background2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\Backgrounds\Background2.xnb</Output>
+      <Time>2015-08-21T00:01:23.6158131-04:00</Time>
+    </Item>
+    <Item>
+      <Source>MapResources\Hitboxes\Hitbox2.png</Source>
+      <Name>MapResources\Hitboxes\Hitbox2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\Hitboxes\Hitbox2.xnb</Output>
+      <Time>2015-08-20T23:21:26.3498205-04:00</Time>
+    </Item>
+    <Item>
+      <Source>MapResources\OtherAssets\Spaceship.png</Source>
+      <Name>MapResources\OtherAssets\Spaceship</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\OtherAssets\Spaceship.xnb</Output>
+      <Time>2015-12-23T14:55:55.3708911-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Menu\MainMenu.png</Source>
+      <Name>Menu\MainMenu</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\MainMenu.xnb</Output>
+      <Time>2015-07-04T18:22:48.0262653-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Menu\StartMenuItem.png</Source>
+      <Name>Menu\StartMenuItem</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\StartMenuItem.xnb</Output>
+      <Time>2015-07-04T18:22:54.9677735-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Menu\OptionsMenuItem.png</Source>
+      <Name>Menu\OptionsMenuItem</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\OptionsMenuItem.xnb</Output>
+      <Time>2015-07-04T18:23:02.3399464-04:00</Time>
+    </Item>
+    <Item>
+      <Source>PickUps\Battery.png</Source>
+      <Name>PickUps\Battery</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\PickUps\Battery.xnb</Output>
+      <Time>2015-07-20T17:29:15.9058711-04:00</Time>
+    </Item>
+    <Item>
+      <Source>PickUps\HealthPickups.png</Source>
+      <Name>PickUps\HealthPickups</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\PickUps\HealthPickups.xnb</Output>
+      <Time>2015-07-20T17:29:15.8783505-04:00</Time>
+    </Item>
+    <Item>
+      <Source>PickUps\DNAPickup.png</Source>
+      <Name>PickUps\DNAPickup</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\PickUps\DNAPickup.xnb</Output>
+      <Time>2015-07-20T17:30:45.5338383-04:00</Time>
+    </Item>
+    <Item>
+      <Source>MapResources\Backgrounds\Background3.png</Source>
+      <Name>MapResources\Backgrounds\Background3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\Backgrounds\Background3.xnb</Output>
+      <Time>2015-07-20T17:58:39.2868675-04:00</Time>
+    </Item>
+    <Item>
+      <Source>MapResources\Hitboxes\Hitbox3.png</Source>
+      <Name>MapResources\Hitboxes\Hitbox3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\Hitboxes\Hitbox3.xnb</Output>
+      <Time>2015-08-20T23:22:15.6294388-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Doors\Door2.png</Source>
+      <Name>Doors\Door2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Doors\Door2.xnb</Output>
+      <Time>2015-08-20T22:59:37.6367975-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Doors\DoorHitbox3.png</Source>
+      <Name>Doors\DoorHitbox3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Doors\DoorHitbox3.xnb</Output>
+      <Time>2015-08-21T09:28:33.4086255-04:00</Time>
+    </Item>
+    <Item>
+      <Source>SaveStation.png</Source>
+      <Name>SaveStation</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\SaveStation.xnb</Output>
+      <Time>2015-08-21T20:54:53.6802722-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Menu\AlterSuitMenuItem.png</Source>
+      <Name>Menu\AlterSuitMenuItem</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\AlterSuitMenuItem.xnb</Output>
+      <Time>2015-12-23T12:00:36.4123157-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Menu\SaveMenuItem.png</Source>
+      <Name>Menu\SaveMenuItem</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\SaveMenuItem.xnb</Output>
+      <Time>2015-12-23T14:54:53.2923548-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Menu\SaveStationMenu.png</Source>
+      <Name>Menu\SaveStationMenu</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\SaveStationMenu.xnb</Output>
+      <Time>2015-12-23T14:22:59.9463731-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Menu\LoadMenuItem.png</Source>
+      <Name>Menu\LoadMenuItem</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\LoadMenuItem.xnb</Output>
+      <Time>2015-12-23T15:08:01.9601689-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Menu\NewMenuItem.png</Source>
+      <Name>Menu\NewMenuItem</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\NewMenuItem.xnb</Output>
+      <Time>2015-12-23T15:08:01.9641717-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Boost Jump.png</Source>
+      <Name>Boost Jump</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Boost Jump.xnb</Output>
+      <Time>2015-12-29T22:14:47.3525603-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Boost Jump2.png</Source>
+      <Name>Boost Jump2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Boost Jump2.xnb</Output>
+      <Time>2015-12-29T22:07:32.8535257-05:00</Time>
+    </Item>
+    <BuildSuccessful>true</BuildSuccessful>
+    <Settings>
+      <ContentProjectGUID>{8B859369-A697-4546-B64D-289B27D4806F}</ContentProjectGUID>
+      <TargetPlatform>Windows</TargetPlatform>
+      <TargetProfile>Reach</TargetProfile>
+      <BuildConfiguration>Debug</BuildConfiguration>
+      <CompressContent>false</CompressContent>
+      <RootDirectory>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\</OutputDirectory>
+    </Settings>
+    <Assemblies>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Value>2011-09-01T16:22:30-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.VideoImporters.dll</Key>
+        <Value>2011-09-01T16:22:30-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Value>2011-09-01T16:22:30-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Value>2011-09-01T16:22:30-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Value>2011-09-01T16:22:30-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Value>2011-09-01T16:22:30-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2014-09-02T11:45:07.2432988-04:00</Value>
+      </Assembly>
+    </Assemblies>
+  </Asset>
+</XnaContent>

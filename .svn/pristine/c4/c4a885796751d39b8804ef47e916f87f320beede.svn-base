@@ -1,0 +1,91 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+
+namespace Spaceman
+{
+	public class clsSprite
+	{
+		public Texture2D texture;
+		public Rectangle sourceRect;
+		public Rectangle destRect;
+		public int spriteWidth;
+		public int spriteHeight;
+		public int numFrames;
+		public int frameNum;
+		public bool mirrorX;
+		public int timer;
+		public Nullable<int> cycleStart;
+		public int HIT_DURATION = 5;
+		public Status status;
+		public int FRAME_OFFSET;
+
+		public clsSprite(Texture2D texture, Vector2 destCoords, int numFrames, int frameNum, bool mirrorX)
+		{
+			this.texture = texture;
+			this.spriteWidth = (texture.Width / numFrames);
+			this.spriteHeight = texture.Height;
+			this.numFrames = numFrames;
+			this.frameNum = frameNum;
+			this.sourceRect = new Rectangle(this.spriteWidth * frameNum, 0, texture.Width / numFrames, texture.Height);
+			this.destRect = new Rectangle((int)destCoords.X, (int)destCoords.Y, this.spriteWidth, this.spriteHeight);
+			this.mirrorX = mirrorX;
+			this.timer = 0;
+			this.FRAME_OFFSET = 5;
+			this.status = new Status("ok", 0);
+		}
+
+		public void Hit()
+		{
+			this.status = new Status("hit", this.HIT_DURATION * this.FRAME_OFFSET);
+		}
+
+		public void NextFrame(int offset)
+		{
+			FrameTimer(offset);
+		}
+
+		public void FrameTimer(int offset)
+		{
+			this.timer++;
+			if (this.timer == offset)
+			{
+				this.FrameUpdate();
+				timer = 0;
+			}
+		}
+
+		public void FrameUpdate()
+		{
+			if (this.frameNum == (numFrames - 1))
+			{
+				if (cycleStart == null)
+				{
+					this.frameNum = 0;
+				}
+				else
+				{
+					this.frameNum = ((int)cycleStart - 1);
+				}
+			}
+			else this.frameNum++;
+		}
+
+		public virtual void UpdateSprite()
+		{
+			this.sourceRect = new Rectangle(this.spriteWidth * this.frameNum, 0, this.texture.Width / numFrames, this.texture.Height);
+			if (status.state.Equals("hit"))
+			{
+				if (status.duration > 0) status.duration--;
+			}
+		}
+	}
+}

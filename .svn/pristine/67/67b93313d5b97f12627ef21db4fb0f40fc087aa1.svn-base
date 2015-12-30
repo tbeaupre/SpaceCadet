@@ -1,0 +1,43 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+
+namespace Spaceman
+{
+	class Health : PickUp
+	{
+		int level;
+		public Health(Vector2 mapCoordinates, double worldX, double worldY, Texture2D texture, int level)
+			: base(15, worldX, worldY, texture, new Vector2((float)worldX - mapCoordinates.X, (float)worldY - mapCoordinates.Y), 4, 0, 1, false, null)
+		{
+				this.level = level;
+				this.destRect = new Rectangle((int)(worldX - mapCoordinates.X), (int)(worldY - mapCoordinates.Y), texture.Width / 4, texture.Height / 6);
+				this.sourceRect = new Rectangle(this.spriteWidth * this.frameNum, (this.level - 1) * texture.Height / 6, texture.Width / 4, texture.Height / 6);
+			}
+
+		public override void UpdateSprite(Map map)
+		{
+			this.onScreen = IsOnScreen(map);
+			this.sourceRect = new Rectangle(this.spriteWidth * this.frameNum, (this.level - 1) * texture.Height / 6, this.texture.Width / numFrames, this.texture.Height / 6);
+
+			if (onScreen)
+			{
+                UpdateCoords(map);
+				this.NextFrame(idleTimer);
+			}
+		}
+
+		public override void PickUpObj(Game1 game)
+		{
+			game.PickUpHealth(this.level);
+			
+		}
+	}
+}

@@ -1,0 +1,113 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+
+namespace Spaceman
+{
+	public class PickUp : Object
+	{
+		public int idleTimer;
+		public PickUp(int idleTimer, double worldX, double worldY, Texture2D texture, Vector2 destCoords, int numFrames, int frameNum, int sizeMultiplier, bool mirrorX, Nullable<int> cycleStart)
+			: base(worldX, worldY, texture, destCoords, numFrames, frameNum, mirrorX)
+		{
+			this.idleTimer = idleTimer;
+		}
+
+		public override void UpdateSprite(clsMap map)
+		{
+			this.onScreen = IsOnScreen(map);
+			this.sourceRect = new Rectangle(this.spriteWidth * this.frameNum, 0, this.texture.Width / numFrames, this.texture.Height);
+
+			if (onScreen)
+			{
+                UpdateCoords(map);
+				this.NextFrame(idleTimer);
+			}
+		}
+
+		public virtual void PickUpObj(Game1 game)
+		{
+		}
+
+		public bool CollisionDetect(clsSprite spaceMan)
+		{
+			Rectangle rect = new Rectangle(this.destRect.X - spaceMan.destRect.X, this.destRect.Y - spaceMan.destRect.Y, this.spriteWidth, this.spriteHeight);
+
+			Color[] objectPixels;
+			Color[] projectilePixels;
+			Rectangle objRect = rect;
+			Rectangle projRect = new Rectangle(0, 0, rect.Width, rect.Height);
+
+			//initial tests to see if the box is even applicable to the object texure being checked
+			if (rect.X + rect.Width <= 0 || rect.Y + rect.Height <= 0) return false;
+			if (rect.X >= spaceMan.spriteWidth || rect.Y >= spaceMan.spriteHeight) return false;
+
+			if (rect.X < 0)
+			{
+				objRect.Width += rect.X;
+				objRect.X = 0;
+				projRect.X -= rect.X;
+				projRect.Width = objRect.Width;
+			}
+
+			if (rect.Y < 0)
+			{
+				objRect.Height += rect.Y;
+				objRect.Y = 0;
+				projRect.Y -= rect.Y;
+				projRect.Height = objRect.Height;
+			}
+
+			for (int i = 0; i <= objRect.Width; i++)
+			{
+				if (objRect.X + i == spaceMan.spriteWidth)
+				{
+					objRect.Width = i;
+					projRect.Width = objRect.Width;
+					break;
+				}
+			}
+			for (int i = 0; i <= objRect.Height; i++)
+			{
+				if (objRect.Y + i == spaceMan.spriteHeight)
+				{
+					objRect.Height = i;
+					projRect.Height = objRect.Height;
+					break;
+				}
+			}
+
+			objectPixels = new Color[objRect.Width * objRect.Height];
+			projectilePixels = new Color[objRect.Width * objRect.Height];
+
+			spaceMan.texture.GetData<Color>(
+				0, objRect, objectPixels, 0, objRect.Width * objRect.Height
+				);
+
+			this.texture.GetData<Color>(
+				0, projRect, projectilePixels, 0, objRect.Width * objRect.Height
+				);
+
+			for (int y = 0; y < objRect.Height; y++)
+			{
+				for (int x = 0; x < objRect.Width; x++)
+				{
+					Color colorA = objectPixels[y * objRect.Width + x];
+					Color colorB = projectilePixels[y * objRect.Width + x];
+					if (colorA.A != 0 && colorB.A != 0)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+	}
+}

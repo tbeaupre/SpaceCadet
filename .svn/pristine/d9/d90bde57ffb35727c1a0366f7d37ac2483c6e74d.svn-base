@@ -1,0 +1,19 @@
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using Microsoft.Xna.Framework;
+//using Microsoft.Xna.Framework.Audio;
+//using Microsoft.Xna.Framework.Content;
+//using Microsoft.Xna.Framework.GamerServices;
+//using Microsoft.Xna.Framework.Graphics;
+//using Microsoft.Xna.Framework.Input;
+//using Microsoft.Xna.Framework.Media;
+
+//namespace Spaceman
+//{
+//    class BioSoldier : Enemy
+//    {
+//        public BioSoldier(Vector2 mapCoordinates, int worldX, int worldY, Texture2D texture)
+//            : base(100,20,worldX, worldY, texture, new Vector2(worldX - (int)mapCoordinates.X, worldY - (int)mapCoordinates.Y), 1, 0, 1, false, null) { }
+//    }
+//}

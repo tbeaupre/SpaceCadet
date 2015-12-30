@@ -1,0 +1,37 @@
+Content\Spaceman.xnb
+Content\TestMapResized.xnb
+Content\Guns.xnb
+Content\Bullets.xnb
+Content\HUD\EnergyBar.xnb
+Content\HUD\HealthBar.xnb
+Content\HUD\HealthBarOverlay2.xnb
+Content\Enemies\BioSoldier.xnb
+Content\Enemies\Bio-Snail\Bio-Snail Hitbox.xnb
+Content\Enemies\Bio-Snail\Bio-Snail Vulnerable.xnb
+Content\Enemies\Bio-Snail\Bio-Snail.xnb
+Content\Enemies\Bio-Snail\Bio-Snail Projectile.xnb
+Content\Spaceman Body.xnb
+Content\Spaceman Heads.xnb
+Content\Guns Angle.xnb
+Content\Guns Angle2.xnb
+Content\Bullets Angled.xnb
+Content\Doors\Door.xnb
+Content\Doors\DoorHitbox.xnb
+Content\Doors\DoorHitbox2.xnb
+Content\MapResources\Backgrounds\Background1.xnb
+Content\MapResources\Foregrounds\Foreground1.xnb
+Content\MapResources\Hitboxes\Hitbox1.xnb
+Content\MapResources\Backgrounds\Background2.xnb
+Content\MapResources\Hitboxes\Hitbox2.xnb
+Content\MapResources\OtherAssets\Spaceship.xnb
+Content\Menu\MainMenu.xnb
+Content\Menu\StartMenuItem.xnb
+Content\Menu\OptionsMenuItem.xnb
+Content\PickUps\Battery.xnb
+Content\PickUps\HealthPickups.xnb
+Content\PickUps\DNAPickup.xnb
+Content\MapResources\Backgrounds\Background3.xnb
+Content\MapResources\Hitboxes\Hitbox3.xnb
+Content\Doors\Door2.xnb
+Content\Doors\DoorHitbox3.xnb
+Content\SaveStation.xnb

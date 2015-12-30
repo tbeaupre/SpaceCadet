@@ -1,0 +1,95 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+
+namespace Spaceman
+{
+	public class Spawn
+	{
+		public double worldX;
+		public double worldY;
+		public bool onScreen;
+		public bool nearScreen;
+		public string spawns;
+		public bool primed;
+		public bool dead;
+		const int respawnTime = 10 * 60;
+		int respawnTimer;
+
+		public Spawn(double worldX, double worldY, string spawns)
+		{
+			this.worldX = worldX;
+			this.worldY = worldY;
+			this.spawns = spawns;
+			this.primed = true;
+			this.dead = true;
+			this.respawnTimer = 0;
+		}
+
+		public Enemy MakeEnemy(Game1 game)
+		{
+			this.dead = false;
+			this.respawnTimer = 0;
+			switch (this.spawns)
+			{
+				case "BioSnail":
+					return new BioSnail(this, game.worldMap[game.currentMap].mapCoordinates, this.worldX, this.worldY, game.bioSnailTexture, game.bioSnailProjectileData);
+					
+				default:
+					return new BioSnail(this, game.worldMap[game.currentMap].mapCoordinates, this.worldX, this.worldY, game.bioSnailTexture, game.bioSnailProjectileData);
+
+			}
+		}
+
+		public bool IsOnScreen(Vector2 mapCoordinates)
+		{
+			return (this.worldX > mapCoordinates.X && this.worldX < mapCoordinates.X + Game1.screenWidth &&
+				this.worldY > mapCoordinates.Y && this.worldY < mapCoordinates.Y + Game1.screenHeight);
+		}
+
+		public bool IsNearScreen(Vector2 mapCoordinates)
+		{
+			return (this.worldX > (mapCoordinates.X - Game1.screenWidth) && this.worldX < (mapCoordinates.X + (2 * Game1.screenWidth)) &&
+				this.worldY > (mapCoordinates.Y - Game1.screenHeight) && this.worldY < mapCoordinates.Y + (2 * Game1.screenHeight));
+		}
+
+		public void Update(Game1 game)
+		{
+			this.onScreen = IsOnScreen(game.worldMap[game.currentMap].mapCoordinates);
+			this.nearScreen = IsNearScreen(game.worldMap[game.currentMap].mapCoordinates);
+			if (nearScreen)
+			{
+				if (this.primed)
+				{
+					game.SpawnEnemy(MakeEnemy(game));
+					this.primed = false;
+				}
+			}
+			else
+			{
+				if (!dead)
+				{
+					this.primed = true;
+				}
+				else
+				{
+					if (respawnTimer == respawnTime)
+					{
+						this.primed = true;
+					}
+					else
+					{
+						this.respawnTimer++;
+					}
+				}
+			}
+		}
+	}
+}
