@@ -74,7 +74,7 @@ namespace Spaceman
 			return this.onScreen;
 		}
 
-		public String GetType()
+		new public String GetType()
 		{
 			return "MapItem";
 		}
