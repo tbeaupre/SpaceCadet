@@ -134,10 +134,10 @@ namespace Spaceman
 		public const Keys up = Keys.Up;
 		public const Keys down = Keys.Down;
 		public const Keys hold = Keys.LeftShift;
-		public const Keys nextGun = Keys.S;
+		public const Keys nextGun = Keys.C;
 		public const Keys back = Keys.Back;
 		public const Keys special1 = Keys.A;
-		public const Keys special2 = Keys.A;
+		public const Keys special2 = Keys.S;
 		#endregion
 
 		List<Portal> portals = new List<Portal>();
