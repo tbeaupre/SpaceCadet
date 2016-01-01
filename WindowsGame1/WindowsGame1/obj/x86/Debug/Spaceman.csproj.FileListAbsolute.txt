@@ -96,4 +96,3 @@ C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\Wind
 C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\LoadMenuItem.xnb
 C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\NewMenuItem.xnb
 C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Boost Jump.xnb
-C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Boost Jump2.xnb

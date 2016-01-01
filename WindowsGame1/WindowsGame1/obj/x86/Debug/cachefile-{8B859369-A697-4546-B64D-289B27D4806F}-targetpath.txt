@@ -41,4 +41,3 @@ Content\Menu\SaveStationMenu.xnb
 Content\Menu\LoadMenuItem.xnb
 Content\Menu\NewMenuItem.xnb
 Content\Boost Jump.xnb
-Content\Boost Jump2.xnb
