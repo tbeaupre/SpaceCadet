@@ -21,7 +21,7 @@ namespace Spaceman
 		private int spriteWidth;
 		private int currentFrame = 0;
 		private int timer = 0;
-		private const int FRAME_OFFSET = 2;
+		private const int FRAME_OFFSET = 3;
 		private bool complete = false;
 
 		public BoostJump(Texture2D texture)
