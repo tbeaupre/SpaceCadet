@@ -26,12 +26,19 @@ namespace Spaceman
 		int runCycleStart = 3;
 		bool crouch = false;
 		public bool jump = true;
+		public int jumpsRemaining;
+		private int maxJumps;
 		bool hold = false;
         double xVel;
         double yVel;
         KeyboardState newkeys;
 		KeyboardState oldkeys;
 		int gunCooldown;
+
+		public void SetMaxJumps(int jumps)
+		{
+			this.maxJumps = jumps;
+		}
 
 		public Spaceman(Texture2D body,Texture2D head, Vector2 destCoords, int numFrames, int frameNum, bool mirrorX)
 			: base(body, destCoords, numFrames, frameNum, mirrorX)
@@ -174,7 +181,7 @@ namespace Spaceman
 			{
 				if (!jump && yVel > 2)
 				{
-					game.jumpsRemaining--;
+					jumpsRemaining--;
 					jump = true;
 				}
 				if (jump && CheckMapCollision(game, 0, -1) && yVel < 0)
@@ -185,7 +192,7 @@ namespace Spaceman
 				yVel += game.gravity;
 				if (!bodyStatus.state.Equals("fall"))
 				{
-					bodyStatus = new Status("fall", game.maxJumps - 1);
+					bodyStatus = new Status("fall", maxJumps - 1);
 				}
 			}
 			else
@@ -199,12 +206,12 @@ namespace Spaceman
 		{
 			if (jump) currentBodyFrame = 1;
 			yVel = 0;
-			game.jumpsRemaining = game.maxJumps;
+			jumpsRemaining = maxJumps;
 			jump = false;
 			game.boostJump.reset();
 		}
 
-		public void HandleKeys(Game1 game)
+		public void HandleKeys2(Game1 game)
 		{
 			if (newkeys.IsKeyDown(Game1.hold))
 			{
@@ -217,9 +224,9 @@ namespace Spaceman
 				hold = false;
 			}
 
-			if (newkeys.IsKeyDown(Game1.jump) && oldkeys.IsKeyUp(Game1.jump) && game.jumpsRemaining > 0)
+			if (newkeys.IsKeyDown(Game1.jump) && oldkeys.IsKeyUp(Game1.jump) && jumpsRemaining > 0)
 			{
-				game.jumpsRemaining--;
+				jumpsRemaining--;
 				crouch = false;
 				if (bodyStatus.state.Equals("fall"))
 				{
@@ -227,7 +234,7 @@ namespace Spaceman
 				}
 				else
 				{
-					bodyStatus = new Status("fall", game.maxJumps - 1);
+					bodyStatus = new Status("fall", maxJumps - 1);
 					yVel = game.jumpSpeed;
 				}
 				jump = true;
@@ -339,7 +346,7 @@ namespace Spaceman
 				}
 			}
 
-			if (newkeys.IsKeyDown(Game1.up))// 1 = left, 2 = upLeft, 3 = up, 4 = upRight, 5 = right, 6 = down
+			if (newkeys.IsKeyDown(Game1.up))
 			{
 				direction = Game1.Directions.up;
 				if (newkeys.IsKeyDown(Game1.left)) direction = Game1.Directions.upLeft;
@@ -381,6 +388,194 @@ namespace Spaceman
 			{
 				if (gunCooldown > 0) gunCooldown--;
 			}
+		}
+
+		public void HandleKeys(Game1 game)
+		{
+			int testXVel = 0;
+			bool crouching = (newkeys.IsKeyDown(Game1.down) && !bodyStatus.state.Equals("fall"));
+			bool jumping = (IsKeyPressed(Game1.jump) && jumpsRemaining > 0);
+			bool holding = newkeys.IsKeyDown(Game1.hold);
+			Game1.Directions lookDir = LookDirection();
+
+			if (jumping)
+			{
+				jumpsRemaining--;
+				crouching = false;
+				if (bodyStatus.state.Equals("fall"))
+				{
+					bodyStatus.duration--;
+				}
+				else
+				{
+					bodyStatus = new Status("fall", maxJumps - 1);
+					yVel = game.jumpSpeed;
+				}
+			}
+			else if(bodyStatus.state.Equals("fall")) 
+			{
+				jumping = true;
+			}
+
+			//Left/Right controls
+			if (newkeys.IsKeyDown(Game1.left))
+			{
+				testXVel = -(int)game.moveSpeed;
+				if (!crouching && !jumping)
+				{
+					if (oldkeys.IsKeyDown(Game1.left))
+					{
+						if (!bodyStatus.state.Equals("walk")) bodyStatus = new Status("walk", FRAME_OFFSET);
+						if (bodyStatus.duration == (bodyFrames) * FRAME_OFFSET - 1)
+						{
+							bodyStatus.duration = runCycleStart * FRAME_OFFSET;
+						}
+						else
+						{
+							bodyStatus.duration++;
+						}
+					}
+					else
+					{
+						bodyStatus = new Status("walk", FRAME_OFFSET);
+					}
+				}
+			}
+			else if (newkeys.IsKeyDown(Game1.right))
+			{
+				testXVel = (int)game.moveSpeed;
+				if (!crouching && !jumping)
+				{
+					if (oldkeys.IsKeyDown(Game1.right))
+					{
+						if (!bodyStatus.state.Equals("walk")) bodyStatus = new Status("walk", FRAME_OFFSET);
+						if (bodyStatus.duration == (bodyFrames) * FRAME_OFFSET - 1)
+						{
+							bodyStatus.duration = runCycleStart * FRAME_OFFSET;
+						}
+						else
+						{
+							bodyStatus.duration++;
+						}
+					}
+					else
+					{
+						bodyStatus = new Status("walk", FRAME_OFFSET);
+					}
+				}
+			}
+
+			// Changes the mirroring of sprites related to the spaceman depending upon lookDir
+			if (lookDir == Game1.Directions.left || lookDir == Game1.Directions.upLeft || lookDir == Game1.Directions.downLeft)
+			{
+				foreach (Sprite sprite in game.characterSprites)
+				{
+					sprite.mirrorX = true;
+				}
+			}
+			else if (lookDir == Game1.Directions.right || lookDir == Game1.Directions.upRight || lookDir == Game1.Directions.downRight)
+			{
+				foreach (Sprite sprite in game.characterSprites)
+				{
+					sprite.mirrorX = false;
+				}
+			}
+
+			if (crouching)
+			{
+				crouch = true;
+				testXVel = 0;
+			}
+			else crouch = false;
+
+			// Checks for idle.
+			if (newkeys.IsKeyUp(Game1.left) && newkeys.IsKeyUp(Game1.right))
+			{
+				if (!jump)
+					bodyStatus = new Status("idle", 0);
+				testXVel = 0;
+			}
+
+			// If the character is holding or crouching, the xVel should be 0.
+			if (holding)
+			{
+				testXVel = 0;
+			}
+
+			// Check for Next Gun.
+			if (IsKeyPressed(Game1.nextGun))
+			{
+				game.NextGun();
+			}
+
+			// Fires bullets if necessary.
+			Fire(game, newkeys.IsKeyDown(Game1.fire) && this.gunCooldown == 0 && (game.arsenal[game.currentGun].automatic ? true : oldkeys.IsKeyUp(Game1.fire)));
+
+			direction = lookDir;
+			xVel = testXVel;
+		}
+
+		// Fires a projectile if conditions are correct or decreases the cooldown on the gun.
+		public void Fire(Game1 game, bool condition)
+		{
+			if (condition)
+			{
+				game.CreateProjectile(this);
+				game.RefreshGunCooldown();
+			}
+			else
+			{
+				if (gunCooldown > 0) gunCooldown--;
+			}
+		}
+
+		public bool IsKeyPressed(Keys key)
+		{
+			return (newkeys.IsKeyDown(key) && oldkeys.IsKeyUp(key));
+		}
+
+		// Returns a Direction representing which way the character should look based upon which keys are currently pressed.
+		public Game1.Directions LookDirection()
+		{
+			Game1.Directions result;
+
+			// Initialize boolean variables to represent whether or not a button was pressed.
+			bool up = newkeys.IsKeyDown(Game1.up);
+			bool down = newkeys.IsKeyDown(Game1.down);
+			bool left = newkeys.IsKeyDown(Game1.left);
+			bool right = newkeys.IsKeyDown(Game1.right);
+
+			// Check to see if opposite directions were both pressed.
+			if (up && down) down = false;
+			if (left && right)
+			{
+				//prioritize the LR direction that corresponds to the direction the character is already facing.
+				if (mirrorX) right = false;
+				else left = false;
+			}
+
+			// Sets result equal to a direction based upon which keys are currently pressed. 
+			if (left)
+			{
+				if (up) result = Game1.Directions.upLeft;
+				else if (down) result = Game1.Directions.downLeft;
+				else result = Game1.Directions.left;
+			}
+			else if (right)
+			{
+				if (up) result = Game1.Directions.upRight;
+				else if (down) result = Game1.Directions.downRight;
+				else result = Game1.Directions.right;
+			}
+			else
+			{
+				if (up) result = Game1.Directions.up;
+				else if (down) result = Game1.Directions.down;
+				else if (mirrorX) result = Game1.Directions.left;
+				else result = Game1.Directions.right;
+			}
+
+			return result;
 		}
 
         public void UpdateCoords(Vector2 offset)
@@ -630,6 +825,11 @@ namespace Spaceman
 			{
 				if (status.duration > 0) status.duration--;
 			}
+			if (newkeys.IsKeyDown(Game1.special1))
+			{
+				this.destRect.Height = 2;
+			}
+			else this.destRect.Height = this.texture.Height;
 		}
 
 		public void SetXVel(double xVel)

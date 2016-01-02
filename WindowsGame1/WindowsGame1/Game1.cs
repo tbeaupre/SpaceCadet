@@ -50,8 +50,8 @@ namespace Spaceman
 		public int terminalVel;
 		public double jumpSpeed;
 		const int RECOVERY_TIME = 10;
-		public int maxJumps;
-		public int jumpsRemaining = 1;
+		//public int maxJumps;
+		//public int jumpsRemaining = 1;
 
 		public KeyboardState newkeys;
 		public KeyboardState oldkeys;
@@ -183,8 +183,6 @@ namespace Spaceman
 		/// </summary>
 		protected override void Initialize()
 		{
-			SetStandardAttributes();
-
 			powerUpManager.UnlockPowerUp(Game1.PowerUps.BoostJump);
 			powerUpManager.UpdateAbilities(Game1.PowerUps.BoostJump, Game1.PowerUps.NULL, Game1.PowerUps.NULL);
 
@@ -345,6 +343,8 @@ namespace Spaceman
 			boostJump = new BoostJump(boostJumpTexture);
 
 			InitializePortals(this.portals);
+
+			SetStandardAttributes();
 
 			base.Initialize();
 		}
@@ -1059,7 +1059,7 @@ namespace Spaceman
 			SetStandardAttributes();
 			if (pUps.Contains(PowerUps.BoostJump))
 			{
-				maxJumps = 2;
+				spaceMan.SetMaxJumps(2);
 			}
 		}
 
@@ -1069,7 +1069,7 @@ namespace Spaceman
 			gravity = .25;
 			terminalVel = 9;
 			jumpSpeed = -5;
-			maxJumps = 1;
+			spaceMan.SetMaxJumps(1);
 			maxEnergy = 100;
 			energyRecoveryRate = .15;
 			maxHealth = 100;
