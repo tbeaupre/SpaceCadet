@@ -28,7 +28,7 @@ namespace Spaceman
 		public List<Spawn> spawns = new List<Spawn>();
 		public List<MapAsset> assets = new List<MapAsset>();
 		public List<IMapItem> mapItems = new List<IMapItem>();
-		public bool wasJustActivated = false;
+		private bool wasJustActivated = false;
 		public SaveStation saveStation = null;
 
 		public Map(MapResource resource, int parallaxFactor)
@@ -43,7 +43,16 @@ namespace Spaceman
 			this.parallaxFactor = parallaxFactor;
 		}
 
-		public Map() { }
+        public bool GetWasJustActivated()
+        {
+            return wasJustActivated;
+        }
+        public void SetWasJustActivated(bool set)
+        {
+            wasJustActivated = set;
+        }
+
+        public Map() { }
 
 		public void InitializeMap(List<IMapItem> items)
 		{
