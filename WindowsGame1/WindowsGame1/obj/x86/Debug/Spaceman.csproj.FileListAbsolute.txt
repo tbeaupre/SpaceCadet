@@ -96,3 +96,13 @@ C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\Wind
 C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\LoadMenuItem.xnb
 C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\NewMenuItem.xnb
 C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Boost Jump.xnb
+C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.dll
+C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.Game.dll
+C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.GamerServices.dll
+C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.Graphics.dll
+C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.Input.Touch.dll
+C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.xml
+C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.Game.xml
+C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.Graphics.xml
+C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.GamerServices.xml
+C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.Input.Touch.xml
