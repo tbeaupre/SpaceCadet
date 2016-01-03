@@ -29,7 +29,8 @@ namespace Spaceman
 		public int jumpsRemaining;
 		private int maxJumps;
 		bool hold = false;
-        double xMomentum;
+        double xAirMomentum;
+        double xGroundMomentum;
         double xVel;
         double yVel;
         KeyboardState newkeys;
@@ -236,6 +237,9 @@ namespace Spaceman
             
             if(bodyStatus.state.Equals("fall"))
             {
+                //Continue on planned trajectory.
+                xVel = xAirMomentum;
+
                 // Handles Directional Influence.
                 if (IsKeyHeld(Game1.left))
                 {
@@ -245,9 +249,6 @@ namespace Spaceman
                 {
                     xVel += game.getDirectionalInfluence();
                 }
-
-                //Continue on planned trajectory.
-                xVel += xMomentum;
 
                 //Look in the right direction.
                 if (mirrorX)
@@ -271,17 +272,17 @@ namespace Spaceman
                 {
                     if (!bodyStatus.state.Equals("fall"))
                     {
-                        if (xMomentum > 0)
+                        if (xGroundMomentum > 0)
                         {
-                            xMomentum = game.moveSpeed;
+                            xAirMomentum = game.moveSpeed;
                         }
-                        if (xMomentum == 0)
+                        if (xGroundMomentum == 0)
                         {
-                            xMomentum = 0;
+                            xAirMomentum = 0;
                         }
-                        if (xMomentum < 0)
+                        if (xGroundMomentum < 0)
                         {
-                            xMomentum = -game.moveSpeed;
+                            xAirMomentum = -game.moveSpeed;
                         }
                         SetBodyStatus(new Status("fall", maxJumps - 1));
                     }
@@ -291,6 +292,67 @@ namespace Spaceman
                     }
                     jumpsRemaining--;
                     yVel = game.jumpSpeed;
+                }
+                else
+                {
+                    if (!(IsKeyHeld(Game1.left) && IsKeyHeld(Game1.right)))
+                    {
+                        if (IsKeyHeld(Game1.left))
+                        {
+                            mirrorX = true;
+                            if (oldkeys.IsKeyDown(Game1.left))
+                            {
+                                xGroundMomentum = -game.moveSpeed;
+                                if (!bodyStatus.state.Equals("walk")) bodyStatus = new Status("walk", FRAME_OFFSET);
+                                if (bodyStatus.duration == (bodyFrames) * FRAME_OFFSET - 1)
+                                {
+                                    bodyStatus.duration = runCycleStart * FRAME_OFFSET;
+                                }
+                                else
+                                {
+                                    bodyStatus.duration++;
+                                }
+                            }
+                            else
+                            {
+                                SetBodyStatus(new Status("walk", FRAME_OFFSET));
+                                xGroundMomentum = -game.moveSpeed/2;
+                            }
+                        }
+                        else if (IsKeyHeld(Game1.right))
+                        {
+                            mirrorX = false;
+                            if (oldkeys.IsKeyDown(Game1.right))
+                            {
+                                xGroundMomentum = game.moveSpeed;
+                                if (!bodyStatus.state.Equals("walk")) bodyStatus = new Status("walk", FRAME_OFFSET);
+                                if (bodyStatus.duration == (bodyFrames) * FRAME_OFFSET - 1)
+                                {
+                                    bodyStatus.duration = runCycleStart * FRAME_OFFSET;
+                                }
+                                else
+                                {
+                                    bodyStatus.duration++;
+                                }
+                            }
+                            else
+                            {
+                                SetBodyStatus(new Status("walk", FRAME_OFFSET));
+                                xGroundMomentum = game.moveSpeed / 2;
+                            }
+                        }
+                        else
+                        {
+                            SetBodyStatus(new Status("idle", 0));
+                            xGroundMomentum = 0;
+                        }
+                    }
+                    else
+                    {
+                        SetBodyStatus(new Status("idle", 0));
+                        xGroundMomentum = 0;
+                    }
+                    xVel = xGroundMomentum;
                 }
 
 
