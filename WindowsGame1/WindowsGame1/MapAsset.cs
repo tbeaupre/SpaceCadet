@@ -33,9 +33,9 @@ namespace Spaceman
 			{
 				if (status.duration > 0) status.duration--;
 			}
-			this.onScreen = IsOnScreen(game.worldMap[game.currentMap]);
-			this.nearScreen = IsNearScreen(game.worldMap[game.currentMap].mapCoordinates);
-			UpdateCoords(game.worldMap[game.currentMap]);
+			this.onScreen = IsOnScreen(game.worldMap[game.currentRoom]);
+			this.nearScreen = IsNearScreen(game.worldMap[game.currentRoom].mapCoordinates);
+			UpdateCoords(game.worldMap[game.currentRoom]);
 		}
 
 	}

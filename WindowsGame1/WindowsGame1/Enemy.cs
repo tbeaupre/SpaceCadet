@@ -58,7 +58,7 @@ namespace Spaceman
 			if (this.status.duration == 0)
 			{
 				game.RemoveObjectToDraw(this);
-				game.worldMap[game.currentMap].enemies.Remove(this);
+				game.worldMap[game.currentRoom].enemies.Remove(this);
 				this.Reset();
 			}
 			else
@@ -119,7 +119,7 @@ namespace Spaceman
 		{
 			if (alert)
 			{
-				if (destRect.X < (Game1.screenWidth / 2) + game.worldMap[game.currentMap].offset.X) this.mirrorX = true;
+				if (destRect.X < (Game1.screenWidth / 2) + game.worldMap[game.currentRoom].offset.X) this.mirrorX = true;
 				else this.mirrorX = false;
 			}
 		}
@@ -157,14 +157,14 @@ namespace Spaceman
 				{
 					Attack(game);
 				}
-				this.onScreen = IsOnScreen(game.worldMap[game.currentMap]);
-				if (IsNearScreen(game.worldMap[game.currentMap].mapCoordinates) == false)
+				this.onScreen = IsOnScreen(game.worldMap[game.currentRoom]);
+				if (IsNearScreen(game.worldMap[game.currentRoom].mapCoordinates) == false)
 				{
 					game.RemoveObjectToDraw(this);
-					game.worldMap[game.currentMap].enemies.Remove(this);
+					game.worldMap[game.currentRoom].enemies.Remove(this);
 					this.alert = false;
 				}
-				this.nearScreen = IsNearScreen(game.worldMap[game.currentMap].mapCoordinates);
+				this.nearScreen = IsNearScreen(game.worldMap[game.currentRoom].mapCoordinates);
 
 				ChooseNewDirection(game);
 				this.action.duration--;
@@ -172,8 +172,8 @@ namespace Spaceman
 				this.sourceRect = new Rectangle(this.spriteWidth * this.frameNum, 0, this.texture.Width / numFrames, this.texture.Height);
 				if (nearScreen)
 				{
-					this.destRect.X = (int)(this.worldX - game.worldMap[game.currentMap].mapCoordinates.X + game.worldMap[game.currentMap].offset.X);
-					this.destRect.Y = (int)(this.worldY - game.worldMap[game.currentMap].mapCoordinates.Y + game.worldMap[game.currentMap].offset.Y);
+					this.destRect.X = (int)(this.worldX - game.worldMap[game.currentRoom].mapCoordinates.X + game.worldMap[game.currentRoom].offset.X);
+					this.destRect.Y = (int)(this.worldY - game.worldMap[game.currentRoom].mapCoordinates.Y + game.worldMap[game.currentRoom].offset.Y);
 				}
 				GravityUpdate(game);
 		}

@@ -17,7 +17,7 @@ namespace Spaceman
 	/// </summary>
 	public class Game1 : Microsoft.Xna.Framework.Game
 	{
-		public GraphicsDeviceManager graphics;
+        public GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 
 		public enum EnemyNames { BioSnail };
@@ -25,7 +25,7 @@ namespace Spaceman
 		public enum PowerUps { NULL, BoostJump};
 		public enum Guns { Pistol, Shotgun, Railgun, MachineGun };
 
-		public int currentMap;
+		public int currentRoom;
 
 		public List<Projectile> enemyProjectiles = new List<Projectile>();
 		public List<Projectile> allyProjectiles = new List<Projectile>();
@@ -46,6 +46,7 @@ namespace Spaceman
 
 		const int FRAME_OFFSET = 5;
 		public double moveSpeed;
+        private double directionInfluence = .1;
 		public double gravity;
 		public int terminalVel;
 		public double jumpSpeed;
@@ -175,13 +176,27 @@ namespace Spaceman
 			Content.RootDirectory = "Content";
 		}
 
-		/// <summary>
-		/// Allows the game to perform any initialization it needs to before starting to run.
-		/// This is where it can query for any required services and load any non-graphic
-		/// related content.  Calling base.Initialize will enumerate through any components
-		/// and initialize them as well.
-		/// </summary>
-		protected override void Initialize()
+        #region Getters
+        public double getDirectionalInfluence()
+        {
+            return this.directionInfluence;
+        }
+        #endregion
+
+        #region Setters
+        public void setDirectionalInfluence(double di)
+        {
+            this.directionInfluence = di;
+        }
+        #endregion
+
+        /// <summary>
+        /// Allows the game to perform any initialization it needs to before starting to run.
+        /// This is where it can query for any required services and load any non-graphic
+        /// related content.  Calling base.Initialize will enumerate through any components
+        /// and initialize them as well.
+        /// </summary>
+        protected override void Initialize()
 		{
 			powerUpManager.UnlockPowerUp(Game1.PowerUps.BoostJump);
 			powerUpManager.UpdateAbilities(Game1.PowerUps.BoostJump, Game1.PowerUps.NULL, Game1.PowerUps.NULL);
@@ -274,29 +289,29 @@ namespace Spaceman
 				new Map(new MapResource(this, "2", false),5), // 3 X 3
 				new Map(new MapResource(this, "3", false), 5), // 3 X 2
 			};
-			this.currentMap = 1;
+			this.currentRoom = 1;
 			List<IMapItem> items = new List<IMapItem>();
 			items.Add(CreateSaveStation(500, 341));
-			worldMap[currentMap].InitializeMap(items);
-			this.worldMap[currentMap].active = true;
-			this.worldMap[currentMap].mapCoordinates = initMapCoordinates;
+			worldMap[currentRoom].InitializeMap(items);
+			this.worldMap[currentRoom].active = true;
+			this.worldMap[currentRoom].mapCoordinates = initMapCoordinates;
 
 			doorTexture = this.Content.Load<Texture2D>("Doors\\Door2");
 			doorHitboxTexture = this.Content.Load<Texture2D>("Doors\\DoorHitbox3");
 
 			worldMap[2].spawns.Add(new Spawn(150, 115, "BioSnail"));
-			worldMap[currentMap].assets.Add(new MapAsset(141, 232, spaceshipTexture, worldMap[currentMap].mapCoordinates, 1, 0, false));
+			worldMap[currentRoom].assets.Add(new MapAsset(141, 232, spaceshipTexture, worldMap[currentRoom].mapCoordinates, 1, 0, false));
 
 			//Initialize Batteries
 			for (int i = 0; i <= batteryLocations.GetUpperBound(0); i++)
 			{
-				worldMap[currentMap].pickUps.Add(new Battery(worldMap[currentMap].mapCoordinates, batteryLocations[i, 0], batteryLocations[i, 1], batteryTexture));
+				worldMap[currentRoom].pickUps.Add(new Battery(worldMap[currentRoom].mapCoordinates, batteryLocations[i, 0], batteryLocations[i, 1], batteryTexture));
 			}
 
 			//Initialize Health
 			for (int i = 0; i <= healthLocations.GetUpperBound(0); i++)
 			{
-				worldMap[currentMap].pickUps.Add(new Health(worldMap[currentMap].mapCoordinates, healthLocations[i].x, healthLocations[i].y, healthTexture, healthLocations[i].level));
+				worldMap[currentRoom].pickUps.Add(new Health(worldMap[currentRoom].mapCoordinates, healthLocations[i].x, healthLocations[i].y, healthTexture, healthLocations[i].level));
 			}
 
 			//Initialize Doors
@@ -424,10 +439,10 @@ namespace Spaceman
 				graphics.GraphicsDevice.SetRenderTarget(lowRes);
 				spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 				GraphicsDevice.Clear(new Color(0, 0, 0, 0));
-				DrawMap(worldMap[currentMap]);
-				if (worldMap[currentMap].wasJustActivated)
+				DrawMap(worldMap[currentRoom]);
+				if (worldMap[currentRoom].wasJustActivated)
 				{
-					this.worldMap[currentMap].wasJustActivated = false;
+					this.worldMap[currentRoom].wasJustActivated = false;
 				}
 				else
 				{
@@ -436,7 +451,7 @@ namespace Spaceman
 					DrawOverlay(boostJump, 0.5f);
 				}
 				DrawObjects();
-				DrawForeground(worldMap[currentMap]);
+				DrawForeground(worldMap[currentRoom]);
 				DrawSprite(healthBarOverlay, 0.1f);
 				DrawEnergyBar();
 				DrawHealthBar();
@@ -446,7 +461,7 @@ namespace Spaceman
 				graphics.GraphicsDevice.SetRenderTarget(null);
 
 				spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
-				DrawBackground(worldMap[currentMap]);
+				DrawBackground(worldMap[currentRoom]);
 				spriteBatch.Draw(lowRes, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
 				base.Draw(gameTime);
 				spriteBatch.End();
@@ -611,9 +626,9 @@ namespace Spaceman
 
 		public void ActivateMap(Map toActivate, Door door)
 		{
-			this.worldMap[currentMap].DeactivateMap(this);
-			this.worldMap[currentMap] = toActivate;
-			this.worldMap[currentMap].ActivateMap(door, this);
+			this.worldMap[currentRoom].DeactivateMap(this);
+			this.worldMap[currentRoom] = toActivate;
+			this.worldMap[currentRoom].ActivateMap(door, this);
 		}
 
 		public void NextGun()
@@ -647,14 +662,14 @@ namespace Spaceman
 			new Projectile(
 				origin.direction,
 				origin,
-				worldMap[currentMap].mapCoordinates,
+				worldMap[currentRoom].mapCoordinates,
 				current.damage,
 				//(int)mapCoordinates.X + guns.destRect.X + (guns.mirrorX ?
 				// guns.spriteWidth - current.barrelX + 2
 				//: current.barrelX - 2) - 3,
-				(int)worldMap[currentMap].mapCoordinates.X - worldMap[currentMap].offset.X + guns.destRect.X + FindBulletX(origin.direction, origin.mirrorX, current),
+				(int)worldMap[currentRoom].mapCoordinates.X - worldMap[currentRoom].offset.X + guns.destRect.X + FindBulletX(origin.direction, origin.mirrorX, current),
 				//(int)mapCoordinates.Y + guns.destRect.Y + current.barrelY - 3,
-				(int)worldMap[currentMap].mapCoordinates.Y - worldMap[currentMap].offset.Y + guns.destRect.Y + FindBulletY(origin.direction, origin.mirrorX, current),
+				(int)worldMap[currentRoom].mapCoordinates.Y - worldMap[currentRoom].offset.Y + guns.destRect.Y + FindBulletY(origin.direction, origin.mirrorX, current),
 				FindBulletXVel(origin.direction, current.bulletVel),
 				FindBulletYVel(origin.direction, current.bulletVel),
 				0,
@@ -860,7 +875,7 @@ namespace Spaceman
 			new Projectile(
 				(origin.mirrorX?Directions.right: Directions.left),
 				origin,
-				worldMap[currentMap].mapCoordinates,
+				worldMap[currentRoom].mapCoordinates,
 				origin.projectileData.damage,
 				(origin.mirrorX ?
 				 origin.worldX + origin.spriteWidth - origin.projectileData.xOffset
@@ -893,7 +908,7 @@ namespace Spaceman
 		{
 			spaceMan.UpdateSprite(this);
 			guns.UpdateSprite();
-			worldMap[currentMap].UpdateMap(this);
+			worldMap[currentRoom].UpdateMap(this);
 			UpdateMapAssets();
 			UpdateSpawns();
 			UpdateProjectiles(allyProjectiles);
@@ -905,7 +920,7 @@ namespace Spaceman
 
 		public void UpdatePortals()
 		{
-			foreach (Portal p in worldMap[currentMap].portals)
+			foreach (Portal p in worldMap[currentRoom].portals)
 			{
 				p.UpdatePortal(this);
 			}
@@ -913,12 +928,12 @@ namespace Spaceman
 
 		public void SpawnEnemy(Enemy enemy)
 		{
-			worldMap[currentMap].enemies.Add(enemy);
+			worldMap[currentRoom].enemies.Add(enemy);
 		}
 
 		public void UpdateMapAssets()
 		{
-			foreach (MapAsset asset in worldMap[currentMap].assets)
+			foreach (MapAsset asset in worldMap[currentRoom].assets)
 			{
 				asset.UpdateSprite(this);
 				if (asset.onScreen)
@@ -931,7 +946,7 @@ namespace Spaceman
 
 		public void UpdateSpawns()
 		{
-			foreach (Spawn spawn in worldMap[currentMap].spawns)
+			foreach (Spawn spawn in worldMap[currentRoom].spawns)
 			{
 				spawn.Update(this);
 			}
@@ -939,7 +954,7 @@ namespace Spaceman
 
 		public void UpdateEnemies()
 		{
-			List<Enemy> current = worldMap[currentMap].enemies;
+			List<Enemy> current = worldMap[currentRoom].enemies;
 			for (int i = current.Count-1; i >= 0; i--)
 			{
 				int existenceCheck = current.Count;
@@ -985,17 +1000,17 @@ namespace Spaceman
 
 		public void UpdatePickUps()
 		{
-			List<PickUp> current = worldMap[currentMap].pickUps;
+			List<PickUp> current = worldMap[currentRoom].pickUps;
 			for (int i = current.Count - 1; i >= 0; i--)
 			{
-				current[i].UpdateSprite(worldMap[currentMap]);
+				current[i].UpdateSprite(worldMap[currentRoom]);
 				if (current[i].onScreen)
 				{
 					if (current[i].PerPixelCollisionDetect(this))
 					{
 						current[i].PickUpObj(this);
 						RemoveObjectToDraw(current[i]);
-						worldMap[currentMap].pickUps.RemoveAt(i);
+						worldMap[currentRoom].pickUps.RemoveAt(i);
 					}
 					else
 					AddObjectToDraw(current[i]);
@@ -1006,14 +1021,14 @@ namespace Spaceman
 
 		public void RemoveObjectToDraw(Object obj)
 		{
-			if (worldMap[currentMap].objectsToDraw.Contains(obj))
-				worldMap[currentMap].objectsToDraw.Remove(obj);
+			if (worldMap[currentRoom].objectsToDraw.Contains(obj))
+				worldMap[currentRoom].objectsToDraw.Remove(obj);
 		}
 
 		public void AddObjectToDraw(Object obj)
 		{
-			if (worldMap[currentMap].objectsToDraw.Contains(obj) == false)
-				worldMap[currentMap].objectsToDraw.Add(obj);
+			if (worldMap[currentRoom].objectsToDraw.Contains(obj) == false)
+				worldMap[currentRoom].objectsToDraw.Add(obj);
 		}
 
 		public void UpdateProjectiles(List<Projectile> projectiles)
@@ -1034,7 +1049,7 @@ namespace Spaceman
                 projectiles[i].worldX += projectiles[i].xVel;
 				projectiles[i].worldY += projectiles[i].yVel;
 				projectiles[i].yVel += projectiles[i].yAcc;
-				projectiles[i].UpdateSprite(worldMap[currentMap]);
+				projectiles[i].UpdateSprite(worldMap[currentRoom]);
 				if (projectiles[i].PerPixelCollisionDetect(this) && enemyProjectiles.Contains(projectiles[i]))
 				{
 					TakeDamage(projectiles[i]);
@@ -1088,7 +1103,7 @@ namespace Spaceman
 
 		public void DrawObjects()
 		{
-			foreach (Object obj in worldMap[currentMap].objectsToDraw)
+			foreach (Object obj in worldMap[currentRoom].objectsToDraw)
 			{
 				if (obj is Enemy)
 				{
@@ -1161,8 +1176,8 @@ namespace Spaceman
 		public bool MapCollisionDetect(int spritewidth, int spriteheight, Rectangle rect)
 		{
 			Color[] pixels;
-			Rectangle newRect = new Rectangle((rect.X + (int)worldMap[currentMap].mapCoordinates.X - (int)worldMap[currentMap].offset.X),
-				(rect.Y + (int)worldMap[currentMap].mapCoordinates.Y - (int)worldMap[currentMap].offset.Y),
+			Rectangle newRect = new Rectangle((rect.X + (int)worldMap[currentRoom].mapCoordinates.X - (int)worldMap[currentRoom].offset.X),
+				(rect.Y + (int)worldMap[currentRoom].mapCoordinates.Y - (int)worldMap[currentRoom].offset.Y),
 				rect.Width,
 				rect.Height);
 
@@ -1171,10 +1186,10 @@ namespace Spaceman
 			// Check to see if rectangle is outside of map.
 			if (newRect.X < 0
 				|| newRect.Y < 0
-				|| newRect.X + spritewidth > worldMap[currentMap].hitbox.Width
-				|| newRect.Y + spriteheight > worldMap[currentMap].hitbox.Height) return false;
+				|| newRect.X + spritewidth > worldMap[currentRoom].hitbox.Width
+				|| newRect.Y + spriteheight > worldMap[currentRoom].hitbox.Height) return false;
 
-			this.worldMap[currentMap].hitbox.GetData<Color>(
+			this.worldMap[currentRoom].hitbox.GetData<Color>(
 				0, newRect, pixels, 0, spritewidth * spriteheight
 				);
 			for (int y = 0; y < spriteheight; y++)
@@ -1193,12 +1208,12 @@ namespace Spaceman
 
 		public Door CreateDoor(double worldX, double worldY, int level, bool isLeft)
 		{
-			return new Door(worldX, worldY, doorTexture, doorHitboxTexture, this.worldMap[currentMap].mapCoordinates, level, isLeft);
+			return new Door(worldX, worldY, doorTexture, doorHitboxTexture, this.worldMap[currentRoom].mapCoordinates, level, isLeft);
 		}
 
 		public SaveStation CreateSaveStation(double worldX, double worldY)
 		{
-			return new SaveStation(worldX, worldY, saveStationTexture,this.worldMap[currentMap].mapCoordinates, 7, 0);
+			return new SaveStation(worldX, worldY, saveStationTexture,this.worldMap[currentRoom].mapCoordinates, 7, 0);
 		}
 
 		public void UpdateEnergy()
@@ -1302,12 +1317,12 @@ namespace Spaceman
 		public void SaveGameData()
 		{
 			// SaveData is created using current game information.
-			SaveData s = new SaveData(currentMap,
+			SaveData s = new SaveData(currentRoom,
 				powerUpManager.GetUnlockedPowerUps(),
 				powerUpManager.GetCurrentPowerUps(),
 				unlockedGuns,
 				currentGun,
-				worldMap[currentMap].mapCoordinates);
+				worldMap[currentRoom].mapCoordinates);
 
 			currentSaveFilepath = "save1.sav";
 			currentSaveFile = File.CreateText(currentSaveFilepath);
@@ -1328,13 +1343,13 @@ namespace Spaceman
 			SaveData saveData = (SaveData)reader.Deserialize(file);
 			file.Close();
 
-			currentMap = saveData.mapIndex;
+			currentRoom = saveData.mapIndex;
 			powerUpManager.unlockedPowerUps = saveData.unlockedPowerUps;
 			powerUpManager.currentPowerUps = saveData.currentPowerUps;
 			unlockedGuns = saveData.guns;
 			currentGun = saveData.currentGun;
 			guns.frameNum = currentGun;
-			worldMap[currentMap].mapCoordinates = saveData.coordinates;
+			worldMap[currentRoom].mapCoordinates = saveData.coordinates;
 		}
 
 		public void OpenSaveStationMenu()

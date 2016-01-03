@@ -29,6 +29,7 @@ namespace Spaceman
 		public int jumpsRemaining;
 		private int maxJumps;
 		bool hold = false;
+        double xMomentum;
         double xVel;
         double yVel;
         KeyboardState newkeys;
@@ -197,7 +198,7 @@ namespace Spaceman
 				if (jump && CheckMapCollision(game, 0, -1) && yVel < 0)
 				{
 					yVel = 0;
-					game.worldMap[game.currentMap].ChangeCoords(0, 1);
+					game.worldMap[game.currentRoom].ChangeCoords(0, 1);
 				}
 				yVel += game.gravity;
 				if (!bodyStatus.state.Equals("fall"))
@@ -225,323 +226,79 @@ namespace Spaceman
 			game.boostJump.reset();
 		}
 
-        public void HandleKeys2(Game1 game)
+        public void HandleKeys(Game1 game)
         {
-            if (newkeys.IsKeyDown(Game1.hold))
+            int testXVel = 0;
+            bool jumping = (IsKeyPressed(Game1.jump) && jumpsRemaining > 0);
+            bool holding = newkeys.IsKeyDown(Game1.hold);
+            bool crouching = (newkeys.IsKeyDown(Game1.down) && !bodyStatus.state.Equals("fall") && !holding);
+            Game1.Directions lookDir = LookDirection();
+            
+            if(bodyStatus.state.Equals("fall"))
             {
-                hold = true;
-                xVel = 0;
-                currentBodyFrame = 1;
-            }
-            else
-            {
-                hold = false;
-            }
-
-            if (newkeys.IsKeyDown(Game1.jump) && oldkeys.IsKeyUp(Game1.jump) && jumpsRemaining > 0)
-            {
-                jumpsRemaining--;
-                crouch = false;
-                if (bodyStatus.state.Equals("fall"))
+                // Handles Directional Influence.
+                if (IsKeyHeld(Game1.left))
                 {
-                    bodyStatus.duration--;
+                    xVel -= game.getDirectionalInfluence();
+                }
+                if (IsKeyHeld(Game1.right))
+                {
+                    xVel += game.getDirectionalInfluence();
+                }
+
+                //Continue on planned trajectory.
+                xVel += xMomentum;
+
+                //Look in the right direction.
+                if (mirrorX)
+                {
+                    if (lookDir != Game1.Directions.downLeft && lookDir != Game1.Directions.upLeft)
+                    {
+                        lookDir = Game1.Directions.left;
+                    }
                 }
                 else
                 {
-                    bodyStatus = new Status("fall", maxJumps - 1);
-                    yVel = game.jumpSpeed;
-                }
-                jump = true;
-            }
-
-            if (newkeys.IsKeyDown(Game1.down))
-            {
-                if (!jump)
-                {
-                    crouch = true;
-                    xVel = 0;
-                    if (mirrorX)
+                    if (lookDir != Game1.Directions.downRight && lookDir != Game1.Directions.upRight)
                     {
-                        direction = Game1.Directions.left;
+                        lookDir = Game1.Directions.right;
+                    }
+                }
+            }
+            else
+            {
+                if (jumping)
+                {
+                    if (!bodyStatus.state.Equals("fall"))
+                    {
+                        if (xMomentum > 0)
+                        {
+                            xMomentum = game.moveSpeed;
+                        }
+                        if (xMomentum == 0)
+                        {
+                            xMomentum = 0;
+                        }
+                        if (xMomentum < 0)
+                        {
+                            xMomentum = -game.moveSpeed;
+                        }
+                        SetBodyStatus(new Status("fall", maxJumps - 1));
                     }
                     else
                     {
-                        direction = Game1.Directions.right;
+                        bodyStatus.duration--;
                     }
+                    jumpsRemaining--;
+                    yVel = game.jumpSpeed;
                 }
-                else
-                {
-                    direction = Game1.Directions.down;
-                }
-            }
-            else
-            {
-                if (oldkeys.IsKeyDown(Game1.down))
-                    bodyStatus.duration = 0;
-                crouch = false;
-            }
 
-            if (newkeys.IsKeyDown(Game1.right))
-            {
-                if (direction.Equals(Game1.Directions.down))
-                {
-                    direction = Game1.Directions.downRight;
-                }
-                else
-                {
-                    direction = Game1.Directions.right;
-                }
-                foreach (Sprite sprite in game.characterSprites)
-                {
-                    sprite.mirrorX = false;
-                }
-                if (!crouch && !hold)
-                {
-                    xVel = game.moveSpeed;
 
-                    if (!jump)
-                    {
-                        if (oldkeys.IsKeyDown(Game1.right))
-                        {
-                            if (!bodyStatus.state.Equals("walk")) bodyStatus = new Status("walk", FRAME_OFFSET);
-                            if (bodyStatus.duration == (bodyFrames) * FRAME_OFFSET - 1)
-                            {
-                                bodyStatus.duration = runCycleStart * FRAME_OFFSET;
-                            }
-                            else
-                            {
-                                bodyStatus.duration++;
-                            }
-                        }
-                        else
-                        {
-                            bodyStatus = new Status("walk", FRAME_OFFSET);
-                        }
-                    }
-                }
-            }
-
-            if (newkeys.IsKeyDown(Game1.left))
-            {
-                if (direction.Equals(Game1.Directions.down))
-                {
-                    direction = Game1.Directions.downLeft;
-                }
-                else
-                {
-                    direction = Game1.Directions.left;
-                }
-                foreach (Sprite sprite in game.characterSprites)
-                {
-                    sprite.mirrorX = true;
-                }
-                if (!crouch && !hold)
-                {
-                    xVel = -game.moveSpeed;
-                    if (!jump)
-                    {
-                        if (oldkeys.IsKeyDown(Game1.left))
-                        {
-                            if (!bodyStatus.state.Equals("walk")) bodyStatus = new Status("walk", FRAME_OFFSET);
-                            if (bodyStatus.duration == (bodyFrames) * FRAME_OFFSET - 1)
-                            {
-                                bodyStatus.duration = runCycleStart * FRAME_OFFSET;
-                            }
-                            else
-                            {
-                                bodyStatus.duration++;
-                            }
-                        }
-                        else
-                        {
-                            bodyStatus = new Status("walk", FRAME_OFFSET);
-                        }
-                    }
-                }
-            }
-
-            if (newkeys.IsKeyDown(Game1.up))
-            {
-                direction = Game1.Directions.up;
-                if (newkeys.IsKeyDown(Game1.left)) direction = Game1.Directions.upLeft;
-                if (newkeys.IsKeyDown(Game1.right)) direction = Game1.Directions.upRight;
-            }
-
-            if (newkeys.IsKeyUp(Game1.left) && newkeys.IsKeyUp(Game1.right))
-            {
-                if (!jump)
-                    bodyStatus = new Status("idle", 0);
-                xVel = 0;
-            }
-
-            if (newkeys.IsKeyUp(Game1.left) && newkeys.IsKeyUp(Game1.right) && newkeys.IsKeyUp(Game1.up) && newkeys.IsKeyUp(Game1.down))
-            {
-                if (mirrorX)
-                {
-                    direction = Game1.Directions.left;
-                }
-                else
-                {
-                    direction = Game1.Directions.right;
-                }
-            }
-
-            if (newkeys.IsKeyDown(Game1.nextGun) && oldkeys.IsKeyUp(Game1.nextGun))
-            {
-                game.NextGun();
-            }
-
-            if (newkeys.IsKeyDown(Game1.fire)
-                && this.gunCooldown == 0
-                && (game.arsenal[game.currentGun].automatic ? true : oldkeys.IsKeyUp(Game1.fire)))
-            {
-                game.CreateProjectile(this);
-                game.RefreshGunCooldown();
-            }
-            else
-            {
-                if (gunCooldown > 0) gunCooldown--;
             }
         }
 
-        public void HandleKeys(Game1 game)
-		{
-			int testXVel = 0;
-			bool jumping = (IsKeyPressed(Game1.jump) && jumpsRemaining > 0);
-			bool holding = newkeys.IsKeyDown(Game1.hold);
-            bool crouching = (newkeys.IsKeyDown(Game1.down) && !bodyStatus.state.Equals("fall") && !holding);
-            Game1.Directions lookDir = LookDirection();
-
-			if (jumping)
-			{
-				jumpsRemaining--;
-				crouching = false;
-				if (bodyStatus.state.Equals("fall"))
-				{
-					bodyStatus.duration--;
-				}
-				else
-				{
-                    SetBodyStatus(new Status("fall", maxJumps - 1));
-					yVel = game.jumpSpeed;
-				}
-			}
-			else if(bodyStatus.state.Equals("fall")) 
-			{
-				jumping = true;
-			}
-
-			//Left/Right controls
-			if (newkeys.IsKeyDown(Game1.left))
-			{
-				testXVel = -(int)game.moveSpeed;
-				if (!crouching && !jumping && !holding)
-				{
-					if (oldkeys.IsKeyDown(Game1.left))
-					{
-						if (!bodyStatus.state.Equals("walk")) bodyStatus = new Status("walk", FRAME_OFFSET);
-						if (bodyStatus.duration == (bodyFrames) * FRAME_OFFSET - 1)
-						{
-							bodyStatus.duration = runCycleStart * FRAME_OFFSET;
-						}
-						else
-						{
-							bodyStatus.duration++;
-						}
-					}
-					else
-					{
-                        SetBodyStatus(new Status("walk", FRAME_OFFSET));
-					}
-				}
-			}
-			else if (newkeys.IsKeyDown(Game1.right))
-			{
-				testXVel = (int)game.moveSpeed;
-				if (!crouching && !jumping && !holding)
-				{
-					if (oldkeys.IsKeyDown(Game1.right))
-					{
-						if (!bodyStatus.state.Equals("walk")) bodyStatus = new Status("walk", FRAME_OFFSET);
-						if (bodyStatus.duration == (bodyFrames) * FRAME_OFFSET - 1)
-						{
-							bodyStatus.duration = runCycleStart * FRAME_OFFSET;
-						}
-						else
-						{
-							bodyStatus.duration++;
-						}
-					}
-					else
-					{
-                        SetBodyStatus(new Status("walk", FRAME_OFFSET));
-					}
-				}
-			}
-
-			// Changes the mirroring of sprites related to the spaceman depending upon lookDir
-			if (lookDir == Game1.Directions.left || lookDir == Game1.Directions.upLeft || lookDir == Game1.Directions.downLeft)
-			{
-				foreach (Sprite sprite in game.characterSprites)
-				{
-					sprite.mirrorX = true;
-				}
-			}
-			else if (lookDir == Game1.Directions.right || lookDir == Game1.Directions.upRight || lookDir == Game1.Directions.downRight)
-			{
-				foreach (Sprite sprite in game.characterSprites)
-				{
-					sprite.mirrorX = false;
-				}
-			}
-
-			if (crouching)
-			{
-                if (!holding)
-                {
-                    if (lookDir == Game1.Directions.downLeft) lookDir = Game1.Directions.left;
-                    if (lookDir == Game1.Directions.downRight) lookDir = Game1.Directions.right;
-                }
-                if(lookDir == Game1.Directions.down)
-                {
-                    if (mirrorX) lookDir = Game1.Directions.left;
-                    else lookDir = Game1.Directions.right;
-                }
-				crouch = true;
-				testXVel = 0;
-			}
-			else crouch = false;
-
-			// Checks for idle.
-			if ((newkeys.IsKeyUp(Game1.left) && newkeys.IsKeyUp(Game1.right)) || (newkeys.IsKeyDown(Game1.left) && newkeys.IsKeyDown(Game1.right)))
-			{
-				if (!jump)
-                    SetBodyStatus(new Status("idle", 0));
-				testXVel = 0;
-			}
-
-			// If the character is holding or crouching, the xVel should be 0.
-			if (holding)
-			{
-				testXVel = 0;
-                SetBodyStatus(new Status("idle", 0));
-			}
-
-			// Check for Next Gun.
-			if (IsKeyPressed(Game1.nextGun))
-			{
-				game.NextGun();
-			}
-
-			// Fires bullets if necessary.
-			Fire(game, newkeys.IsKeyDown(Game1.fire) && this.gunCooldown == 0 && (game.arsenal[game.currentGun].automatic ? true : oldkeys.IsKeyUp(Game1.fire)));
-
-			direction = lookDir;
-			xVel = testXVel;
-		}
-
-		// Fires a projectile if conditions are correct or decreases the cooldown on the gun.
-		public void Fire(Game1 game, bool condition)
+        // Fires a projectile if conditions are correct or decreases the cooldown on the gun.
+        public void Fire(Game1 game, bool condition)
 		{
 			if (condition)
 			{
@@ -558,6 +315,11 @@ namespace Spaceman
 		{
 			return (newkeys.IsKeyDown(key) && oldkeys.IsKeyUp(key));
 		}
+
+        public bool IsKeyHeld(Keys key)
+        {
+            return newkeys.IsKeyDown(key);
+        }
 
 		// Returns a Direction representing which way the character should look based upon which keys are currently pressed.
 		public Game1.Directions LookDirection()
@@ -629,11 +391,11 @@ namespace Spaceman
 			{
 				if (!CheckMapCollision(game, 0, yOffset))
 				{
-					game.worldMap[game.currentMap].ChangeCoords(0, yOffset);
+					game.worldMap[game.currentRoom].ChangeCoords(0, yOffset);
 					if (yOffset > 0 && CheckMapCollision(game, 0, 1)) ResetJump(game);
 				}
 				if (!CheckMapCollision(game, xOffset, 0))
-					game.worldMap[game.currentMap].ChangeCoords(xOffset, 0);
+					game.worldMap[game.currentRoom].ChangeCoords(xOffset, 0);
 
 				if (xOffset == 0 && !jump && Math.Abs(xVel) > 0)
 				{
@@ -642,7 +404,7 @@ namespace Spaceman
 			}
 			else
 			{
-				game.worldMap[game.currentMap].ChangeCoords(0, -1);
+				game.worldMap[game.currentRoom].ChangeCoords(0, -1);
 			}
         }
 
@@ -712,7 +474,7 @@ namespace Spaceman
 					ResetJump(game);
                 }
             }
-			game.worldMap[game.currentMap].ChangeCoords(xOffset, yOffset);
+			game.worldMap[game.currentRoom].ChangeCoords(xOffset, yOffset);
         }
 
 		// Checks to see if the character is attempting to travel up stairs and reacts accordingly, allowing the player faster travel up stairs
@@ -730,7 +492,7 @@ namespace Spaceman
 					{
 						xOffset = 1;
 						yOffset = 1;
-						game.worldMap[game.currentMap].ChangeCoords(xOffset, yOffset);
+						game.worldMap[game.currentRoom].ChangeCoords(xOffset, yOffset);
 					}
 					else
 					{
@@ -738,7 +500,7 @@ namespace Spaceman
 						{
 							if (!CheckMapCollision(game, 1, 0) && CheckMapCollision(game, 0, 1) && !CheckMapCollision(game, 2, 1) && CheckMapCollision(game, 2, 2) && CheckMapCollision(game, 1, 1))
 							{
-								game.worldMap[game.currentMap].ChangeCoords(1, 0);
+								game.worldMap[game.currentRoom].ChangeCoords(1, 0);
 							}
 							else
 							{
@@ -769,7 +531,7 @@ namespace Spaceman
 					{
 						xOffset = -1;
 						yOffset = 1;
-						game.worldMap[game.currentMap].ChangeCoords(xOffset, yOffset);
+						game.worldMap[game.currentRoom].ChangeCoords(xOffset, yOffset);
 					}
 					else
 					{
@@ -777,7 +539,7 @@ namespace Spaceman
 						{
 							if (!CheckMapCollision(game, -1, 0) && CheckMapCollision(game, 0, 1) && !CheckMapCollision(game, -2, 1) && CheckMapCollision(game, -2, 2) && CheckMapCollision(game, -1, 1))
 							{
-								game.worldMap[game.currentMap].ChangeCoords(-1, 0);
+								game.worldMap[game.currentRoom].ChangeCoords(-1, 0);
 							}
 							else
 							{
@@ -799,17 +561,17 @@ namespace Spaceman
 					}
 				}
 			}
-			game.worldMap[game.currentMap].ChangeCoords(xOffset, yOffset);
+			game.worldMap[game.currentRoom].ChangeCoords(xOffset, yOffset);
 			return flag;
 		}
 
 		public bool CheckMapCollision(Game1 game, int xOffset, int yOffset)
 		{
 			if (game.CheckMapCollision(xOffset, yOffset, this)) return true;
-			if (game.worldMap[game.currentMap].assets.Count > 0)
+			if (game.worldMap[game.currentRoom].assets.Count > 0)
 			{
-				Spaceman offset = game.worldMap[game.currentMap].assets[0].offsetSpaceMan(this, xOffset, yOffset);
-				foreach (MapAsset asset in game.worldMap[game.currentMap].assets)
+				Spaceman offset = game.worldMap[game.currentRoom].assets[0].offsetSpaceMan(this, xOffset, yOffset);
+				foreach (MapAsset asset in game.worldMap[game.currentRoom].assets)
 				{
 						if (asset.RectCollisionDetect(offset)) return true;
 				}
@@ -827,13 +589,14 @@ namespace Spaceman
 		{
 			this.SetXVel(0);
 			this.yVel = 0;
+            SetBodyStatus(new Status("idle", 0));
 		}
 
 		public void UpdateSprite(Game1 game)
         {
 			GravityUpdate(game);
 			UpdateKeys(game.newkeys);
-			if (game.worldMap[game.currentMap].wasJustActivated)
+			if (game.worldMap[game.currentRoom].wasJustActivated)
 			{
 				StopMomentum();
 			}
@@ -845,7 +608,7 @@ namespace Spaceman
 			UpdateBody(game);
 			UpdateWorldCoords(game);
 			CreateTexture(game);
-			UpdateCoords(game.worldMap[game.currentMap].offset);
+			UpdateCoords(game.worldMap[game.currentRoom].offset);
 			if (status.state.Equals("hit"))
 			{
 				if (status.duration > 0) status.duration--;

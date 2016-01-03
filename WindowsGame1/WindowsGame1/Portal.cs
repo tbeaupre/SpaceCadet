@@ -30,7 +30,7 @@ namespace Spaceman
 		{
 			if (side1.active)
 			{
-				door1.UpdateDoor(game.worldMap[game.currentMap]);
+				door1.UpdateDoor(game.worldMap[game.currentRoom]);
 				if (door1.PerPixelCollisionDetect(game))
 				{
 					game.RemoveObjectToDraw(door1);
@@ -50,7 +50,7 @@ namespace Spaceman
 			}
 			if (side2.active)
 			{
-				door2.UpdateDoor(game.worldMap[game.currentMap]);
+				door2.UpdateDoor(game.worldMap[game.currentRoom]);
 				if (door2.PerPixelCollisionDetect(game))
 				{
 					game.RemoveObjectToDraw(door2);

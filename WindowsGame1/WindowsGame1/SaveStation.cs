@@ -52,7 +52,7 @@ namespace Spaceman
 					else this.frameNum--;
 				}
 			}
-			this.UpdateSprite(game.worldMap[game.currentMap]);
+			this.UpdateSprite(game.worldMap[game.currentRoom]);
 			if (this.onScreen)
 				game.AddObjectToDraw(this);
 			else

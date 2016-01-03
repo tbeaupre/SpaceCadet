@@ -40,10 +40,10 @@ namespace Spaceman
 			switch (this.spawns)
 			{
 				case "BioSnail":
-					return new BioSnail(this, game.worldMap[game.currentMap].mapCoordinates, this.worldX, this.worldY, game.bioSnailTexture, game.bioSnailProjectileData);
+					return new BioSnail(this, game.worldMap[game.currentRoom].mapCoordinates, this.worldX, this.worldY, game.bioSnailTexture, game.bioSnailProjectileData);
 					
 				default:
-					return new BioSnail(this, game.worldMap[game.currentMap].mapCoordinates, this.worldX, this.worldY, game.bioSnailTexture, game.bioSnailProjectileData);
+					return new BioSnail(this, game.worldMap[game.currentRoom].mapCoordinates, this.worldX, this.worldY, game.bioSnailTexture, game.bioSnailProjectileData);
 
 			}
 		}
@@ -62,8 +62,8 @@ namespace Spaceman
 
 		public void Update(Game1 game)
 		{
-			this.onScreen = IsOnScreen(game.worldMap[game.currentMap].mapCoordinates);
-			this.nearScreen = IsNearScreen(game.worldMap[game.currentMap].mapCoordinates);
+			this.onScreen = IsOnScreen(game.worldMap[game.currentRoom].mapCoordinates);
+			this.nearScreen = IsNearScreen(game.worldMap[game.currentRoom].mapCoordinates);
 			if (nearScreen)
 			{
 				if (this.primed)
