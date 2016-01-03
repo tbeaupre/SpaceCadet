@@ -658,7 +658,7 @@ namespace Spaceman
         {
 			GravityUpdate(game);
 			UpdateKeys(game.newkeys);
-			if (game.worldMap[game.currentRoom].wasJustActivated)
+			if (game.worldMap[game.currentRoom].GetWasJustActivated())
 			{
 				StopMomentum();
 			}
