@@ -284,7 +284,7 @@ namespace Spaceman
 			doorTexture = this.Content.Load<Texture2D>("Doors\\Door2");
 			doorHitboxTexture = this.Content.Load<Texture2D>("Doors\\DoorHitbox3");
 
-			worldMap[currentMap].spawns.Add(new Spawn(200, 232, "BioSnail"));
+			worldMap[2].spawns.Add(new Spawn(150, 115, "BioSnail"));
 			worldMap[currentMap].assets.Add(new MapAsset(141, 232, spaceshipTexture, worldMap[currentMap].mapCoordinates, 1, 0, false));
 
 			//Initialize Batteries

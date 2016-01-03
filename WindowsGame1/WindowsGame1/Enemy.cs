@@ -119,7 +119,7 @@ namespace Spaceman
 		{
 			if (alert)
 			{
-				if (destRect.X < Game1.screenWidth / 2) this.mirrorX = true;
+				if (destRect.X < (Game1.screenWidth / 2) + game.worldMap[game.currentMap].offset.X) this.mirrorX = true;
 				else this.mirrorX = false;
 			}
 		}
@@ -172,8 +172,8 @@ namespace Spaceman
 				this.sourceRect = new Rectangle(this.spriteWidth * this.frameNum, 0, this.texture.Width / numFrames, this.texture.Height);
 				if (nearScreen)
 				{
-					this.destRect.X = (int)(this.worldX - game.worldMap[game.currentMap].mapCoordinates.X);
-					this.destRect.Y = (int)(this.worldY - game.worldMap[game.currentMap].mapCoordinates.Y);
+					this.destRect.X = (int)(this.worldX - game.worldMap[game.currentMap].mapCoordinates.X + game.worldMap[game.currentMap].offset.X);
+					this.destRect.Y = (int)(this.worldY - game.worldMap[game.currentMap].mapCoordinates.Y + game.worldMap[game.currentMap].offset.Y);
 				}
 				GravityUpdate(game);
 		}

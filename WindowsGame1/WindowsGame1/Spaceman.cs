@@ -407,10 +407,10 @@ namespace Spaceman
         public void HandleKeys(Game1 game)
 		{
 			int testXVel = 0;
-			bool crouching = (newkeys.IsKeyDown(Game1.down) && !bodyStatus.state.Equals("fall"));
 			bool jumping = (IsKeyPressed(Game1.jump) && jumpsRemaining > 0);
 			bool holding = newkeys.IsKeyDown(Game1.hold);
-			Game1.Directions lookDir = LookDirection();
+            bool crouching = (newkeys.IsKeyDown(Game1.down) && !bodyStatus.state.Equals("fall") && !holding);
+            Game1.Directions lookDir = LookDirection();
 
 			if (jumping)
 			{
