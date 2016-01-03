@@ -47,3 +47,11 @@ Temporary Items
 .apdisk
 *.sav
 WindowsGame1/WindowsGame1/bin/x86/Debug/save1.sav
+WindowsGame1/WindowsGame1/obj/x86/Debug/Spaceman.csproj.FileListAbsolute.txt
+*.txt
+*.xml
+*.suo
+WindowsGame1/WindowsGame1/bin/x86/Debug/Spaceman.exe
+WindowsGame1/WindowsGame1/Game1.cs
+WindowsGame1/WindowsGame1/projectile.cs
+WindowsGame1/WindowsGame1/Game1.cs
