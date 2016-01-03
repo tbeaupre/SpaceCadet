@@ -425,9 +425,9 @@ namespace Spaceman
 				spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 				GraphicsDevice.Clear(new Color(0, 0, 0, 0));
 				DrawMap(worldMap[currentMap]);
-				if (worldMap[currentMap].GetWasJustActivated())
+				if (worldMap[currentMap].wasJustActivated)
 				{
-					this.worldMap[currentMap].SetWasJustActivated(false) ;
+					this.worldMap[currentMap].wasJustActivated = false;
 				}
 				else
 				{
@@ -891,7 +891,6 @@ namespace Spaceman
 
 		public void UpdateObjects()
 		{
-            UpdatePortals();
 			spaceMan.UpdateSprite(this);
 			guns.UpdateSprite();
 			worldMap[currentMap].UpdateMap(this);
@@ -900,6 +899,7 @@ namespace Spaceman
 			UpdateProjectiles(allyProjectiles);
 			UpdateProjectiles(enemyProjectiles);
 			UpdatePickUps();
+			UpdatePortals();
 			UpdateEnemies();
 		}
 
