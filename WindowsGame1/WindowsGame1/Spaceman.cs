@@ -94,7 +94,7 @@ namespace Spaceman
 			if (crouch)
 			{
 				currentBodyFrame = 0;
-			}
+		 	}
             if (bodyStatus.state.Equals("fall"))
             {
 				if (bodyStatus.duration == 0)

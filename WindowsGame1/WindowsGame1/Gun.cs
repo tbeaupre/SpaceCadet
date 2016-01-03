@@ -18,19 +18,21 @@ namespace Spaceman
 		public int bulletVel;
 		public int damage;
 		public int cooldown;
+        public Nullable<int> bulletLifeSpan;
 		public bool automatic;
 		public int barrelX;
 		public int barrelY;
 		public int angledBarrelX;
 		public int angledBarrelY;
 
-		public Gun(string name, bool unlocked, int bulletVel, int damage, int cooldown, bool automatic, int barrelX, int barrelY,int angledBarrelX,int angledBarrelY)
+		public Gun(string name, bool unlocked, int bulletVel, int damage, int cooldown, Nullable<int> bulletLifeSpan,bool automatic, int barrelX, int barrelY,int angledBarrelX,int angledBarrelY)
 		{
 			this.name = name;
 			this.unlocked = unlocked;
 			this.bulletVel = bulletVel;
 			this.damage = damage;
 			this.cooldown = cooldown;
+            this.bulletLifeSpan = bulletLifeSpan;
 			this.automatic = automatic;
 			this.barrelX = barrelX;
 			this.barrelY = barrelY;

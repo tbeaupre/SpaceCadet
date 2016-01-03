@@ -169,7 +169,7 @@ namespace Spaceman
 
 			graphics.PreferredBackBufferWidth = fullScreenWidth;
 			graphics.PreferredBackBufferHeight = fullScreenHeight;
-			//graphics.IsFullScreen = true;
+		    //graphics.IsFullScreen = true;
 
 			graphics.ApplyChanges();
 			Content.RootDirectory = "Content";
@@ -314,8 +314,9 @@ namespace Spaceman
 					false,						// unlocked
 					5,							// bullet velocity
 					10,							// damage
-					0,							// cooldown
-					false,						// automatic
+					0,                          // cooldown
+                    null,                       // projectile lifespan
+                    false,						// automatic
 					13,							// barrel X
 					8,							// barrel Y
 					7,							// angled barrel X
@@ -323,15 +324,15 @@ namespace Spaceman
 				);
 
 			arsenal.Add(
-				new Gun("Flouroantimonic Shotgun", false, 5, 20, 15, false, 16, 8, 10, 6)
+				new Gun("Flouroantimonic Shotgun", false, 5, 20, 15, 15, false, 16, 8, 10, 6)
 				);
 
 			arsenal.Add(
-				new Gun("IT-6.7 Rail Gun", false, 5, 50, 5, false, 14, 8, 9, 9)
+				new Gun("IT-6.7 Rail Gun", false, 5, 50, 5, null, false, 14, 8, 9, 9)
 				);
 
 			arsenal.Add(
-				new Gun("Magmatorque Nail-Gun", false, 6, 10, 7, true, 18, 7,10,6)
+				new Gun("Magmatorque Nail-Gun", false, 6, 10, 7, null, true, 18, 7,10,6)
 				);
 
 			UnlockGun(Guns.Pistol);
@@ -657,6 +658,7 @@ namespace Spaceman
 				FindBulletXVel(origin.direction, current.bulletVel),
 				FindBulletYVel(origin.direction, current.bulletVel),
 				0,
+                current.bulletLifeSpan,
 				FindBulletTexture(origin.direction),
 				4,
 				guns.frameNum,
@@ -867,6 +869,7 @@ namespace Spaceman
 				origin.projectileData.xVel * (origin.mirrorX ? 1 : -1),
 				origin.projectileData.yVel,
 				origin.projectileData.yAcc,
+                null,
 				origin.projectileData.texture,
 				origin.projectileData.numFrames,
 				origin.projectileData.frameNum,
@@ -1020,7 +1023,15 @@ namespace Spaceman
 			{
 				bool draw = true;
 				bool delete = false;
-				projectiles[i].worldX += projectiles[i].xVel;
+                if (projectiles[i].lifeSpan != null)
+                {
+                    projectiles[i].lifeSpan--;
+                    if (projectiles[i].lifeSpan <= 0)
+                    {
+                        delete = true;
+                    }
+                }
+                projectiles[i].worldX += projectiles[i].xVel;
 				projectiles[i].worldY += projectiles[i].yVel;
 				projectiles[i].yVel += projectiles[i].yAcc;
 				projectiles[i].UpdateSprite(worldMap[currentMap]);
