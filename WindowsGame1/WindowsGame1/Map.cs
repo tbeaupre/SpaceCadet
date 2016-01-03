@@ -11,94 +11,106 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Spaceman
 {
-	public class Map
-	{
-		public Texture2D hitbox;
+    public class Map
+    {
+        public Texture2D hitbox;
         public Texture2D background;
         public Texture2D foreground;
-		public bool active;
-		public List<Portal> portals;
-		public List<Door> doors;
-		public Vector2 mapCoordinates;
+        public bool active;
+        public List<Portal> portals;
+        public List<Door> doors;
+        public Vector2 mapCoordinates;
         public Vector2 offset;
-		public int parallaxFactor;
-		public List<PickUp> pickUps = new List<PickUp>();
-		public List<Enemy> enemies = new List<Enemy>();
-		public List<Object> objectsToDraw = new List<Object>();
-		public List<Spawn> spawns = new List<Spawn>();
-		public List<MapAsset> assets = new List<MapAsset>();
-		public List<IMapItem> mapItems = new List<IMapItem>();
-		public bool wasJustActivated = false;
-		public SaveStation saveStation = null;
+        public int parallaxFactor;
+        public List<PickUp> pickUps = new List<PickUp>();
+        public List<Enemy> enemies = new List<Enemy>();
+        public List<Object> objectsToDraw = new List<Object>();
+        public List<Spawn> spawns = new List<Spawn>();
+        public List<MapAsset> assets = new List<MapAsset>();
+        public List<IMapItem> mapItems = new List<IMapItem>();
+        private bool wasJustActivated = false;
+        public SaveStation saveStation = null;
 
-		public Map(MapResource resource, int parallaxFactor)
-		{
+        public Map(MapResource resource, int parallaxFactor)
+        {
             this.hitbox = resource.hitbox;
             this.background = resource.background;
             this.foreground = resource.foreground;
-			this.active = false;
-			this.portals = new List<Portal>();
-			this.doors = new List<Door>();
-			this.mapCoordinates = new Vector2(0, 0);
-			this.parallaxFactor = parallaxFactor;
-		}
+            this.active = false;
+            this.portals = new List<Portal>();
+            this.doors = new List<Door>();
+            this.mapCoordinates = new Vector2(0, 0);
+            this.parallaxFactor = parallaxFactor;
+        }
 
-		public Map() { }
+        public bool GetWasJustActivated()
+        {
+            return wasJustActivated;
+        }
+        public void SetWasJustActivated(bool set)
+        {
+            wasJustActivated = set;
+        }
 
-		public void InitializeMap(List<IMapItem> items)
-		{
-			foreach (IMapItem item in items)
-			{
-				switch (item.GetType()) {
-					case "MapItem": this.mapItems.Add(item);
-						break;
-					default: this.mapItems.Add(item);
-						break;
-				}
-			}
-		}
+        public Map() { }
 
-		public void UpdateMap(Game1 game)
-		{
-			foreach (IMapItem item in mapItems)
-			{
-				item.UpdateSprite(game);
-			}
-		}
+        public void InitializeMap(List<IMapItem> items)
+        {
+            foreach (IMapItem item in items)
+            {
+                switch (item.GetType())
+                {
+                    case "MapItem":
+                        this.mapItems.Add(item);
+                        break;
+                    default:
+                        this.mapItems.Add(item);
+                        break;
+                }
+            }
+        }
 
-		public void AddDoor(Door d)
-		{
-			this.doors.Add(d);
-		}
+        public void UpdateMap(Game1 game)
+        {
+            foreach (IMapItem item in mapItems)
+            {
+                item.UpdateSprite(game);
+            }
+        }
 
-		public void AddPortal(Portal p)
-		{
-			this.portals.Add(p);
-			this.doors.Add(p.door1);
-			this.doors.Add(p.door2);
-		}
+        public void AddDoor(Door d)
+        {
+            this.doors.Add(d);
+        }
 
-		public void ActivateMap(Door door, Game1 game)
-		{
-			if (door.isLeft)
-			{
-				SetCoordinates((float)door.worldX - Game1.screenWidth / 2 + game.spaceMan.spriteWidth - 1, (float)door.worldY - Game1.screenHeight / 2 + game.spaceMan.spriteHeight + 7);
-			}
-			else
-			{
+        public void AddPortal(Portal p)
+        {
+            this.portals.Add(p);
+            this.doors.Add(p.door1);
+            this.doors.Add(p.door2);
+        }
+
+        public void ActivateMap(Door door, Game1 game)
+        {
+            if (door.isLeft)
+            {
+                SetCoordinates((float)door.worldX - Game1.screenWidth / 2 + game.spaceMan.spriteWidth - 1, (float)door.worldY - Game1.screenHeight / 2 + game.spaceMan.spriteHeight + 7);
+            }
+            else
+            {
                 SetCoordinates((float)door.worldX - Game1.screenWidth / 2 + door.spriteWidth - game.spaceMan.spriteWidth + 1, (float)door.worldY - Game1.screenHeight / 2 + game.spaceMan.spriteHeight + 7);
-			}
+            }
             OffsetCheck();
-			this.objectsToDraw.Clear();
-			this.active = true;
-			this.wasJustActivated = true;
-		}
+            this.objectsToDraw.Clear();
+            this.active = true;
+            SetWasJustActivated(true);
+        }
 
-		public void SetCoordinates(float X, float Y)
-		{
-			this.mapCoordinates.X = X;
-			this.mapCoordinates.Y = Y;
-		}
+        public void SetCoordinates(float X, float Y)
+        {
+            this.mapCoordinates.X = X;
+            this.mapCoordinates.Y = Y;
+        }
 
         public void ChangeCoords(float X, float Y)
         {
@@ -127,7 +139,7 @@ namespace Spaceman
             }
             else
             {
-                if (this.mapCoordinates.Y< 0)
+                if (this.mapCoordinates.Y < 0)
                 {
                     this.offset.Y = this.mapCoordinates.Y;
                 }
@@ -135,10 +147,10 @@ namespace Spaceman
             }
         }
 
-		public void DeactivateMap(Game1 game)
-		{
-			this.active = false;
-			this.objectsToDraw.Clear();
-		}
-	}
+        public void DeactivateMap(Game1 game)
+        {
+            this.active = false;
+            this.objectsToDraw.Clear();
+        }
+    }
 }
