@@ -69,9 +69,9 @@ namespace Spaceman
 
 		public override bool PerPixelCollisionDetect(Game1 game)
 		{
-			Rectangle rect = new Rectangle(this.destRect.X - game.spaceMan.destRect.X + 2, this.destRect.Y - game.spaceMan.destRect.Y + 1, this.spriteWidth, this.spriteHeight);
+			Rectangle rect = new Rectangle(this.destRect.X - game.player.destRect.X + 2, this.destRect.Y - game.player.destRect.Y + 1, this.spriteWidth, this.spriteHeight);
 
-			Texture2D projTexture = game.spaceMan.texture;
+			Texture2D projTexture = game.player.texture;
 			Texture2D hitBoxTexture = this.hitbox;
 
 			Color[] objectPixels;
@@ -81,7 +81,7 @@ namespace Spaceman
 
 			//initial tests to see if the box is even applicable to the object texure being checked
 			if (rect.X + rect.Width <= 0 || rect.Y + rect.Height <= 0) return false;
-			if (rect.X >= game.spaceMan.spriteWidth - 4 || rect.Y >= game.spaceMan.spriteHeight - 1) return false;
+			if (rect.X >= game.player.spriteWidth - 4 || rect.Y >= game.player.spriteHeight - 1) return false;
 
 			if (rect.X < 0)
 			{
@@ -101,7 +101,7 @@ namespace Spaceman
 
 			for (int i = 0; i <= objRect.Width; i++)
 			{
-				if (objRect.X + i == game.spaceMan.spriteWidth - 4)
+				if (objRect.X + i == game.player.spriteWidth - 4)
 				{
 					objRect.Width = i;
 					projRect.Width = objRect.Width;
@@ -110,7 +110,7 @@ namespace Spaceman
 			}
 			for (int i = 0; i <= objRect.Height; i++)
 			{
-				if (objRect.Y + i == game.spaceMan.spriteHeight - 1)
+				if (objRect.Y + i == game.player.spriteHeight - 1)
 				{
 					objRect.Height = i;
 					projRect.Height = objRect.Height;

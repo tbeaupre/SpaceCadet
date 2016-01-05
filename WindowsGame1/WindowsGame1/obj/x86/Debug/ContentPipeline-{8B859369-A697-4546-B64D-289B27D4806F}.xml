@@ -26,7 +26,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns.xnb</Output>
-      <Time>2016-01-02T22:30:32.6082275-05:00</Time>
+      <Time>2016-01-05T15:16:03.8847976-05:00</Time>
     </Item>
     <Item>
       <Source>Bullets.png</Source>
@@ -152,7 +152,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns Angle.xnb</Output>
-      <Time>2016-01-02T22:30:32.6002218-05:00</Time>
+      <Time>2016-01-05T15:36:57.7232381-05:00</Time>
     </Item>
     <Item>
       <Source>Guns Angle2.png</Source>
@@ -161,7 +161,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns Angle2.xnb</Output>
-      <Time>2016-01-02T22:30:32.6072268-05:00</Time>
+      <Time>2016-01-05T15:39:37.8526932-05:00</Time>
     </Item>
     <Item>
       <Source>Bullets Angled.png</Source>

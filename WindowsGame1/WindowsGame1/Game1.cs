@@ -23,7 +23,7 @@ namespace Spaceman
 		public enum EnemyNames { BioSnail };
 		public enum Directions { left, upLeft, up, upRight, right, downRight, down, downLeft };
 		public enum PowerUps { NULL, BoostJump};
-		public enum Guns { Pistol, Shotgun, Railgun, MachineGun };
+		public enum Guns { Pistol, Shotgun, Railgun, MachineGun, BumbleGun };
 
 		public int currentRoom;
 
@@ -66,7 +66,7 @@ namespace Spaceman
 
 		public RenderTarget2D lowRes;
 
-		public Spaceman spaceMan;
+		public Spaceman player;
 		Texture2D spaceManHeadTexture;
 		Texture2D spaceManBodyTexture;
 
@@ -208,20 +208,20 @@ namespace Spaceman
 			spaceManTexture = this.Content.Load<Texture2D>("Spaceman");
 			spaceManHeadTexture = this.Content.Load<Texture2D>("Spaceman Heads");
 			spaceManBodyTexture = this.Content.Load<Texture2D>("Spaceman Body");
-			spaceMan = new Spaceman(spaceManBodyTexture,
+			player = new Spaceman(spaceManBodyTexture,
 				spaceManHeadTexture,
 				new Vector2(spaceManX, spaceManY),
 				13,
 				1,
 				false);
-			characterSprites.Add(spaceMan);
+			characterSprites.Add(player);
 
 			gunsTexture = this.Content.Load<Texture2D>("Guns");
 			gunsAngleUpTexture = this.Content.Load<Texture2D>("Guns Angle");
 			gunsAngleDownTexture = this.Content.Load<Texture2D>("Guns Angle2");
-			guns = new GunOverlay(spaceMan, gunsAngleUpTexture, gunsAngleDownTexture, gunsTexture,
+			guns = new GunOverlay(player, gunsAngleUpTexture, gunsAngleDownTexture, gunsTexture,
 				new Vector2(spaceManX, spaceManY),
-				4,
+				5,
 				0,
 				1,
 				false,
@@ -325,7 +325,8 @@ namespace Spaceman
 
 			#region Initialize Guns
 			arsenal.Add(
-				new Gun("G-32_C Phazer Pistol", // name
+				new Gun(
+                    "G-32_C Phazer Pistol",     // name
 					false,						// unlocked
 					5,							// bullet velocity
 					10,							// damage
@@ -335,8 +336,9 @@ namespace Spaceman
 					13,							// barrel X
 					8,							// barrel Y
 					7,							// angled barrel X
-					8)							// angled barrel Y
-				);
+					8							// angled barrel Y
+			    	)
+                );
 
 			arsenal.Add(
 				new Gun("Flouroantimonic Shotgun", false, 5, 20, 15, 15, false, 16, 8, 10, 6)
@@ -350,10 +352,15 @@ namespace Spaceman
 				new Gun("Magmatorque Nail-Gun", false, 6, 10, 7, null, true, 18, 7,10,6)
 				);
 
-			UnlockGun(Guns.Pistol);
+            arsenal.Add(
+                new Gun("Symbionic Hive-Oscilator", false, 3, 20, 5, null, true, 14, 8, 10, 5)
+                );
+
+            UnlockGun(Guns.Pistol);
 			UnlockGun(Guns.Shotgun);
 			UnlockGun(Guns.Railgun);
 			UnlockGun(Guns.MachineGun);
+            UnlockGun(Guns.BumbleGun);
 			#endregion
 
 			boostJump = new BoostJump(boostJumpTexture);
@@ -446,7 +453,7 @@ namespace Spaceman
 				}
 				else
 				{
-					DrawSprite(spaceMan, 0.6f);
+					DrawSprite(player, 0.6f);
 					DrawSprite(guns, 0.5f);
 					DrawOverlay(boostJump, 0.5f);
 				}
@@ -642,7 +649,7 @@ namespace Spaceman
 
 		void HelpNext()
 		{
-			currentGun++;
+			currentGun++; // gets the next gun index
 			if (currentGun == arsenal.Count)
 			{
 				currentGun = 0;
@@ -651,7 +658,7 @@ namespace Spaceman
 
 		public void RefreshGunCooldown()
 		{
-			spaceMan.SetGunCooldown(arsenal[currentGun].cooldown);
+			player.SetGunCooldown(arsenal[currentGun].cooldown);
 		}
 
 		#region CreateProjectile
@@ -907,7 +914,7 @@ namespace Spaceman
 		public void UpdateObjects()
 		{
             UpdatePortals();
-            spaceMan.UpdateSprite(this);
+            player.UpdateSprite(this);
 			guns.UpdateSprite();
 			worldMap[currentRoom].UpdateMap(this);
 			UpdateMapAssets();
@@ -971,11 +978,11 @@ namespace Spaceman
 
 					if (current[i].status.state.Equals("die") == false)
 					{
-						if (current[i].PerPixelCollisionDetect(spaceMan,this) > 0)
+						if (current[i].PerPixelCollisionDetect(player,this) > 0)
 						{
-							if (spaceMan.status.state != "hit")
+							if (player.status.state != "hit")
 							{
-								spaceMan.status = new Status("hit", RECOVERY_TIME);
+								player.status = new Status("hit", RECOVERY_TIME);
 								TakeDamage(5);
 							}
 						}
@@ -983,7 +990,7 @@ namespace Spaceman
 						for (int j = currentProjectiles.Count - 1; j >= 0; j--)
 						{
 							int result = current[i].PerPixelCollisionDetect(currentProjectiles[j],this);
-							if (result > 0 && currentProjectiles[j].origin == spaceMan)
+							if (result > 0 && currentProjectiles[j].origin == player)
 							{
 								if (result == 2)
 								{
@@ -1085,7 +1092,7 @@ namespace Spaceman
 			SetStandardAttributes();
 			if (pUps.Contains(PowerUps.BoostJump))
 			{
-				spaceMan.SetMaxJumps(2);
+				player.SetMaxJumps(2);
 			}
 		}
 
@@ -1095,7 +1102,7 @@ namespace Spaceman
 			gravity = .25;
 			terminalVel = 9;
 			jumpSpeed = -5;
-			spaceMan.SetMaxJumps(1);
+			player.SetMaxJumps(1);
 			maxEnergy = 100;
 			energyRecoveryRate = .15;
 			maxHealth = 100;
@@ -1116,7 +1123,7 @@ namespace Spaceman
 				else if (obj is Projectile)
 				{
 					Projectile projectile = (Projectile)obj;
-					if (projectile.origin == spaceMan)
+					if (projectile.origin == player)
 					{
 						DrawAllyProjectile(projectile, 0.7f);
 					}
@@ -1218,7 +1225,7 @@ namespace Spaceman
 
 		public void UpdateEnergy()
 		{
-			if (!spaceMan.status.state.Equals("hit") || (spaceMan.status.state.Equals("hit") && spaceMan.status.duration == 0))
+			if (!player.status.state.Equals("hit") || (player.status.state.Equals("hit") && player.status.duration == 0))
 			{
 				AddEnergy(energyRecoveryRate);
 			}
@@ -1276,9 +1283,9 @@ namespace Spaceman
 
 		public void TakeDamage(int amount)
 		{
-			if (!spaceMan.status.state.Equals("hit") || (spaceMan.status.state.Equals("hit") && spaceMan.status.duration == 0))
+			if (!player.status.state.Equals("hit") || (player.status.state.Equals("hit") && player.status.duration == 0))
 			{
-				spaceMan.status = new Status("hit", spaceMan.HIT_DURATION * spaceMan.FRAME_OFFSET);
+				player.status = new Status("hit", player.HIT_DURATION * player.FRAME_OFFSET);
 				currentEnergy -= amount;
 				if (currentEnergy < 0)
 				{
@@ -1306,7 +1313,11 @@ namespace Spaceman
 					case Guns.Railgun:
 						arsenal[2].unlocked = true;
 						break;
-					default:
+                    case Guns.BumbleGun:
+                        arsenal[4].unlocked = true;
+                        unlockedGuns.Add(gun);
+                        break;
+                    default:
 						arsenal[3].unlocked = true;
 						break;
 				}

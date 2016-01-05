@@ -79,7 +79,7 @@ namespace Spaceman
 
 		public Rectangle getDestRect(Game1 game)
 		{
-			return new Rectangle(game.spaceMan.destRect.X, game.spaceMan.destRect.Y, spriteWidth, texture.Height);
+			return new Rectangle(game.player.destRect.X, game.player.destRect.Y, spriteWidth, texture.Height);
 		}
 
 		public Rectangle getSourceRect(Game1 game)
@@ -89,7 +89,7 @@ namespace Spaceman
 
 		public bool getMirrorX(Game1 game)
 		{
-			return game.spaceMan.mirrorX;
+			return game.player.mirrorX;
 		}
 
 		public void reset()
