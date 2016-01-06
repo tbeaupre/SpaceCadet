@@ -91,11 +91,11 @@ namespace Spaceman
 		{
 			if (door.isLeft)
 			{
-				SetCoordinates((float)door.worldX - Game1.screenWidth / 2 + game.spaceMan.spriteWidth - 1, (float)door.worldY - Game1.screenHeight / 2 + game.spaceMan.spriteHeight + 7);
+				SetCoordinates((float)door.worldX - Game1.screenWidth / 2 + game.player.spriteWidth - 1, (float)door.worldY - Game1.screenHeight / 2 + game.player.spriteHeight + 7);
 			}
 			else
 			{
-                SetCoordinates((float)door.worldX - Game1.screenWidth / 2 + door.spriteWidth - game.spaceMan.spriteWidth + 1, (float)door.worldY - Game1.screenHeight / 2 + game.spaceMan.spriteHeight + 7);
+                SetCoordinates((float)door.worldX - Game1.screenWidth / 2 + door.spriteWidth - game.player.spriteWidth + 1, (float)door.worldY - Game1.screenHeight / 2 + game.player.spriteHeight + 7);
 			}
             OffsetCheck();
 			this.objectsToDraw.Clear();
