@@ -35,7 +35,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets.xnb</Output>
-      <Time>2016-01-02T22:30:32.4791356-05:00</Time>
+      <Time>2016-01-06T14:28:49.5511106-05:00</Time>
     </Item>
     <Item>
       <Source>PickUps\Battery.png</Source>
@@ -170,7 +170,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets Angled.xnb</Output>
-      <Time>2016-01-02T22:30:32.4771342-05:00</Time>
+      <Time>2016-01-06T14:28:49.5391021-05:00</Time>
     </Item>
     <Item>
       <Source>Doors\Door.png</Source>

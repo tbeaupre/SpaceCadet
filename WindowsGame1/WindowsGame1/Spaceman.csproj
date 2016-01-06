@@ -105,6 +105,8 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Spaceman.cs" />
     <Compile Include="Spawn.cs" />
+    <Compile Include="ActionStates.cs" />
+    <Compile Include="ActionStatus.cs" />
     <Compile Include="Status.cs" />
   </ItemGroup>
   <ItemGroup>

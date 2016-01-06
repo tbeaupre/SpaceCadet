@@ -21,16 +21,23 @@ namespace Spaceman
         public Nullable<int> lifeSpan;
 		public int damage;
 		public Sprite origin;
-		public Game1.Directions direction;
+        public Game1.Directions direction;
 
-		public Projectile(Game1.Directions direction, Sprite origin, Vector2 mapCoordinates, int damage, double worldX, double worldY, double xVel, double yVel, double yAcc, Nullable<int> lifeSpan, Texture2D texture, int numFrames, int frameNum, bool mirrorX)
-			: base(worldX, worldY, texture, new Vector2((float)worldX - mapCoordinates.X, (float)worldY - mapCoordinates.Y), numFrames, frameNum, mirrorX)
-		{
-			this.origin = origin;
-            		this.lifeSpan = lifeSpan;
-			this.xVel = xVel;
-			this.yVel = yVel;
-			this.yAcc = yAcc;
+        public Projectile(Game1.Directions direction, Sprite origin, Vector2 mapCoordinates, int damage, double worldX, double worldY, double xVel, double yVel, double yAcc, Nullable<int> lifeSpan, Texture2D texture, int numFrames, int frameNum, bool mirrorX, bool sinusoidal)
+            : base(worldX, worldY, texture, new Vector2((float)worldX - mapCoordinates.X, (float)worldY - mapCoordinates.Y), numFrames, frameNum, mirrorX)
+        {
+            this.origin = origin;
+            this.lifeSpan = lifeSpan;
+            this.xVel = xVel;
+            if (sinusoidal)
+            {
+                this.yVel = Math.Sin(destRect.X);
+            }
+            else
+            {
+                this.yVel = yVel;
+            }
+            this.yAcc = yAcc;
 			this.damage = damage;
 			this.direction = direction;
 		}

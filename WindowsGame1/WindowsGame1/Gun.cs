@@ -24,8 +24,9 @@ namespace Spaceman
 		public int barrelY;
 		public int angledBarrelX;
 		public int angledBarrelY;
+        private bool sinusoidal;
 
-		public Gun(string name, bool unlocked, int bulletVel, int damage, int cooldown, Nullable<int> bulletLifeSpan,bool automatic, int barrelX, int barrelY,int angledBarrelX,int angledBarrelY)
+		public Gun(string name, bool unlocked, int bulletVel, int damage, int cooldown, Nullable<int> bulletLifeSpan,bool automatic, int barrelX, int barrelY,int angledBarrelX,int angledBarrelY, bool sinusoidal)
 		{
 			this.name = name;
 			this.unlocked = unlocked;
@@ -38,7 +39,12 @@ namespace Spaceman
 			this.barrelY = barrelY;
 			this.angledBarrelX = angledBarrelX;
 			this.angledBarrelY = angledBarrelY;
+            this.sinusoidal = sinusoidal;
 		}
 
+        public bool isSinusoidal()
+        {
+            return sinusoidal;
+        }
 	}
 }

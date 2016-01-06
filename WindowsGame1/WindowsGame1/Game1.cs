@@ -336,24 +336,25 @@ namespace Spaceman
 					13,							// barrel X
 					8,							// barrel Y
 					7,							// angled barrel X
-					8							// angled barrel Y
+					8,							// angled barrel Y
+                    false                       // sinusoidal
 			    	)
                 );
 
 			arsenal.Add(
-				new Gun("Flouroantimonic Shotgun", false, 5, 20, 15, 15, false, 16, 8, 10, 6)
+				new Gun("Flouroantimonic Shotgun", false, 5, 20, 15, 15, false, 16, 8, 10, 6,false)
 				);
 
 			arsenal.Add(
-				new Gun("IT-6.7 Rail Gun", false, 5, 50, 5, null, false, 14, 8, 9, 9)
+				new Gun("IT-6.7 Rail Gun", false, 5, 50, 5, null, false, 14, 8, 9, 9,false)
 				);
 
 			arsenal.Add(
-				new Gun("Magmatorque Nail-Gun", false, 6, 10, 7, null, true, 18, 7,10,6)
+				new Gun("Magmatorque Nail-Gun", false, 6, 10, 7, null, true, 18, 7,10,6,false)
 				);
 
             arsenal.Add(
-                new Gun("Symbionic Hive-Oscilator", false, 3, 20, 5, null, true, 14, 8, 10, 5)
+                new Gun("Symbionic Hive-Oscilator", false, 1, 20, 5, null, false, 14, 8, 10, 5,true)
                 );
 
             UnlockGun(Guns.Pistol);
@@ -682,9 +683,10 @@ namespace Spaceman
 				0,
                 current.bulletLifeSpan,
 				FindBulletTexture(origin.direction),
-				4,
+				5,
 				guns.frameNum,
-				guns.mirrorX)
+				guns.mirrorX,
+                current.isSinusoidal())
 				);
 		}
 
@@ -895,7 +897,8 @@ namespace Spaceman
 				origin.projectileData.texture,
 				origin.projectileData.numFrames,
 				origin.projectileData.frameNum,
-				!origin.mirrorX)
+				!origin.mirrorX,
+                false)
 				);
 		}
 #endregion
