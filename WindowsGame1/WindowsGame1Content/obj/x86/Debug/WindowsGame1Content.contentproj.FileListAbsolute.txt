@@ -2,3 +2,4 @@ C:\Users\tbopes\Documents\Visual Studio 2010\Projects\WindowsGame1\WindowsGame1\
 C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadet\WindowsGame1\WindowsGame1Content\obj\x86\Debug\WindowsGame1Content.contentprojResolveAssemblyReference.cache
 C:\Users\tbopes\Documents\Visual Studio 2010\Projects\SpaceCadetWorkingCopy\WindowsGame1\WindowsGame1Content\obj\x86\Debug\WindowsGame1Content.contentprojResolveAssemblyReference.cache
 C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1Content\obj\x86\Debug\WindowsGame1Content.contentprojResolveAssemblyReference.cache
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1Content\obj\x86\Debug\WindowsGame1Content.contentprojResolveAssemblyReference.cache

@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Spaceman
 {
-	public class Status
+	public class ActionStatus
 	{
-		public string state;
+		public ActionStates state;
 		public int duration;
 
-		public Status(string state, int duration)
+		public ActionStatus(ActionStates state, int duration)
 		{
 			this.state = state;
 			this.duration = duration;

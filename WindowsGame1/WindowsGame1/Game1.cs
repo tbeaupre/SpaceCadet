@@ -46,7 +46,7 @@ namespace Spaceman
 
 		const int FRAME_OFFSET = 5;
 		public double moveSpeed;
-        private double directionInfluence = .1;
+        private double directionInfluence;
 		public double gravity;
 		public int terminalVel;
 		public double jumpSpeed;
@@ -1092,6 +1092,7 @@ namespace Spaceman
 		public void SetStandardAttributes()
 		{
 			moveSpeed = 2.3;
+            directionInfluence = moveSpeed / 3;
 			gravity = .25;
 			terminalVel = 9;
 			jumpSpeed = -5;

@@ -165,3 +165,62 @@ C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\obj\x
 C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\obj\x86\Debug\Spaceman.exe
 C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\obj\x86\Debug\Spaceman.pdb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Spaceman.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\TestMapResized.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\PickUps\Battery.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\HUD\EnergyBar.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\HUD\HealthBar.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\HUD\HealthBarOverlay2.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\PickUps\HealthPickups.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Enemies\BioSoldier.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Enemies\Bio-Snail\Bio-Snail Hitbox.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Enemies\Bio-Snail\Bio-Snail Vulnerable.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Enemies\Bio-Snail\Bio-Snail.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Enemies\Bio-Snail\Bio-Snail Projectile.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Spaceman Body.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Spaceman Heads.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns Angle.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns Angle2.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets Angled.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Doors\Door.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Doors\DoorHitbox.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Doors\DoorHitbox2.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\Backgrounds\Background1.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\Foregrounds\Foreground1.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\Hitboxes\Hitbox1.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\Hitboxes\Hitbox2.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\OtherAssets\Spaceship.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\MainMenu.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\StartMenuItem.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\OptionsMenuItem.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\PickUps\DNAPickup.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\Backgrounds\Background3.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\Backgrounds\Background2.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\Hitboxes\Hitbox3.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Doors\Door2.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Doors\DoorHitbox3.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\SaveStation.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\AlterSuitMenuItem.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\SaveMenuItem.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\SaveStationMenu.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\LoadMenuItem.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\NewMenuItem.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Boost Jump.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Spaceman.exe
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Spaceman.pdb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.dll
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.Game.dll
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.GamerServices.dll
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.Graphics.dll
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.Input.Touch.dll
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.xml
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.Game.xml
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.Graphics.xml
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.GamerServices.xml
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.Input.Touch.xml
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\obj\x86\Debug\Spaceman.csprojResolveAssemblyReference.cache
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\obj\x86\Debug\Spaceman.exe
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\obj\x86\Debug\Spaceman.pdb
