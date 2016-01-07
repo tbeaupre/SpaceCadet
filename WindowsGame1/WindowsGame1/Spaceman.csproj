@@ -75,10 +75,11 @@
     <Compile Include="Battery.cs" />
     <Compile Include="BoostJump.cs" />
     <Compile Include="CharOverlay.cs" />
-    <Compile Include="EnemyNames.cs" />
-    <Compile Include="StandardProjectile.cs" />
+    <Compile Include="DirectionsEnum.cs" />
+    <Compile Include="EnemyNamesEnum.cs" />
     <Compile Include="GunOverlay.cs" />
     <Compile Include="BioSnail.cs" />
+    <Compile Include="GunsEnum.cs" />
     <Compile Include="HealthPickupData.cs" />
     <Compile Include="Door.cs" />
     <Compile Include="Enemy.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="PickUp.cs" />
     <Compile Include="Portal.cs" />
     <Compile Include="PowerUpManager.cs" />
+    <Compile Include="PowerupsEnum.cs" />
     <Compile Include="Projectile.cs" />
     <Compile Include="SaveData.cs" />
     <Compile Include="SaveStation.cs" />

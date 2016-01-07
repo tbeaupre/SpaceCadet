@@ -16,9 +16,9 @@ namespace Spaceman
 		public string name;
 		public bool unlocked;
 		public int bulletVel;
-		public int damage;
+		private int damage;
 		public int cooldown;
-        public Nullable<int> bulletLifeSpan;
+        private int bulletLifeSpan;
 		public bool automatic;
 		public int barrelX;
 		public int barrelY;
@@ -26,7 +26,7 @@ namespace Spaceman
 		public int angledBarrelY;
         private bool sinusoidal;
 
-		public Gun(string name, bool unlocked, int bulletVel, int damage, int cooldown, Nullable<int> bulletLifeSpan,bool automatic, int barrelX, int barrelY,int angledBarrelX,int angledBarrelY, bool sinusoidal)
+		public Gun(string name, bool unlocked, int bulletVel, int damage, int cooldown, int bulletLifeSpan,bool automatic, int barrelX, int barrelY,int angledBarrelX,int angledBarrelY, bool sinusoidal)
 		{
 			this.name = name;
 			this.unlocked = unlocked;
@@ -46,5 +46,15 @@ namespace Spaceman
         {
             return sinusoidal;
         }
-	}
+
+        public int GetDamage()
+        {
+            return damage;
+        }
+
+        public int GetBulletLifeSpan()
+        {
+            return bulletLifeSpan;
+        }
+    }
 }

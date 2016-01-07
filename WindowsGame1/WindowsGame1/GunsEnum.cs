@@ -5,8 +5,12 @@ using System.Text;
 
 namespace Spaceman
 {
-    enum EnemyNames
+    public enum Guns
     {
-        BioSnail
+        Pistol,
+        Shotgun,
+        Railgun,
+        MachineGun,
+        BumbleGun
     };
 }

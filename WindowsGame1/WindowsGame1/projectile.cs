@@ -21,9 +21,9 @@ namespace Spaceman
         public Nullable<int> lifeSpan;
 		public int damage;
 		public Sprite origin;
-        public Game1.Directions direction;
+        public Directions direction;
 
-        public Projectile(Game1.Directions direction, Sprite origin, Vector2 mapCoordinates, int damage, double worldX, double worldY, double xVel, double yVel, double yAcc, Nullable<int> lifeSpan, Texture2D texture, int numFrames, int frameNum, bool mirrorX, bool sinusoidal)
+        public Projectile(Directions direction, Sprite origin, Vector2 mapCoordinates, int damage, double worldX, double worldY, double xVel, double yVel, double yAcc, Nullable<int> lifeSpan, Texture2D texture, int numFrames, int frameNum, bool mirrorX, bool sinusoidal)
             : base(worldX, worldY, texture, new Vector2((float)worldX - mapCoordinates.X, (float)worldY - mapCoordinates.Y), numFrames, frameNum, mirrorX)
         {
             this.origin = origin;

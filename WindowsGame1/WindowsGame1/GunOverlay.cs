@@ -35,13 +35,13 @@ namespace Spaceman
 			this.mirrorX = baseSprite.mirrorX;
 			switch (baseSprite.direction) // 1 = left, 2 = upLeft, 3 = up, 4 = upRight, 5 = right, 6 = down
 			{
-				case Game1.Directions.upLeft:
+				case Directions.upLeft:
 					texture = angleUpTexture;
 					angle = 0;
 					xOffset = -3;
 					yOffset = -7;
 					break;
-				case Game1.Directions.up:
+				case Directions.up:
 					angle = (float)Math.PI / 2;
 					texture = flatTexture;
 					if (mirrorX)
@@ -55,13 +55,13 @@ namespace Spaceman
 						yOffset = 12;
 					}
 					break;
-				case Game1.Directions.upRight:
+				case Directions.upRight:
 					texture = angleUpTexture;
 					angle = 0;
 					xOffset = 3;
 					yOffset = -7;
 					break;
-				case Game1.Directions.down:
+				case Directions.down:
 					angle = -(float)Math.PI / 2;
 					texture = flatTexture;
 					if (mirrorX)
@@ -75,13 +75,13 @@ namespace Spaceman
 						yOffset = 4;
 					}
 					break;
-				case Game1.Directions.downLeft:
+				case Directions.downLeft:
 					angle = -(float)Math.PI / 2;
 					texture = angleDownTexture;
 					xOffset = -1;
 					yOffset = 26;
 					break;
-				case Game1.Directions.downRight:
+				case Directions.downRight:
 					angle = -(float)Math.PI / 2;
 					texture = angleDownTexture;
 					xOffset = 20;
@@ -120,5 +120,15 @@ namespace Spaceman
 				else this.destRect.X = this.baseSprite.destRect.X - (this.spriteWidth - this.baseSprite.spriteWidth);
 			}
 		}
-	}
+
+        public int GetFrameNum()
+        {
+            return frameNum;
+        }
+
+        public bool isMirrorX()
+        {
+            return mirrorX;
+        }
+    }
 }
