@@ -30,8 +30,8 @@ namespace Spaceman
 		public List<Projectile> enemyProjectiles = new List<Projectile>();
 		public List<Projectile> allyProjectiles = new List<Projectile>();
 
-		public List<Sprite> characterSprites = new List<Sprite>();
-		public List<Gun> arsenal = new List<Gun>();
+		public List<ISprite> characterSprites = new List<ISprite>();
+		public List<GunData> arsenal = new List<GunData>();
 		public List<Guns> unlockedGuns = new List<Guns>();
 		public Map[] worldMap;
 
@@ -51,8 +51,6 @@ namespace Spaceman
 		public int terminalVel;
 		public double jumpSpeed;
 		const int RECOVERY_TIME = 10;
-		//public int maxJumps;
-		//public int jumpsRemaining = 1;
 
 		public KeyboardState newkeys;
 		public KeyboardState oldkeys;
@@ -325,7 +323,7 @@ namespace Spaceman
 
 			#region Initialize Guns
 			arsenal.Add(
-				new Gun(
+				new GunData(
                     "G-32_C Phazer Pistol",     // name
 					false,						// unlocked
 					5,							// bullet velocity
@@ -341,19 +339,19 @@ namespace Spaceman
                 );
 
 			arsenal.Add(
-				new Gun("Flouroantimonic Shotgun", false, 5, 20, 15, 15, false, 16, 8, 10, 6)
+				new GunData("Flouroantimonic Shotgun", false, 5, 20, 15, 15, false, 16, 8, 10, 6)
 				);
 
 			arsenal.Add(
-				new Gun("IT-6.7 Rail Gun", false, 5, 50, 5, null, false, 14, 8, 9, 9)
+				new GunData("IT-6.7 Rail Gun", false, 5, 50, 5, null, false, 14, 8, 9, 9)
 				);
 
 			arsenal.Add(
-				new Gun("Magmatorque Nail-Gun", false, 6, 10, 7, null, true, 18, 7,10,6)
+				new GunData("Magmatorque Nail-Gun", false, 6, 10, 7, null, true, 18, 7,10,6)
 				);
 
             arsenal.Add(
-                new Gun("Symbionic Hive-Oscilator", false, 3, 20, 5, null, true, 14, 8, 10, 5)
+                new GunData("Symbionic Hive-Oscilator", false, 3, 20, 5, null, true, 14, 8, 10, 5)
                 );
 
             UnlockGun(Guns.Pistol);
@@ -542,19 +540,19 @@ namespace Spaceman
 				Color.White);
         }
 
-		public void DrawSprite(Sprite sprite, float layer)
-		{
-			Texture2D texture;
-			if (sprite.status.state.Equals("hit") && (sprite.status.duration/sprite.HIT_DURATION)%2 == 1)
+        public void DrawSprite(ISprite sprite, float layer)
+        {
+            Texture2D texture;
+            if (sprite.GetStatus().state.Equals("hit") && (sprite.GetStatus().duration / sprite.GetHitDuration()) % 2 == 1)
 
-				texture = WhiteSilhouette(sprite.texture, sprite.sourceRect);
-			else texture = sprite.texture;
+                texture = WhiteSilhouette(sprite.GetTexture(), sprite.GetSourceRect());
+            else texture = sprite.GetTexture();
 
-			if (sprite.mirrorX)
-				spriteBatch.Draw(texture, sprite.destRect, sprite.sourceRect, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, layer);
-			else
-				spriteBatch.Draw(texture, sprite.destRect, sprite.sourceRect, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, layer);
-		}
+            if (sprite.GetMirrorX())
+                spriteBatch.Draw(texture, sprite.GetDestRect(), sprite.GetSourceRect(), Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, layer);
+            else
+                spriteBatch.Draw(texture, sprite.GetDestRect(), sprite.GetSourceRect(), Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, layer);
+        }
 
 		public void DrawOverlay(CharOverlay sprite, float layer)
 		{
@@ -597,15 +595,15 @@ namespace Spaceman
 		public void DrawSprite(GunOverlay sprite, float layer)
 		{
 			Texture2D texture;
-			if (sprite.status.state.Equals("hit") && (sprite.status.duration / sprite.HIT_DURATION) % 2 == 1)
+			if (sprite.GetStatus().state.Equals("hit") && (sprite.GetStatus().duration / sprite.GetHitDuration()) % 2 == 1)
 
-				texture = WhiteSilhouette(sprite.texture, sprite.sourceRect);
-			else texture = sprite.texture;
+				texture = WhiteSilhouette(sprite.GetTexture(), sprite.GetSourceRect());
+			else texture = sprite.GetTexture();
 
-			if (sprite.mirrorX)
-				spriteBatch.Draw(texture, new Rectangle(sprite.destRect.X + sprite.xOffset, sprite.destRect.Y + sprite.yOffset, sprite.destRect.Width, sprite.destRect.Height), sprite.sourceRect, Color.White, sprite.angle, new Vector2(0, 0), SpriteEffects.FlipHorizontally, layer);
+			if (sprite.GetMirrorX())
+				spriteBatch.Draw(texture, new Rectangle(sprite.GetDestRect().X + sprite.xOffset, sprite.GetDestRect().Y + sprite.yOffset, sprite.GetDestRect().Width, sprite.GetDestRect().Height), sprite.GetSourceRect(), Color.White, sprite.angle, new Vector2(0, 0), SpriteEffects.FlipHorizontally, layer);
 			else
-				spriteBatch.Draw(texture, new Rectangle(sprite.destRect.X + sprite.xOffset, sprite.destRect.Y + sprite.yOffset, sprite.destRect.Width, sprite.destRect.Height), sprite.sourceRect, Color.White, -sprite.angle, new Vector2(0, 0), SpriteEffects.None, layer);
+				spriteBatch.Draw(texture, new Rectangle(sprite.GetDestRect().X + sprite.xOffset, sprite.GetDestRect().Y + sprite.yOffset, sprite.GetDestRect().Width, sprite.GetDestRect().Height), sprite.GetSourceRect(), Color.White, -sprite.angle, new Vector2(0, 0), SpriteEffects.None, layer);
 		}
 
 		public Texture2D WhiteSilhouette(Texture2D texture, Rectangle source)
@@ -664,7 +662,7 @@ namespace Spaceman
 		#region CreateProjectile
 		public void CreateProjectile(Spaceman origin)
 		{
-			Gun current = arsenal[currentGun];
+			GunData current = arsenal[currentGun];
 			allyProjectiles.Add(
 			new Projectile(
 				origin.direction,
@@ -674,17 +672,17 @@ namespace Spaceman
 				//(int)mapCoordinates.X + guns.destRect.X + (guns.mirrorX ?
 				// guns.spriteWidth - current.barrelX + 2
 				//: current.barrelX - 2) - 3,
-				(int)worldMap[currentRoom].mapCoordinates.X - worldMap[currentRoom].offset.X + guns.destRect.X + FindBulletX(origin.direction, origin.mirrorX, current),
+				(int)worldMap[currentRoom].mapCoordinates.X - worldMap[currentRoom].offset.X + guns.GetDestRect().X + FindBulletX(origin.direction, origin.mirrorX, current),
 				//(int)mapCoordinates.Y + guns.destRect.Y + current.barrelY - 3,
-				(int)worldMap[currentRoom].mapCoordinates.Y - worldMap[currentRoom].offset.Y + guns.destRect.Y + FindBulletY(origin.direction, origin.mirrorX, current),
+				(int)worldMap[currentRoom].mapCoordinates.Y - worldMap[currentRoom].offset.Y + guns.GetDestRect().Y + FindBulletY(origin.direction, origin.mirrorX, current),
 				FindBulletXVel(origin.direction, current.bulletVel),
 				FindBulletYVel(origin.direction, current.bulletVel),
 				0,
                 current.bulletLifeSpan,
 				FindBulletTexture(origin.direction),
 				4,
-				guns.frameNum,
-				guns.mirrorX)
+				guns.GetFrameNum(),
+				guns.GetMirrorX())
 				);
 		}
 
@@ -740,7 +738,7 @@ namespace Spaceman
 			}
 		}
 
-		public double FindBulletX(Directions dir, bool mirrorX, Gun gun)
+		public double FindBulletX(Directions dir, bool mirrorX, GunData gun)
 		{
 			int barrelX = gun.barrelX;
 			int barrelY = gun.barrelY;
@@ -749,15 +747,15 @@ namespace Spaceman
 			switch (dir)
 			{
 				case Directions.left:
-					return guns.spriteWidth - barrelX;
+					return guns.GetSpriteWidth() - barrelX;
 
 				case Directions.upLeft:
-					return guns.spriteWidth - angledBarrelX - 4;
+					return guns.GetSpriteWidth() - angledBarrelX - 4;
 
 				case Directions.up:
 
-					if (mirrorX) return guns.spriteHeight - barrelY + 11;
-					else return -guns.spriteHeight + barrelY + 8;
+					if (mirrorX) return guns.GetSpriteHeight() - barrelY + 11;
+					else return -guns.GetSpriteHeight() + barrelY + 8;
 
 				case Directions.upRight:
 					return angledBarrelX - 1;
@@ -766,18 +764,18 @@ namespace Spaceman
 					return barrelX - 6;
 
 				case Directions.downRight:
-					return guns.spriteHeight - angledBarrelY + 7;
+					return guns.GetSpriteHeight() - angledBarrelY + 7;
 
 				case Directions.down:
 					if (mirrorX) return barrelY + 3;
-					else return guns.spriteHeight - barrelY + 1;
+					else return guns.GetSpriteHeight() - barrelY + 1;
 
 				default:
 					return angledBarrelY -2;
 			}
 		}
 
-		public double FindBulletY(Directions dir, bool mirrorX, Gun gun)
+		public double FindBulletY(Directions dir, bool mirrorX, GunData gun)
 		{
 			int barrelX = gun.barrelX;
 			int barrelY = gun.barrelY;
@@ -792,8 +790,8 @@ namespace Spaceman
 					return angledBarrelY - 8;
 
 				case Directions.up:
-					if (mirrorX) return guns.spriteWidth-barrelX - 7;
-					else return guns.spriteWidth - barrelX - 1;
+					if (mirrorX) return guns.GetSpriteWidth() - barrelX - 7;
+					else return guns.GetSpriteWidth() - barrelX - 1;
 
 				case Directions.upRight:
 					return angledBarrelY - 8;
@@ -805,7 +803,7 @@ namespace Spaceman
 					return angledBarrelX + 3;
 
 				case Directions.down:
-					if (mirrorX) return guns.spriteWidth + barrelX - 15;
+					if (mirrorX) return guns.GetSpriteWidth() + barrelX - 15;
 					else return barrelX - 2;
 
 				default:
@@ -942,7 +940,7 @@ namespace Spaceman
 		{
 			foreach (MapAsset asset in worldMap[currentRoom].assets)
 			{
-				asset.UpdateSprite(this);
+				asset.UpdateSprite(worldMap[currentRoom]);
 				if (asset.onScreen)
 				{
 					AddObjectToDraw(asset);
@@ -1026,7 +1024,7 @@ namespace Spaceman
 			}
 		}
 
-		public void RemoveObjectToDraw(Object obj)
+		public void RemoveObjectToDraw(IObject obj)
 		{
 			if (worldMap[currentRoom].objectsToDraw.Contains(obj))
 				worldMap[currentRoom].objectsToDraw.Remove(obj);
@@ -1053,9 +1051,8 @@ namespace Spaceman
                         delete = true;
                     }
                 }
-                projectiles[i].worldX += projectiles[i].xVel;
-				projectiles[i].worldY += projectiles[i].yVel;
-				projectiles[i].yVel += projectiles[i].yAcc;
+                projectiles[i].worldX += projectiles[i].GetData().GetXVel();
+				projectiles[i].worldY += projectiles[i].GetData().GetYVel();
 				projectiles[i].UpdateSprite(worldMap[currentRoom]);
 				if (projectiles[i].PerPixelCollisionDetect(this) && enemyProjectiles.Contains(projectiles[i]))
 				{
@@ -1111,7 +1108,7 @@ namespace Spaceman
 
 		public void DrawObjects()
 		{
-			foreach (Object obj in worldMap[currentRoom].objectsToDraw)
+			foreach (IObject obj in worldMap[currentRoom].objectsToDraw)
 			{
 				if (obj is Enemy)
 				{
@@ -1360,7 +1357,7 @@ namespace Spaceman
 			powerUpManager.currentPowerUps = saveData.currentPowerUps;
 			unlockedGuns = saveData.guns;
 			currentGun = saveData.currentGun;
-			guns.frameNum = currentGun;
+			guns.SetFrameNum(currentGun);
 			worldMap[currentRoom].mapCoordinates = saveData.coordinates;
 		}
 

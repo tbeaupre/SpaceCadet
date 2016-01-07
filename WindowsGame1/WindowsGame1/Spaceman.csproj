@@ -82,6 +82,9 @@
     <Compile Include="Enemy.cs" />
     <Compile Include="EnemyTextureSet.cs" />
     <Compile Include="Health.cs" />
+    <Compile Include="IObject.cs" />
+    <Compile Include="IProjectileData.cs" />
+    <Compile Include="ISprite.cs" />
     <Compile Include="MapAsset.cs" />
     <Compile Include="IMapItem.cs" />
     <Compile Include="MapResource.cs" />
@@ -90,7 +93,7 @@
     <Compile Include="Menu\IMenuItem.cs" />
     <Compile Include="Menu\PortalMenuItem.cs" />
     <Compile Include="Object.cs" />
-    <Compile Include="Gun.cs" />
+    <Compile Include="GunData.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="PickUp.cs" />
     <Compile Include="Portal.cs" />

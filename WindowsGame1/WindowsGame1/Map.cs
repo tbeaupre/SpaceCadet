@@ -24,7 +24,7 @@ namespace Spaceman
 		public int parallaxFactor;
 		public List<PickUp> pickUps = new List<PickUp>();
 		public List<Enemy> enemies = new List<Enemy>();
-		public List<Object> objectsToDraw = new List<Object>();
+		public List<IObject> objectsToDraw = new List<IObject>();
 		public List<Spawn> spawns = new List<Spawn>();
 		public List<MapAsset> assets = new List<MapAsset>();
 		public List<IMapItem> mapItems = new List<IMapItem>();

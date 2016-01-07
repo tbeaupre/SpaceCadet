@@ -27,15 +27,15 @@ namespace Spaceman
 			return result;
 		}
 
-		public void UpdateSprite(Game1 game)
+		public override void UpdateSprite(Map map)
 		{
 			if (status.state.Equals("hit"))
 			{
 				if (status.duration > 0) status.duration--;
 			}
-			this.onScreen = IsOnScreen(game.worldMap[game.currentRoom]);
-			this.nearScreen = IsNearScreen(game.worldMap[game.currentRoom].mapCoordinates);
-			UpdateCoords(game.worldMap[game.currentRoom]);
+			this.onScreen = IsOnScreen(map);
+			this.nearScreen = IsNearScreen(map);
+			UpdateCoords(map);
 		}
 
 	}

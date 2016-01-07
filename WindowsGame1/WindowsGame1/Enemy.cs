@@ -158,13 +158,13 @@ namespace Spaceman
 					Attack(game);
 				}
 				this.onScreen = IsOnScreen(game.worldMap[game.currentRoom]);
-				if (IsNearScreen(game.worldMap[game.currentRoom].mapCoordinates) == false)
+				if (IsNearScreen(game.worldMap[game.currentRoom]) == false)
 				{
 					game.RemoveObjectToDraw(this);
 					game.worldMap[game.currentRoom].enemies.Remove(this);
 					this.alert = false;
 				}
-				this.nearScreen = IsNearScreen(game.worldMap[game.currentRoom].mapCoordinates);
+				this.nearScreen = IsNearScreen(game.worldMap[game.currentRoom]);
 
 				ChooseNewDirection(game);
 				this.action.duration--;
@@ -178,11 +178,11 @@ namespace Spaceman
 				GravityUpdate(game);
 		}
 
-		new public int PerPixelCollisionDetect(Sprite sprite, Game1 game)
+		new public int PerPixelCollisionDetect(ISprite sprite, Game1 game)
 		{
-			Rectangle rect = new Rectangle(sprite.destRect.X - this.destRect.X, sprite.destRect.Y - this.destRect.Y, sprite.spriteWidth, sprite.spriteHeight);
+			Rectangle rect = new Rectangle(sprite.GetDestRect().X - this.destRect.X, sprite.GetDestRect().Y - this.destRect.Y, sprite.GetSpriteWidth(), sprite.GetSpriteHeight());
 			// sets the coordinates relative to (0,0) being the top left corner of this.
-			Texture2D projTexture = sprite.texture;
+			Texture2D projTexture = sprite.GetTexture();
 			Texture2D hitBoxTexture = this.hitbox;
 			Texture2D vulnerableTexture = this.vulnerable;
 
@@ -191,7 +191,7 @@ namespace Spaceman
 			Color[] projectilePixels;
 			int results = 0;
 			Rectangle objRect = rect;
-			Rectangle projRect = new Rectangle(0, 0, sprite.spriteWidth, sprite.spriteHeight);
+			Rectangle projRect = new Rectangle(0, 0, sprite.GetSpriteWidth(), sprite.GetSpriteHeight());
 
 			//initial tests to see if the box is even applicable to the object texure being checked
 			if (rect.X + rect.Width <= 0 || rect.Y + rect.Height <= 0) return 0;
@@ -238,9 +238,9 @@ namespace Spaceman
 			vulnerablePixels = new Color[objRect.Width * objRect.Height];
 			projectilePixels = new Color[objRect.Width * objRect.Height];
 
-			if (sprite.mirrorX)
+			if (sprite.GetMirrorX())
 			{
-				projTexture = MirrorTexture(sprite, game,sprite.texture);
+				projTexture = MirrorTexture(sprite, game,sprite.GetTexture());
 			}
 
 			if (this.mirrorX)
