@@ -195,164 +195,158 @@ namespace Spaceman
         /// and initialize them as well.
         /// </summary>
         protected override void Initialize()
-		{
-			powerUpManager.UnlockPowerUp(Game1.PowerUps.BoostJump);
-			powerUpManager.UpdateAbilities(Game1.PowerUps.BoostJump, Game1.PowerUps.NULL, Game1.PowerUps.NULL);
+        {
+            powerUpManager.UnlockPowerUp(Game1.PowerUps.BoostJump);
+            powerUpManager.UpdateAbilities(Game1.PowerUps.BoostJump, Game1.PowerUps.NULL, Game1.PowerUps.NULL);
 
-			spaceshipTexture = this.Content.Load<Texture2D>("MapResources\\OtherAssets\\Spaceship");
+            spaceshipTexture = this.Content.Load<Texture2D>("MapResources\\OtherAssets\\Spaceship");
 
-			boostJumpTexture = this.Content.Load<Texture2D>("Boost Jump");
+            boostJumpTexture = this.Content.Load<Texture2D>("Boost Jump");
 
-			spaceManTexture = this.Content.Load<Texture2D>("Spaceman");
-			spaceManHeadTexture = this.Content.Load<Texture2D>("Spaceman Heads");
-			spaceManBodyTexture = this.Content.Load<Texture2D>("Spaceman Body");
-			player = new Spaceman(spaceManBodyTexture,
-				spaceManHeadTexture,
-				new Vector2(spaceManX, spaceManY),
-				13,
-				1,
-				false);
-			characterSprites.Add(player);
+            spaceManTexture = this.Content.Load<Texture2D>("Spaceman");
+            spaceManHeadTexture = this.Content.Load<Texture2D>("Spaceman Heads");
+            spaceManBodyTexture = this.Content.Load<Texture2D>("Spaceman Body");
+            player = new Spaceman(spaceManBodyTexture,
+                spaceManHeadTexture,
+                new Vector2(spaceManX, spaceManY),
+                13,
+                1,
+                false);
+            characterSprites.Add(player);
 
-			gunsTexture = this.Content.Load<Texture2D>("Guns");
-			gunsAngleUpTexture = this.Content.Load<Texture2D>("Guns Angle");
-			gunsAngleDownTexture = this.Content.Load<Texture2D>("Guns Angle2");
-			guns = new GunOverlay(player, gunsAngleUpTexture, gunsAngleDownTexture, gunsTexture,
-				new Vector2(spaceManX, spaceManY),
-				5,
-				0,
-				1,
-				false,
-				null);
-			characterSprites.Add(guns);
+            gunsTexture = this.Content.Load<Texture2D>("Guns");
+            gunsAngleUpTexture = this.Content.Load<Texture2D>("Guns Angle");
+            gunsAngleDownTexture = this.Content.Load<Texture2D>("Guns Angle2");
+            guns = new GunOverlay(player, gunsAngleUpTexture, gunsAngleDownTexture, gunsTexture,
+                new Vector2(spaceManX, spaceManY),
+                5,
+                0,
+                1,
+                false,
+                null);
+            characterSprites.Add(guns);
 
-			healthBarOverlayTexture = this.Content.Load<Texture2D>("HUD\\HealthBarOverlay2");
-			healthBarOverlay = new Sprite(healthBarOverlayTexture,new Vector2(0,0), 1, 0, false);
+            healthBarOverlayTexture = this.Content.Load<Texture2D>("HUD\\HealthBarOverlay2");
+            healthBarOverlay = new Sprite(healthBarOverlayTexture, new Vector2(0, 0), 1, 0, false);
 
-			energyBarTexture = this.Content.Load<Texture2D>("HUD\\EnergyBar");
-			energyBar = new Sprite(energyBarTexture, new Vector2(21, 5), 1, 0, false);
+            energyBarTexture = this.Content.Load<Texture2D>("HUD\\EnergyBar");
+            energyBar = new Sprite(energyBarTexture, new Vector2(21, 5), 1, 0, false);
 
-			healthBarTexture = this.Content.Load<Texture2D>("HUD\\HealthBar");
-			healthBar = new Sprite(healthBarTexture, new Vector2(21, 10), 1, 0, false);
+            healthBarTexture = this.Content.Load<Texture2D>("HUD\\HealthBar");
+            healthBar = new Sprite(healthBarTexture, new Vector2(21, 10), 1, 0, false);
 
-			bioSoldierTexture = this.Content.Load<Texture2D>("Enemies\\BioSoldier");
+            bioSoldierTexture = this.Content.Load<Texture2D>("Enemies\\BioSoldier");
 
-			bioSnailTexture = new EnemyTextureSet(this.Content.Load<Texture2D>("Enemies\\Bio-Snail\\Bio-Snail"), this.Content.Load<Texture2D>("Enemies\\Bio-Snail\\Bio-Snail Hitbox"), this.Content.Load<Texture2D>("Enemies\\Bio-Snail\\Bio-Snail Vulnerable"));
-			bioSnailProjectileTexture = this.Content.Load<Texture2D>("Enemies\\Bio-Snail\\Bio-Snail Projectile");
-			bioSnailProjectileData = new ProjectileData(		
-				5,	// int damage
-				2,	// double xVel;
-				0,	// double yVel;
-				0,	// double yAcc;
-				bioSnailProjectileTexture,	// Texture2D texture;
-				1,	// int numFrames;
-				0,	// int frameNum;
-				6,	// int xOffset;
-				10	// int yOffset;
-				);
+            bioSnailTexture = new EnemyTextureSet(this.Content.Load<Texture2D>("Enemies\\Bio-Snail\\Bio-Snail"), this.Content.Load<Texture2D>("Enemies\\Bio-Snail\\Bio-Snail Hitbox"), this.Content.Load<Texture2D>("Enemies\\Bio-Snail\\Bio-Snail Vulnerable"));
+            bioSnailProjectileTexture = this.Content.Load<Texture2D>("Enemies\\Bio-Snail\\Bio-Snail Projectile");
+            bioSnailProjectileData = new ProjectileData(
+                5,  // int damage
+                2,  // double xVel;
+                0,  // double yVel;
+                0,  // double yAcc;
+                bioSnailProjectileTexture,  // Texture2D texture;
+                1,  // int numFrames;
+                0,  // int frameNum;
+                6,  // int xOffset;
+                10  // int yOffset;
+                );
 
-			batteryTexture = this.Content.Load<Texture2D>("PickUps\\Battery");
-			healthTexture = this.Content.Load<Texture2D>("PickUps\\HealthPickups");
+            batteryTexture = this.Content.Load<Texture2D>("PickUps\\Battery");
+            healthTexture = this.Content.Load<Texture2D>("PickUps\\HealthPickups");
 
-			bulletFlatTexture = this.Content.Load<Texture2D>("Bullets");
-			bulletAngleTexture = this.Content.Load<Texture2D>("Bullets Angled");
+            bulletFlatTexture = this.Content.Load<Texture2D>("Bullets");
+            bulletAngleTexture = this.Content.Load<Texture2D>("Bullets Angled");
 
-			saveStationTexture = this.Content.Load<Texture2D>("SaveStation");
+            saveStationTexture = this.Content.Load<Texture2D>("SaveStation");
 
-			#region Menu Setup
+            #region Menu Setup
 
-			startMenuItems = new List<IMenuItem>();
-			startMenuItems.Add(new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\NewMenuItem"), null));
-			startMenuItems.Add(new ActionMenuItem(this.Content.Load<Texture2D>("Menu\\LoadMenuItem"), null, "loadMenuItem"));
-			startMenu = new Menu(this.Content.Load<Texture2D>("Menu\\MainMenu"), startMenuItems, new Vector2(600, 200));
+            startMenuItems = new List<IMenuItem>();
+            startMenuItems.Add(new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\NewMenuItem"), null));
+            startMenuItems.Add(new ActionMenuItem(this.Content.Load<Texture2D>("Menu\\LoadMenuItem"), null, "loadMenuItem"));
+            startMenu = new Menu(this.Content.Load<Texture2D>("Menu\\MainMenu"), startMenuItems, new Vector2(600, 200));
 
-			mainMenuItems = new List<IMenuItem>();
-			mainMenuItems.Add(new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\StartMenuItem"), startMenu));
-			mainMenuItems.Add(new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\OptionsMenuItem"), startMenu));
-			mainMenu = new Menu(this.Content.Load<Texture2D>("Menu\\MainMenu"), mainMenuItems, new Vector2(600, 200));
-			currentMenu = mainMenu;
+            mainMenuItems = new List<IMenuItem>();
+            mainMenuItems.Add(new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\StartMenuItem"), startMenu));
+            mainMenuItems.Add(new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\OptionsMenuItem"), startMenu));
+            mainMenu = new Menu(this.Content.Load<Texture2D>("Menu\\MainMenu"), mainMenuItems, new Vector2(600, 200));
+            currentMenu = mainMenu;
 
-			saveStationMenuItems = new List<IMenuItem>();
-			saveStationMenuItems.Add(new ActionMenuItem(this.Content.Load<Texture2D>("Menu\\SaveMenuItem"), null, "saveMenuItem"));
-			saveStationMenuItems.Add(new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\AlterSuitMenuItem"), null));
-			saveStationMenu = new Menu(this.Content.Load<Texture2D>("Menu\\SaveStationMenu"), saveStationMenuItems, new Vector2(340, 200));
+            saveStationMenuItems = new List<IMenuItem>();
+            saveStationMenuItems.Add(new ActionMenuItem(this.Content.Load<Texture2D>("Menu\\SaveMenuItem"), null, "saveMenuItem"));
+            saveStationMenuItems.Add(new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\AlterSuitMenuItem"), null));
+            saveStationMenu = new Menu(this.Content.Load<Texture2D>("Menu\\SaveStationMenu"), saveStationMenuItems, new Vector2(340, 200));
 
-			#endregion
+            #endregion
 
-			#region Initialize Maps
+            #region Initialize Maps
 
-			// Use Map Array
-			worldMap = new Map[] {
-				new Map(new MapResource(this, "1", true),5), // 1 X 4
+            // Use Map Array
+            worldMap = new Map[] {
+                new Map(new MapResource(this, "1", true),5), // 1 X 4
 				new Map(new MapResource(this, "2", false),5), // 3 X 3
 				new Map(new MapResource(this, "3", false), 5), // 3 X 2
 			};
-			this.currentRoom = 1;
-			List<IMapItem> items = new List<IMapItem>();
-			items.Add(CreateSaveStation(500, 341));
-			worldMap[currentRoom].InitializeMap(items);
-			this.worldMap[currentRoom].active = true;
-			this.worldMap[currentRoom].mapCoordinates = initMapCoordinates;
+            this.currentRoom = 1;
+            List<IMapItem> items = new List<IMapItem>();
+            items.Add(CreateSaveStation(500, 341));
+            worldMap[currentRoom].InitializeMap(items);
+            this.worldMap[currentRoom].active = true;
+            this.worldMap[currentRoom].mapCoordinates = initMapCoordinates;
 
-			doorTexture = this.Content.Load<Texture2D>("Doors\\Door2");
-			doorHitboxTexture = this.Content.Load<Texture2D>("Doors\\DoorHitbox3");
+            doorTexture = this.Content.Load<Texture2D>("Doors\\Door2");
+            doorHitboxTexture = this.Content.Load<Texture2D>("Doors\\DoorHitbox3");
 
-			worldMap[2].spawns.Add(new Spawn(150, 115, "BioSnail"));
-			worldMap[currentRoom].assets.Add(new MapAsset(141, 232, spaceshipTexture, worldMap[currentRoom].mapCoordinates, 1, 0, false));
+            worldMap[2].spawns.Add(new Spawn(150, 115, "BioSnail"));
+            worldMap[currentRoom].assets.Add(new MapAsset(141, 232, spaceshipTexture, worldMap[currentRoom].mapCoordinates, 1, 0, false));
 
-			//Initialize Batteries
-			for (int i = 0; i <= batteryLocations.GetUpperBound(0); i++)
-			{
-				worldMap[currentRoom].pickUps.Add(new Battery(worldMap[currentRoom].mapCoordinates, batteryLocations[i, 0], batteryLocations[i, 1], batteryTexture));
-			}
+            //Initialize Batteries
+            for (int i = 0; i <= batteryLocations.GetUpperBound(0); i++)
+            {
+                worldMap[currentRoom].pickUps.Add(new Battery(worldMap[currentRoom].mapCoordinates, batteryLocations[i, 0], batteryLocations[i, 1], batteryTexture));
+            }
 
-			//Initialize Health
-			for (int i = 0; i <= healthLocations.GetUpperBound(0); i++)
-			{
-				worldMap[currentRoom].pickUps.Add(new Health(worldMap[currentRoom].mapCoordinates, healthLocations[i].x, healthLocations[i].y, healthTexture, healthLocations[i].level));
-			}
+            //Initialize Health
+            for (int i = 0; i <= healthLocations.GetUpperBound(0); i++)
+            {
+                worldMap[currentRoom].pickUps.Add(new Health(worldMap[currentRoom].mapCoordinates, healthLocations[i].x, healthLocations[i].y, healthTexture, healthLocations[i].level));
+            }
 
-			//Initialize Doors
-			//Door door1 = CreateDoor(1995, 1339, 1, true);
-			Door door2_1L = CreateDoor(907, 361, 1, true);
-			Door door3_1R = CreateDoor(4, 107, 1, false);
-			Door door3_2L = CreateDoor(907, 227, 1, true);
-			portals.Add(new Portal(worldMap[1], worldMap[2], door2_1L, door3_1R));
-			//portals.Add(new Portal(map3, map3, door3_2L, door3_1R));
-			#endregion
+            //Initialize Doors
+            //Door door1 = CreateDoor(1995, 1339, 1, true);
+            Door door2_1L = CreateDoor(907, 361, 1, true);
+            Door door3_1R = CreateDoor(4, 107, 1, false);
+            Door door3_2L = CreateDoor(907, 227, 1, true);
+            portals.Add(new Portal(worldMap[1], worldMap[2], door2_1L, door3_1R));
+            //portals.Add(new Portal(map3, map3, door3_2L, door3_1R));
+            #endregion
 
-			#region Initialize Guns
-			arsenal.Add(
-				new GunData(
-                    "G-32_C Phazer Pistol",     // name
-					false,						// unlocked
-					5,							// bullet velocity
-					10,							// damage
-					0,                          // cooldown
-                    null,                       // projectile lifespan
-                    false,						// automatic
-					13,							// barrel X
-					8,							// barrel Y
-					7,							// angled barrel X
-					8							// angled barrel Y
-			    	)
-                );
-
-			arsenal.Add(
-				new GunData("Flouroantimonic Shotgun", false, 5, 20, 15, 15, false, 16, 8, 10, 6)
-				);
-
-			arsenal.Add(
-				new GunData("IT-6.7 Rail Gun", false, 5, 50, 5, null, false, 14, 8, 9, 9)
-				);
-
-			arsenal.Add(
-				new GunData("Magmatorque Nail-Gun", false, 6, 10, 7, null, true, 18, 7,10,6)
-				);
+            #region Initialize Guns
 
             arsenal.Add(
-                new GunData("Symbionic Hive-Oscilator", false, 3, 20, 5, null, true, 14, 8, 10, 5)
+                new GunData(
+                    "G-32_C Phazer Pistol",                                 // name
+                    false,                                                  // unlocked
+                    0,                                                      // cooldown
+                    new StandardProjectile(bulletFlatTexture, 5, -1, 10),   // projectile data
+                    false,                                                  // automatic
+                    13,                                                     // barrel X
+                    8,                                                      // barrel Y
+                    7,                                                      // angled barrel X
+                    8)                                                      // angled barrel Y
                 );
+
+            arsenal.Add(
+                new GunData("Flouroantimonic Shotgun", false, 15, new StandardProjectile(bulletFlatTexture, 5, 15, 20), false, 16, 8, 10, 6));
+
+            arsenal.Add(
+                new GunData("IT-6.7 Rail Gun", false, 5, new StandardProjectile(bulletFlatTexture, 5, -1, 50), false, 14, 8, 9, 9));
+
+            arsenal.Add(
+                new GunData("Magmatorque Nail-Gun", false, 7, new StandardProjectile(bulletFlatTexture, 6, -1, 10), true, 18, 7, 10, 6));
+
+            arsenal.Add(
+                new GunData("Symbionic Hive-Oscilator", false, 5, new StandardProjectile(bulletFlatTexture, 1, -1, 20), false, 19, 9, 10, 5));
 
             UnlockGun(Guns.Pistol);
 			UnlockGun(Guns.Shotgun);
@@ -1051,8 +1045,8 @@ namespace Spaceman
                         delete = true;
                     }
                 }
-                projectiles[i].worldX += projectiles[i].GetData().GetXVel();
-				projectiles[i].worldY += projectiles[i].GetData().GetYVel();
+                projectiles[i].worldX += projectiles[i].GetData().GetXVel(projectiles[i].GetDirection());
+				projectiles[i].worldY += projectiles[i].GetData().GetYVel(projectiles[i].GetDirection());
 				projectiles[i].UpdateSprite(worldMap[currentRoom]);
 				if (projectiles[i].PerPixelCollisionDetect(this) && enemyProjectiles.Contains(projectiles[i]))
 				{

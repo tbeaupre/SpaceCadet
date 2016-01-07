@@ -110,6 +110,7 @@
     <Compile Include="Spawn.cs" />
     <Compile Include="ActionStates.cs" />
     <Compile Include="ActionStatus.cs" />
+    <Compile Include="StandardProjectile.cs" />
     <Compile Include="Status.cs" />
   </ItemGroup>
   <ItemGroup>

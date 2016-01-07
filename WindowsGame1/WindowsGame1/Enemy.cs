@@ -178,7 +178,7 @@ namespace Spaceman
 				GravityUpdate(game);
 		}
 
-		new public int PerPixelCollisionDetect(ISprite sprite, Game1 game)
+		public int PerPixelCollisionDetect(ISprite sprite, Game1 game)
 		{
 			Rectangle rect = new Rectangle(sprite.GetDestRect().X - this.destRect.X, sprite.GetDestRect().Y - this.destRect.Y, sprite.GetSpriteWidth(), sprite.GetSpriteHeight());
 			// sets the coordinates relative to (0,0) being the top left corner of this.

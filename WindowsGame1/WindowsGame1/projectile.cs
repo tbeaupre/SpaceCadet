@@ -34,5 +34,10 @@ namespace Spaceman
         {
             return this.data;
         }
+
+        public Game1.Directions GetDirection()
+        {
+            return this.direction;
+        }
     }
 }

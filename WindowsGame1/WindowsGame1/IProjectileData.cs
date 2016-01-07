@@ -18,12 +18,11 @@ namespace Spaceman
         int GetNumFrames();
         int GetLifeSpan();
         int GetDamage();
-        double GetXVel();
-        double GetYVel();
+        double GetXVel(Game1.Directions dir);
+        double GetYVel(Game1.Directions dir);
         double GetYAcc();
-        Game1.Directions GetDirection();
-        Projectile CreateProjectile();
-        void UpdateProjectile();
+        Projectile CreateProjectile(Game1.Directions direction, ISprite origin, Vector2 mapCoords, double worldX, double worldY, bool mirrorX);
+        void UpdateProjectile(Projectile projectile);
         void DestroyProjectile();
     }
 }
