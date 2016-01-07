@@ -15,7 +15,7 @@ namespace Spaceman
 {
     public class Projectile : Object
     {
-        public Nullable<int> lifeSpan;
+        public int life;
         public int damage;
         public ISprite origin;
         public Game1.Directions direction;
@@ -25,7 +25,7 @@ namespace Spaceman
             : base(worldX, worldY, data.GetTexture(), new Vector2((float)worldX - mapCoordinates.X, (float)worldY - mapCoordinates.Y), data.GetNumFrames(), frameNum, mirrorX)
         {
             this.origin = origin;
-            this.lifeSpan = data.GetLifeSpan();
+            this.life = 0;
             this.damage = data.GetDamage();
             this.direction = direction;
         }

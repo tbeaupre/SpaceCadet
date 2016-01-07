@@ -27,11 +27,6 @@ namespace Spaceman
 
 		public int currentRoom;
 
-		public List<Projectile> enemyProjectiles = new List<Projectile>();
-		public List<Projectile> allyProjectiles = new List<Projectile>();
-
-		public List<ISprite> characterSprites = new List<ISprite>();
-		public List<GunData> arsenal = new List<GunData>();
 		public List<Guns> unlockedGuns = new List<Guns>();
 		public Map[] worldMap;
 
@@ -72,11 +67,9 @@ namespace Spaceman
 		const int spaceManWidth = 11;
 		const int spaceManHeight = 15;
 
-		GunOverlay guns;
 		Texture2D gunsTexture;
 		Texture2D gunsAngleUpTexture;
 		Texture2D gunsAngleDownTexture;
-		public int currentGun = 0;
 
 		Texture2D bulletFlatTexture;
 		Texture2D bulletAngleTexture;
@@ -212,19 +205,10 @@ namespace Spaceman
                 13,
                 1,
                 false);
-            characterSprites.Add(player);
 
             gunsTexture = this.Content.Load<Texture2D>("Guns");
             gunsAngleUpTexture = this.Content.Load<Texture2D>("Guns Angle");
             gunsAngleDownTexture = this.Content.Load<Texture2D>("Guns Angle2");
-            guns = new GunOverlay(player, gunsAngleUpTexture, gunsAngleDownTexture, gunsTexture,
-                new Vector2(spaceManX, spaceManY),
-                5,
-                0,
-                1,
-                false,
-                null);
-            characterSprites.Add(guns);
 
             healthBarOverlayTexture = this.Content.Load<Texture2D>("HUD\\HealthBarOverlay2");
             healthBarOverlay = new Sprite(healthBarOverlayTexture, new Vector2(0, 0), 1, 0, false);
@@ -322,31 +306,6 @@ namespace Spaceman
             #endregion
 
             #region Initialize Guns
-
-            arsenal.Add(
-                new GunData(
-                    "G-32_C Phazer Pistol",                                 // name
-                    false,                                                  // unlocked
-                    0,                                                      // cooldown
-                    new StandardProjectile(bulletFlatTexture, 5, -1, 10),   // projectile data
-                    false,                                                  // automatic
-                    13,                                                     // barrel X
-                    8,                                                      // barrel Y
-                    7,                                                      // angled barrel X
-                    8)                                                      // angled barrel Y
-                );
-
-            arsenal.Add(
-                new GunData("Flouroantimonic Shotgun", false, 15, new StandardProjectile(bulletFlatTexture, 5, 15, 20), false, 16, 8, 10, 6));
-
-            arsenal.Add(
-                new GunData("IT-6.7 Rail Gun", false, 5, new StandardProjectile(bulletFlatTexture, 5, -1, 50), false, 14, 8, 9, 9));
-
-            arsenal.Add(
-                new GunData("Magmatorque Nail-Gun", false, 7, new StandardProjectile(bulletFlatTexture, 6, -1, 10), true, 18, 7, 10, 6));
-
-            arsenal.Add(
-                new GunData("Symbionic Hive-Oscilator", false, 5, new StandardProjectile(bulletFlatTexture, 1, -1, 20), false, 19, 9, 10, 5));
 
             UnlockGun(Guns.Pistol);
 			UnlockGun(Guns.Shotgun);
@@ -630,28 +589,6 @@ namespace Spaceman
 			this.worldMap[currentRoom].ActivateMap(door, this);
 		}
 
-		public void NextGun()
-		{
-			do
-			{
-				HelpNext();
-				guns.NextFrame(1);
-			} while (arsenal[currentGun].unlocked == false);
-		}
-
-		void HelpNext()
-		{
-			currentGun++; // gets the next gun index
-			if (currentGun == arsenal.Count)
-			{
-				currentGun = 0;
-			}
-		}
-
-		public void RefreshGunCooldown()
-		{
-			player.SetGunCooldown(arsenal[currentGun].cooldown);
-		}
 
 		#region CreateProjectile
 		public void CreateProjectile(Spaceman origin)
@@ -729,79 +666,6 @@ namespace Spaceman
 
 				default:
 					return -Math.Cos(Math.PI / 4) * vel;
-			}
-		}
-
-		public double FindBulletX(Directions dir, bool mirrorX, GunData gun)
-		{
-			int barrelX = gun.barrelX;
-			int barrelY = gun.barrelY;
-			int angledBarrelX = gun.angledBarrelX;
-			int angledBarrelY = gun.angledBarrelY;
-			switch (dir)
-			{
-				case Directions.left:
-					return guns.GetSpriteWidth() - barrelX;
-
-				case Directions.upLeft:
-					return guns.GetSpriteWidth() - angledBarrelX - 4;
-
-				case Directions.up:
-
-					if (mirrorX) return guns.GetSpriteHeight() - barrelY + 11;
-					else return -guns.GetSpriteHeight() + barrelY + 8;
-
-				case Directions.upRight:
-					return angledBarrelX - 1;
-
-				case Directions.right:
-					return barrelX - 6;
-
-				case Directions.downRight:
-					return guns.GetSpriteHeight() - angledBarrelY + 7;
-
-				case Directions.down:
-					if (mirrorX) return barrelY + 3;
-					else return guns.GetSpriteHeight() - barrelY + 1;
-
-				default:
-					return angledBarrelY -2;
-			}
-		}
-
-		public double FindBulletY(Directions dir, bool mirrorX, GunData gun)
-		{
-			int barrelX = gun.barrelX;
-			int barrelY = gun.barrelY;
-			int angledBarrelX = gun.angledBarrelX;
-			int angledBarrelY = gun.angledBarrelY;
-			switch (dir)
-			{
-				case Directions.left:
-					return barrelY - 3;
-
-				case Directions.upLeft:
-					return angledBarrelY - 8;
-
-				case Directions.up:
-					if (mirrorX) return guns.GetSpriteWidth() - barrelX - 7;
-					else return guns.GetSpriteWidth() - barrelX - 1;
-
-				case Directions.upRight:
-					return angledBarrelY - 8;
-
-				case Directions.right:
-					return barrelY - 3;
-
-				case Directions.downRight:
-					return angledBarrelX + 3;
-
-				case Directions.down:
-					if (mirrorX) return guns.GetSpriteWidth() + barrelX - 15;
-					else return barrelX - 2;
-
-				default:
-					return angledBarrelX + 9;
 			}
 		}
 
@@ -1037,14 +901,13 @@ namespace Spaceman
 			{
 				bool draw = true;
 				bool delete = false;
-                if (projectiles[i].lifeSpan != null)
-                {
-                    projectiles[i].lifeSpan--;
-                    if (projectiles[i].lifeSpan <= 0)
+
+                projectiles[i].life++;
+                if (projectiles[i].life == projectiles[i].GetData().GetLifeSpan()) 
                     {
                         delete = true;
                     }
-                }
+
                 projectiles[i].worldX += projectiles[i].GetData().GetXVel(projectiles[i].GetDirection());
 				projectiles[i].worldY += projectiles[i].GetData().GetYVel(projectiles[i].GetDirection());
 				projectiles[i].UpdateSprite(worldMap[currentRoom]);
@@ -1287,44 +1150,44 @@ namespace Spaceman
 			}
 		}
 
-		// Unlocks a gun in the arsenal and adds it to the list of unlocked guns
-		public void UnlockGun(Game1.Guns gun)
-		{
-			if (!unlockedGuns.Contains(gun))
-			{
-				unlockedGuns.Add(gun);
-				switch (gun)
-				{
-					case Guns.Pistol:
-						arsenal[0].unlocked = true;
-						unlockedGuns.Add(gun);
-						break;
-					case Guns.Shotgun:
-						arsenal[1].unlocked = true;
-						break;
-					case Guns.Railgun:
-						arsenal[2].unlocked = true;
-						break;
+        // Unlocks a gun in the arsenal and adds it to the list of unlocked guns
+        public void UnlockGun(Game1.Guns gun)
+        {
+            if (!unlockedGuns.Contains(gun))
+            {
+                unlockedGuns.Add(gun);
+                switch (gun)
+                {
+                    case Guns.Pistol:
+                        player.UnlockGun(0);
+                        break;
+                    case Guns.Shotgun:
+                        player.UnlockGun(1);
+                        break;
+                    case Guns.Railgun:
+                        player.UnlockGun(2);
+                        break;
+                    case Guns.MachineGun:
+                        player.UnlockGun(3);
+                        break;
                     case Guns.BumbleGun:
-                        arsenal[4].unlocked = true;
-                        unlockedGuns.Add(gun);
+                        player.UnlockGun(4);
                         break;
                     default:
-						arsenal[3].unlocked = true;
-						break;
-				}
-			}
-		}
+                        break;
+                }
+            }
+        }
 
-		// Saves Game Data by serializing it to XML and exporting it to a file
-		public void SaveGameData()
+        // Saves Game Data by serializing it to XML and exporting it to a file
+        public void SaveGameData()
 		{
 			// SaveData is created using current game information.
 			SaveData s = new SaveData(currentRoom,
 				powerUpManager.GetUnlockedPowerUps(),
 				powerUpManager.GetCurrentPowerUps(),
 				unlockedGuns,
-				currentGun,
+				player.GetCurrentGun(),
 				worldMap[currentRoom].mapCoordinates);
 
 			currentSaveFilepath = "save1.sav";
@@ -1350,8 +1213,7 @@ namespace Spaceman
 			powerUpManager.unlockedPowerUps = saveData.unlockedPowerUps;
 			powerUpManager.currentPowerUps = saveData.currentPowerUps;
 			unlockedGuns = saveData.guns;
-			currentGun = saveData.currentGun;
-			guns.SetFrameNum(currentGun);
+            player.SetCurrentGun(saveData.currentGun);
 			worldMap[currentRoom].mapCoordinates = saveData.coordinates;
 		}
 

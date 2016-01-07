@@ -28,7 +28,9 @@ namespace Spaceman
 		public List<Spawn> spawns = new List<Spawn>();
 		public List<MapAsset> assets = new List<MapAsset>();
 		public List<IMapItem> mapItems = new List<IMapItem>();
-		private bool wasJustActivated = false;
+        public List<Projectile> enemyProjectiles = new List<Projectile>();
+        public List<Projectile> allyProjectiles = new List<Projectile>();
+        private bool wasJustActivated = false;
 		public SaveStation saveStation = null;
 
 		public Map(MapResource resource, int parallaxFactor)
@@ -42,6 +44,12 @@ namespace Spaceman
 			this.mapCoordinates = new Vector2(0, 0);
 			this.parallaxFactor = parallaxFactor;
 		}
+
+        public void AddProjectile(Projectile projectile, bool enemy)
+        {
+            if (enemy) this.enemyProjectiles.Add(projectile);
+            else this.allyProjectiles.Add(projectile);
+        }
 
         public bool GetWasJustActivated()
         {
