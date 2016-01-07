@@ -331,7 +331,7 @@ namespace Spaceman
 					5,							// bullet velocity
 					10,							// damage
 					0,                          // cooldown
-                    null,                       // projectile lifespan
+                    0,                          // projectile lifespan
                     false,						// automatic
 					13,							// barrel X
 					8,							// barrel Y
@@ -346,15 +346,15 @@ namespace Spaceman
 				);
 
 			arsenal.Add(
-				new Gun("IT-6.7 Rail Gun", false, 5, 50, 5, null, false, 14, 8, 9, 9,false)
+				new Gun("IT-6.7 Rail Gun", false, 5, 50, 5, 0, false, 14, 8, 9, 9,false)
 				);
 
 			arsenal.Add(
-				new Gun("Magmatorque Nail-Gun", false, 6, 10, 7, null, true, 18, 7,10,6,false)
+				new Gun("Magmatorque Nail-Gun", false, 6, 10, 7, 0, true, 18, 7,10,6,false)
 				);
 
             arsenal.Add(
-                new Gun("Symbionic Hive-Oscilator", false, 1, 20, 5, null, false, 14, 8, 10, 5,true)
+                new Gun("Symbionic Hive Oscilator", false, 1, 20, 5, 0, false, 14, 8, 10, 5,true)
                 );
 
             UnlockGun(Guns.Pistol);
@@ -1048,14 +1048,12 @@ namespace Spaceman
 			{
 				bool draw = true;
 				bool delete = false;
-                if (projectiles[i].lifeSpan != null)
-                {
-                    projectiles[i].lifeSpan--;
-                    if (projectiles[i].lifeSpan <= 0)
+                int l = 1;
+                l++;
                     {
                         delete = true;
                     }
-                }
+                
                 projectiles[i].worldX += projectiles[i].xVel;
 				projectiles[i].worldY += projectiles[i].yVel;
 				projectiles[i].yVel += projectiles[i].yAcc;

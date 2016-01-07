@@ -31,7 +31,7 @@ namespace Spaceman
             this.xVel = xVel;
             if (sinusoidal)
             {
-                this.yVel = Math.Sin(destRect.X);
+                this.yVel = Math.Sin((double)lifeSpan);
             }
             else
             {

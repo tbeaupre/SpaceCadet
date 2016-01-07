@@ -14,29 +14,50 @@ namespace Spaceman
 	public class Spaceman:Sprite
 	{
 		public Texture2D body;
-		int bodyFrames;
-		public int currentBodyFrame;
+		private int bodyFrames;
+		private int currentBodyFrame;
 		public Texture2D head;
-		int headFrames;
-		int currentHeadFrame;
+		private int headFrames;
+		private int currentHeadFrame;
 		public Rectangle headSource;
 		public Rectangle bodySource;
 		public Game1.Directions direction; // 1 = left, 2 = upLeft, 3 = up, 4 = upRight, 5 = right, 6 = down
 		private ActionStatus bodyStatus;
-		int runCycleStart = 3;
-		public int jumpsRemaining;
+		private int runCycleStart = 3;
+		private int jumpsRemaining;
 		private int maxJumps;
         private double xAirMomentum;
         private double xGroundMomentum;
-        double xVel;
-        double yVel;
+        private double xVel;
+        private double yVel;
         KeyboardState newkeys;
 		KeyboardState oldkeys;
-		int gunCooldown;
-        const int TURN_FRAMES = 10;
-        const int SKID_FRAMES = 20;
+		private int gunCooldown;
+        private const int TURN_FRAMES = 10;
+        private const int SKID_FRAMES = 20;
 
-		public void SetMaxJumps(int jumps)
+        #region getters/setters
+        public void SetCurrentBodyFrame(int frame)
+        {
+            this.currentBodyFrame = frame;
+        }
+
+        public int GetCurrentBodyFrame()
+        {
+            return currentBodyFrame;
+        }
+
+        public void SetJumpsRemaining(int jumps)
+        {
+            this.jumpsRemaining=jumpsRemaining = jumps;
+        }
+
+        public int GetJumpsRemaining()
+        {
+            return jumpsRemaining;
+        }
+
+        public void SetMaxJumps(int jumps)
 		{
 			this.maxJumps = jumps;
 		}
@@ -70,6 +91,7 @@ namespace Spaceman
         {
             this.gunCooldown = cooldown;
         }
+        #endregion
 
         public Spaceman(Texture2D body,Texture2D head, Vector2 destCoords, int numFrames, int frameNum, bool mirrorX)
 			: base(body, destCoords, numFrames, frameNum, mirrorX)
@@ -92,7 +114,7 @@ namespace Spaceman
 			this.gunCooldown = 0;
 		}
 
-		public void UpdateHead()// 1 = left, 2 = upLeft, 3 = up, 4 = upRight, 5 = right, 6 = down, 7 = downRight, 8 = downLeft
+		public void UpdateHead()
 		{
 			if (direction.Equals(Game1.Directions.left) || direction.Equals(Game1.Directions.right) || direction.Equals(Game1.Directions.down) || direction.Equals(Game1.Directions.downRight) || direction.Equals(Game1.Directions.downLeft))
 			{
@@ -259,6 +281,8 @@ namespace Spaceman
             if (mirrorX) this.direction = Game1.Directions.left;
             else this.direction = Game1.Directions.right;
 
+            this.direction = LookDirection();
+
             if (bodyStatus.state == ActionStates.Fall)
             {
                 if (IsKeyHeld(Game1.left))
@@ -307,7 +331,6 @@ namespace Spaceman
             bool jumping = (IsKeyPressed(Game1.jump) && jumpsRemaining > 0);
             bool holding = newkeys.IsKeyDown(Game1.hold);
             bool crouching = (newkeys.IsKeyDown(Game1.down) && bodyStatus.state != ActionStates.Fall && !holding);
-            Game1.Directions lookDir = LookDirection();
 
             // If currently in the air, do certain things.
             if (currentStatus.state == ActionStates.Fall)
@@ -673,7 +696,7 @@ namespace Spaceman
 			game.worldMap[game.currentRoom].ChangeCoords(xOffset, yOffset);
         }
 
-		// Checks to see if the character is attempting to travel up stairs and reacts accordingly, allowing the player faster travel up stairs
+		// Checks to see if the character is attempting to travel down stairs and reacts accordingly, allowing the player faster travel down stairs
 		public bool CheckDiagonalDown(Game1 game)
 		{
 			bool flag = true;

@@ -98,13 +98,13 @@ namespace Spaceman
 			this.status = this.baseSprite.status;
 			int[] array = new int[4] { 4, 5, 9, 10 };
 			this.sourceRect = new Rectangle(this.spriteWidth * this.frameNum, 0, this.texture.Width / numFrames, this.texture.Height);
-			if (array.Contains(baseSprite.currentBodyFrame))
+			if (array.Contains(baseSprite.GetCurrentBodyFrame()))
 			{
 				this.destRect.Y = baseSprite.destRect.Y - 1;
 			}
 			else
 			{
-				if (baseSprite.currentBodyFrame == 0)
+				if (baseSprite.GetCurrentBodyFrame() == 0)
 				{
 					this.destRect.Y = baseSprite.destRect.Y + 3;
 				}
