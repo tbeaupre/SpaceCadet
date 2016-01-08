@@ -35,8 +35,70 @@ namespace Spaceman
 		int gunCooldown;
         const int TURN_FRAMES = 10;
         const int SKID_FRAMES = 20;
+        List<GunData> arsenal = new List<GunData>();
+        GunOverlay guns;
+        int currentGun = 0;
 
-		public void SetMaxJumps(int jumps)
+        // Energy
+        double maxEnergy = 100;
+        double currentEnergy = 5;
+        double energyRecoveryRate = 1 / 60;
+        // Health
+        double maxHealth = 100;
+        double currentHealth = 50;
+
+        public void SetEnergyRecoveryRate(double energyRecoveryRate)
+        {
+            this.energyRecoveryRate = energyRecoveryRate;
+        }
+
+        public double GetCurrentHealth()
+        {
+            return this.currentHealth;
+        }
+
+        public double GetMaxHealth()
+        {
+            return this.maxHealth;
+        }
+
+        public void SetMaxHealth(double max)
+        {
+            this.maxHealth = max;
+        }
+
+        public double GetCurrentEnergy()
+        {
+            return this.currentEnergy;
+        }
+
+        public double GetMaxEnergy()
+        {
+            return this.maxEnergy;
+        }
+
+        public void SetMaxEnergy(double max)
+        {
+            this.maxEnergy = max;
+        }
+
+        public GunOverlay GetGuns()
+        {
+            return this.guns;
+        }
+
+        public int GetCurrentGun()
+        {
+            return currentGun;
+        }
+
+        public void SetCurrentGun(int index)
+        {
+            this.currentGun = index;
+            this.guns.SetFrameNum(index);
+        }
+
+        public void SetMaxJumps(int jumps)
 		{
 			this.maxJumps = jumps;
 		}
@@ -91,6 +153,45 @@ namespace Spaceman
             this.yVel = 0;
 			this.gunCooldown = 0;
 		}
+
+        public void InitializeArsenal(Texture2D pistolTexture, Texture2D shotgunTexture, Texture2D railgunTexture, Texture2D machinegunTexture, Texture2D bumblegunTexture)
+        {
+            arsenal.Add(
+                new GunData(
+                    "G-32_C Phazer Pistol",                                 // name
+                    false,                                                  // unlocked
+                    0,                                                      // cooldown
+                    new StandardProjectile(pistolTexture, 5, -1, 10),   // projectile data
+                    false,                                                  // automatic
+                    13,                                                     // barrel X
+                    8,                                                      // barrel Y
+                    7,                                                      // angled barrel X
+                    8)                                                      // angled barrel Y
+                );
+
+            arsenal.Add(
+                new GunData("Flouroantimonic Shotgun", false, 15, new StandardProjectile(shotgunTexture, 5, 15, 20), false, 16, 8, 10, 6));
+
+            arsenal.Add(
+                new GunData("IT-6.7 Rail Gun", false, 5, new StandardProjectile(railgunTexture, 5, -1, 50), false, 14, 8, 9, 9));
+
+            arsenal.Add(
+                new GunData("Magmatorque Nail-Gun", false, 7, new StandardProjectile(machinegunTexture, 6, -1, 10), true, 18, 7, 10, 6));
+
+            arsenal.Add(
+                new GunData("Symbionic Hive-Oscilator", false, 5, new StandardProjectile(bumblegunTexture, 1, -1, 20), false, 19, 9, 10, 5));
+        }
+
+        public void InitializeGunOverlay(Texture2D gunsAngleUpTexture, Texture2D gunsAngleDownTexture, Texture2D gunsTexture)
+        {
+            guns = new GunOverlay(this, gunsAngleUpTexture, gunsAngleDownTexture, gunsTexture,
+                                new Vector2(Game1.spaceManX, Game1.spaceManY),
+                                5,
+                                0,
+                                1,
+                                false,
+                                null);
+        }
 
 		public void UpdateHead()// 1 = left, 2 = upLeft, 3 = up, 4 = upRight, 5 = right, 6 = down, 7 = downRight, 8 = downLeft
 		{
@@ -278,10 +379,10 @@ namespace Spaceman
             // firing logic
             if (IsKeyHeld(Game1.fire)
                 && this.gunCooldown == 0
-                && (game.arsenal[game.currentGun].automatic ? true : oldkeys.IsKeyUp(Game1.fire)))
+                && (arsenal[currentGun].automatic ? true : oldkeys.IsKeyUp(Game1.fire)))
             {
-                game.CreateProjectile(this);
-                game.RefreshGunCooldown();
+                CreateProjectile(game.worldMap[game.currentRoom]);
+                RefreshGunCooldown();
             }
             else
             {
@@ -291,14 +392,11 @@ namespace Spaceman
             // Next Gun
             if (IsKeyPressed(Game1.nextGun))
             {
-                game.NextGun();
+                NextGun();
             }
 
             //Update other sprites connected to this one.
-            foreach (Sprite sprite in game.characterSprites)
-            {
-                sprite.mirrorX = mirrorX;
-            }
+            this.guns.mirrorX = mirrorX;
         }
 
         public ActionStatus HandleKeys(ActionStatus currentStatus)
@@ -492,20 +590,6 @@ namespace Spaceman
                     break;
                     }
         }
-        
-        // Fires a projectile if conditions are correct or decreases the cooldown on the gun.
-        public void Fire(Game1 game, bool condition)
-		{
-			if (condition)
-			{
-				game.CreateProjectile(this);
-				game.RefreshGunCooldown();
-			}
-			else
-			{
-				if (gunCooldown > 0) gunCooldown--;
-			}
-		}
 
 		public bool IsKeyPressed(Keys key)
 		{
@@ -781,17 +865,170 @@ namespace Spaceman
 			newkeys = keys;
 		}
 
-		public void StopMomentum()
+        public void RefreshGunCooldown()
+        {
+            SetGunCooldown(arsenal[currentGun].cooldown);
+        }
+
+        public void StopMomentum()
 		{
 			this.SetXVel(0);
             SetYVel(0);
             SetBodyStatus(new ActionStatus(ActionStates.Idle, 0));
 		}
 
-		public void UpdateSprite(Game1 game)
+        public void NextGun()
         {
+            do
+            {
+                HelpNext();
+                guns.NextFrame(1);
+            } while (arsenal[currentGun].unlocked == false);
+        }
+
+        void HelpNext()
+        {
+            currentGun++; // gets the next gun index
+            if (currentGun == arsenal.Count)
+            {
+                currentGun = 0;
+            }
+        }
+
+        public void UnlockGun(int index)
+        {
+            this.arsenal[index].unlocked = true;
+        }
+
+        public void TakeDamage(Projectile proj)
+        {
+            TakeDamage(proj.damage);
+        }
+
+        public void TakeDamage(int amount)
+        {
+            if (!status.state.Equals("hit") || (status.state.Equals("hit") && status.duration == 0))
+            {
+                status = new Status("hit", HIT_DURATION * FRAME_OFFSET);
+                currentEnergy -= amount;
+                if (currentEnergy < 0)
+                {
+                    currentHealth += currentEnergy;
+                    currentEnergy = 0;
+                }
+            }
+        }
+
+        public void CreateProjectile(Map map)
+        {
+            map.AddProjectile(arsenal[currentGun].CreateProjectile(this,map.mapCoordinates,
+                (int)map.mapCoordinates.X - map.offset.X + guns.GetDestRect().X + FindBulletX(direction, mirrorX),
+                (int)map.mapCoordinates.Y - map.offset.Y + guns.GetDestRect().Y + FindBulletY(direction, mirrorX)), false);
+        }
+
+        public double FindBulletX(Game1.Directions dir, bool mirrorX)
+        {
+            GunData gun = arsenal[currentGun];
+            int barrelX = gun.barrelX;
+            int barrelY = gun.barrelY;
+            int angledBarrelX = gun.angledBarrelX;
+            int angledBarrelY = gun.angledBarrelY;
+            switch (dir)
+            {
+                case Game1.Directions.left:
+                    return guns.GetSpriteWidth() - barrelX;
+
+                case Game1.Directions.upLeft:
+                    return guns.GetSpriteWidth() - angledBarrelX - 4;
+
+                case Game1.Directions.up:
+
+                    if (mirrorX) return guns.GetSpriteHeight() - barrelY + 11;
+                    else return -guns.GetSpriteHeight() + barrelY + 8;
+
+                case Game1.Directions.upRight:
+                    return angledBarrelX - 1;
+
+                case Game1.Directions.right:
+                    return barrelX - 6;
+
+                case Game1.Directions.downRight:
+                    return guns.GetSpriteHeight() - angledBarrelY + 7;
+
+                case Game1.Directions.down:
+                    if (mirrorX) return barrelY + 3;
+                    else return guns.GetSpriteHeight() - barrelY + 1;
+
+                default:
+                    return angledBarrelY - 2;
+            }
+        }
+
+        public double FindBulletY(Game1.Directions dir, bool mirrorX)
+        {
+            GunData gun = arsenal[currentGun];
+            int barrelX = gun.barrelX;
+            int barrelY = gun.barrelY;
+            int angledBarrelX = gun.angledBarrelX;
+            int angledBarrelY = gun.angledBarrelY;
+            switch (dir)
+            {
+                case Game1.Directions.left:
+                    return barrelY - 3;
+
+                case Game1.Directions.upLeft:
+                    return angledBarrelY - 8;
+
+                case Game1.Directions.up:
+                    if (mirrorX) return guns.GetSpriteWidth() - barrelX - 7;
+                    else return guns.GetSpriteWidth() - barrelX - 1;
+
+                case Game1.Directions.upRight:
+                    return angledBarrelY - 8;
+
+                case Game1.Directions.right:
+                    return barrelY - 3;
+
+                case Game1.Directions.downRight:
+                    return angledBarrelX + 3;
+
+                case Game1.Directions.down:
+                    if (mirrorX) return guns.GetSpriteWidth() + barrelX - 15;
+                    else return barrelX - 2;
+
+                default:
+                    return angledBarrelX + 9;
+            }
+        }
+
+        public void UpdateEnergy()
+        {
+            if (!status.state.Equals("hit") || (status.state.Equals("hit") && status.duration == 0))
+            {
+                AddEnergy(energyRecoveryRate);
+            }
+        }
+
+        public void AddEnergy(double amount)
+        {
+            currentEnergy += amount;
+            if (GetCurrentEnergy() > maxEnergy) currentEnergy = maxEnergy;
+            if (GetCurrentEnergy() < 0) currentEnergy = 0;
+        }
+
+        public void AddHealth(double amount)
+        {
+            currentHealth += amount;
+            if (currentHealth > maxHealth) currentHealth = maxHealth;
+            if (currentHealth < 0) currentHealth = 0;
+        }
+
+
+        public void UpdateSprite(Game1 game)
+        {
+            guns.UpdateSprite();
 			GravityUpdate(game);
-			UpdateKeys(game.newkeys);
+            UpdateKeys(game.newkeys);
 			if (game.worldMap[game.currentRoom].GetWasJustActivated())
 			{
 				StopMomentum();

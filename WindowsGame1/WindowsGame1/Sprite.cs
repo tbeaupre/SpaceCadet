@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Spaceman
 {
-	public class Sprite
+	public class Sprite : ISprite
 	{
 		public Texture2D texture;
 		public Rectangle sourceRect;
@@ -181,7 +181,7 @@ namespace Spaceman
 		{
 			Rectangle rect = new Rectangle(this.destRect.X - game.player.destRect.X + 2, this.destRect.Y - game.player.destRect.Y + 1, this.spriteWidth, this.spriteHeight);
 
-			Texture2D projTexture = game.player.texture;
+			Texture2D projTexture = game.player.GetTexture();
 			Texture2D hitBoxTexture = this.texture;
 
 			Color[] objectPixels;
@@ -397,25 +397,75 @@ namespace Spaceman
 			return false;
 		}
 
-		public Texture2D MirrorTexture(Sprite sprite, Game1 game, Texture2D texture)
+		public Texture2D MirrorTexture(ISprite sprite, Game1 game, Texture2D texture)
 		{
-			Texture2D mirroredProjectile = new Texture2D(game.graphics.GraphicsDevice, sprite.spriteWidth, sprite.spriteHeight);
-			Color[] projectileTextureHelper = new Color[sprite.spriteWidth * sprite.spriteHeight];
-			Color[] newTextureData = new Color[sprite.spriteWidth * sprite.spriteHeight];
+			Texture2D mirroredProjectile = new Texture2D(game.graphics.GraphicsDevice, sprite.GetSpriteWidth(), sprite.GetSpriteHeight());
+			Color[] projectileTextureHelper = new Color[sprite.GetSpriteWidth() * sprite.GetSpriteHeight()];
+			Color[] newTextureData = new Color[sprite.GetSpriteWidth() * sprite.GetSpriteHeight()];
 			texture.GetData<Color>(
-				0, sprite.sourceRect, projectileTextureHelper, 0, sprite.spriteWidth * sprite.spriteHeight);
+				0, sprite.GetSourceRect(), projectileTextureHelper, 0, sprite.GetSpriteWidth() * sprite.GetSpriteHeight());
 
-			for (int x = 0; x < sprite.spriteWidth; x++)
+			for (int x = 0; x < sprite.GetSpriteWidth(); x++)
 			{
-				for (int y = 0; y < sprite.spriteHeight; y++)
+				for (int y = 0; y < sprite.GetSpriteHeight(); y++)
 				{
-					newTextureData[y * sprite.spriteWidth + x] = projectileTextureHelper[(y + 1) * sprite.spriteWidth - 1 - x];
-					newTextureData[(y + 1) * sprite.spriteWidth - 1 - x] = projectileTextureHelper[y * sprite.spriteWidth + x];
+					newTextureData[y * sprite.GetSpriteWidth() + x] = projectileTextureHelper[(y + 1) * sprite.GetSpriteWidth() - 1 - x];
+					newTextureData[(y + 1) * sprite.GetSpriteWidth() - 1 - x] = projectileTextureHelper[y * sprite.GetSpriteWidth() + x];
 				}
 			}
 
-			mirroredProjectile.SetData<Color>(0, new Rectangle(0, 0, sprite.spriteWidth, sprite.spriteHeight), newTextureData, 0, sprite.spriteWidth * sprite.spriteHeight);
+			mirroredProjectile.SetData<Color>(0, new Rectangle(0, 0, sprite.GetSpriteWidth(), sprite.GetSpriteHeight()), newTextureData, 0, sprite.GetSpriteWidth() * sprite.GetSpriteHeight());
 			return mirroredProjectile;
 		}
-	}
+
+        public int GetHitDuration()
+        {
+            return HIT_DURATION;
+        }
+
+        public Texture2D GetTexture()
+        {
+            return this.texture;
+        }
+
+        public Status GetStatus()
+        {
+            return this.status;
+        }
+
+        public bool GetMirrorX()
+        {
+            return this.mirrorX;
+        }
+
+        public Rectangle GetDestRect()
+        {
+            return this.destRect;
+        }
+
+        public Rectangle GetSourceRect()
+        {
+            return this.sourceRect;
+        }
+
+        public int GetSpriteWidth()
+        {
+            return this.spriteWidth;
+        }
+
+        public int GetSpriteHeight()
+        {
+            return this.spriteHeight;
+        }
+
+        public int GetFrameNum()
+        {
+            return this.frameNum;
+        }
+
+        public void SetFrameNum(int frameNum)
+        {
+            this.frameNum = frameNum;
+        }
+    }
 }

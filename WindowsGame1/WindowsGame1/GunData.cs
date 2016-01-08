@@ -11,34 +11,35 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Spaceman
 {
-	public class Gun
+	public class GunData
 	{
 		public string name;
 		public bool unlocked;
-		public int bulletVel;
-		public int damage;
+        public IProjectileData projectileData;
 		public int cooldown;
-        public Nullable<int> bulletLifeSpan;
 		public bool automatic;
 		public int barrelX;
 		public int barrelY;
 		public int angledBarrelX;
 		public int angledBarrelY;
 
-		public Gun(string name, bool unlocked, int bulletVel, int damage, int cooldown, Nullable<int> bulletLifeSpan,bool automatic, int barrelX, int barrelY,int angledBarrelX,int angledBarrelY)
+		public GunData(string name, bool unlocked, int cooldown, IProjectileData projectileData,bool automatic, int barrelX, int barrelY,int angledBarrelX,int angledBarrelY)
 		{
 			this.name = name;
 			this.unlocked = unlocked;
-			this.bulletVel = bulletVel;
-			this.damage = damage;
+            this.projectileData = projectileData;
 			this.cooldown = cooldown;
-            this.bulletLifeSpan = bulletLifeSpan;
 			this.automatic = automatic;
 			this.barrelX = barrelX;
 			this.barrelY = barrelY;
 			this.angledBarrelX = angledBarrelX;
 			this.angledBarrelY = angledBarrelY;
 		}
+
+        public Projectile CreateProjectile(Spaceman origin, Vector2 mapCoords, double worldX, double worldY)
+        {
+            return projectileData.CreateProjectile(origin.direction, origin, mapCoords, worldX, worldY, origin.GetMirrorX());
+        }
 
 	}
 }

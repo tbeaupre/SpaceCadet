@@ -11,8 +11,8 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Spaceman
 {
-	public abstract class Object : Sprite
-	{
+	public abstract class Object : Sprite, IObject
+    {
 		public double worldX;
 		public double worldY;
 		public bool onScreen;
@@ -43,10 +43,10 @@ namespace Spaceman
                 && this.worldY + map.offset.Y < map.mapCoordinates.Y + Game1.screenHeight);
 		}
 
-		public bool IsNearScreen(Vector2 mapCoordinates)
+		public bool IsNearScreen(Map map)
 		{
-			return ((this.worldX + this.spriteWidth) > (mapCoordinates.X - Game1.screenWidth) && this.worldX < (mapCoordinates.X + (2 * Game1.screenWidth)) &&
-				(this.worldY + this.spriteHeight) > (mapCoordinates.Y - Game1.screenHeight) && this.worldY < mapCoordinates.Y + (2 * Game1.screenHeight));
+			return ((this.worldX + this.spriteWidth) > (map.mapCoordinates.X - Game1.screenWidth) && this.worldX < (map.mapCoordinates.X + (2 * Game1.screenWidth)) &&
+				(this.worldY + this.spriteHeight) > (map.mapCoordinates.Y - Game1.screenHeight) && this.worldY < map.mapCoordinates.Y + (2 * Game1.screenHeight));
 		}
 
         public void UpdateCoords(Map map)
@@ -55,23 +55,11 @@ namespace Spaceman
             this.destRect.Y = (int)(this.worldY - map.mapCoordinates.Y + map.offset.Y);
         }
 
-		public virtual void UpdateSprite(Map map)
-		{
-			if (status.state.Equals("hit"))
-			{
-				if (status.duration > 0) status.duration--;
-			}
-			UpdateCoords(map);
-			this.onScreen = IsOnScreen(map);
-			this.nearScreen = IsNearScreen(map.mapCoordinates);
-			this.sourceRect = new Rectangle(this.spriteWidth * this.frameNum, 0, this.texture.Width / numFrames, this.texture.Height);
-		}
-
 		public override bool PerPixelCollisionDetect(Game1 game)
 		{
 			Rectangle rect = new Rectangle(this.destRect.X - game.player.destRect.X + 2, this.destRect.Y - game.player.destRect.Y + 1, this.spriteWidth, this.spriteHeight);
 
-			Texture2D projTexture = game.player.texture;
+			Texture2D projTexture = game.player.GetTexture();
 			Texture2D hitBoxTexture = this.hitbox;
 
 			Color[] objectPixels;
@@ -148,5 +136,17 @@ namespace Spaceman
 			}
 			return false;
 		}
-	}
+
+        public virtual void UpdateSprite(Map map)
+        {
+            if (status.state.Equals("hit"))
+            {
+                if (status.duration > 0) status.duration--;
+            }
+            UpdateCoords(map);
+            this.onScreen = IsOnScreen(map);
+            this.nearScreen = IsNearScreen(map);
+            this.sourceRect = new Rectangle(this.spriteWidth * this.frameNum, 0, this.texture.Width / numFrames, this.texture.Height);
+        }
+    }
 }

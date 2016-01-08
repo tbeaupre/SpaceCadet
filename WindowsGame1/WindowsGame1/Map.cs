@@ -24,11 +24,13 @@ namespace Spaceman
 		public int parallaxFactor;
 		public List<PickUp> pickUps = new List<PickUp>();
 		public List<Enemy> enemies = new List<Enemy>();
-		public List<Object> objectsToDraw = new List<Object>();
+		public List<IObject> objectsToDraw = new List<IObject>();
 		public List<Spawn> spawns = new List<Spawn>();
 		public List<MapAsset> assets = new List<MapAsset>();
 		public List<IMapItem> mapItems = new List<IMapItem>();
-		private bool wasJustActivated = false;
+        public List<Projectile> enemyProjectiles = new List<Projectile>();
+        public List<Projectile> allyProjectiles = new List<Projectile>();
+        private bool wasJustActivated = false;
 		public SaveStation saveStation = null;
 
 		public Map(MapResource resource, int parallaxFactor)
@@ -42,6 +44,12 @@ namespace Spaceman
 			this.mapCoordinates = new Vector2(0, 0);
 			this.parallaxFactor = parallaxFactor;
 		}
+
+        public void AddProjectile(Projectile projectile, bool enemy)
+        {
+            if (enemy) this.enemyProjectiles.Add(projectile);
+            else this.allyProjectiles.Add(projectile);
+        }
 
         public bool GetWasJustActivated()
         {
@@ -73,9 +81,51 @@ namespace Spaceman
 			{
 				item.UpdateSprite(game);
 			}
-		}
 
-		public void AddDoor(Door d)
+            // Update the ally projectiles.
+            List<Projectile> result = new List<Projectile>(allyProjectiles);
+            foreach (Projectile projectile in allyProjectiles)
+            {
+                projectile.GetData().UpdateProjectile(projectile, game);
+
+                if (projectile.GetDelete())
+                {
+                    game.RemoveObjectToDraw(projectile);
+                    result.Remove(projectile);
+                }
+                else
+                {
+                    if (!projectile.IsNearScreen(game.worldMap[game.currentRoom]))
+                    {
+                        game.RemoveObjectToDraw(projectile);
+                    }
+                }
+            }
+            allyProjectiles = result;
+
+            // Update the enemy projectiles
+            result = new List<Projectile>(enemyProjectiles);
+            foreach (Projectile projectile in enemyProjectiles)
+            {
+                projectile.GetData().UpdateProjectile(projectile, game);
+
+                if (projectile.GetDelete())
+                {
+                    game.RemoveObjectToDraw(projectile);
+                    result.Remove(projectile);
+                }
+                else
+                {
+                    if (!projectile.IsNearScreen(game.worldMap[game.currentRoom]))
+                    {
+                        game.RemoveObjectToDraw(projectile);
+                    }
+                }
+            }
+            enemyProjectiles = result;
+		}
+        
+        public void AddDoor(Door d)
 		{
 			this.doors.Add(d);
 		}
