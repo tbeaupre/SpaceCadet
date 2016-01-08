@@ -15,10 +15,10 @@ namespace Spaceman
     {
         Texture2D texture;
         double bulletVel;
+        double xVel;
         double yVel;
         int lifeSpan;
         int damage;
-        const int NUM_FRAMES = 2; // one for straight and one for angled.
 
         public SinusoidalProjectile(Texture2D texture, double bulletVel, int lifeSpan, int damage)
             :base(texture,bulletVel, lifeSpan, damage)
@@ -33,25 +33,36 @@ namespace Spaceman
             switch (projectile.GetDirection())
             {
                 case Game1.Directions.upLeft:
-
+                    yVel = -Math.Sin(0.5 * projectile.GetLife()) - Math.Sin(Math.PI / 4) * bulletVel;
+                    xVel = -Math.Sin(0.5 * projectile.GetLife()) - Math.Sin(Math.PI / 4) * bulletVel;
                     break;
                 case Game1.Directions.upRight:
-
+                    yVel = -Math.Sin(0.5 * projectile.GetLife()) - Math.Sin(Math.PI / 4) * bulletVel;
+                    xVel = Math.Sin(0.5 * projectile.GetLife()) + Math.Sin(Math.PI / 4) * bulletVel;
                     break;
                 case Game1.Directions.downLeft:
-
-                    break;
-                case Game1.Directions.up:
-
+                    yVel = Math.Sin(0.5 * projectile.GetLife()) + Math.Sin(Math.PI / 4) * bulletVel;
+                    xVel = -Math.Sin(0.5 * projectile.GetLife()) - Math.Sin(Math.PI / 4) * bulletVel;
                     break;
                 case Game1.Directions.downRight:
-
+                    yVel = Math.Sin(0.5 * projectile.GetLife()) + Math.Sin(Math.PI / 4) * bulletVel;
+                    xVel = Math.Sin(0.5 * projectile.GetLife()) + Math.Sin(Math.PI / 4) * bulletVel;
+                    break;
+                case Game1.Directions.up:
+                    yVel = -bulletVel;
+                    xVel = Math.Sin(projectile.GetLife());
                     break;
                 case Game1.Directions.down:
-
+                    yVel = bulletVel;
+                    xVel = Math.Sin(projectile.GetLife());
                     break;
-                default:
+                case Game1.Directions.right:
                     yVel = Math.Sin(projectile.GetLife());
+                    xVel = bulletVel;
+                    break;
+                case Game1.Directions.left:
+                    yVel = Math.Sin(projectile.GetLife());
+                    xVel = -bulletVel;
                     break;
             }
         }
