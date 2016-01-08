@@ -182,19 +182,24 @@ namespace Spaceman
         /// </summary>
         protected override void Initialize()
         {
-            powerUpManager.UnlockPowerUp(Game1.PowerUps.BoostJump);
-            powerUpManager.UpdateAbilities(Game1.PowerUps.BoostJump, Game1.PowerUps.NULL, Game1.PowerUps.NULL);
+            powerUpManager.UnlockPowerUp(PowerUps.BoostJump);
+            powerUpManager.UpdateAbilities(PowerUps.BoostJump, PowerUps.NULL, PowerUps.NULL);
 
             spaceshipTexture = this.Content.Load<Texture2D>("MapResources\\OtherAssets\\Spaceship");
 
             boostJumpTexture = this.Content.Load<Texture2D>("Boost Jump");
+            
+            //bulletFlatTexture = this.Content.Load<Texture2D>("Bullets");
+            //bulletAngleTexture = this.Content.Load<Texture2D>("Bullets Angled");
+            PistolBulletTexture = this.Content.Load<Texture2D>("Bullets\\PistolBullet");
+            MachinegunBulletTexture = this.Content.Load<Texture2D>("Bullets\\MachinegunBullet");
+            ShotgunBulletTexture = this.Content.Load<Texture2D>("Bullets\\ShotgunBullet");
+            RailgunBulletTexture = this.Content.Load<Texture2D>("Bullets\\RailgunBullet");
+            BumblegunBulletTexture = this.Content.Load<Texture2D>("Bullets\\BumblegunBullet");
 
-            bulletFlatTexture = this.Content.Load<Texture2D>("Bullets");
-            bulletAngleTexture = this.Content.Load<Texture2D>("Bullets Angled");
-
-            gunsTexture = this.Content.Load<Texture2D>("Guns");
-            gunsAngleUpTexture = this.Content.Load<Texture2D>("Guns Angle");
-            gunsAngleDownTexture = this.Content.Load<Texture2D>("Guns Angle2");
+            gunsTexture = this.Content.Load<Texture2D>("Guns\\Guns");
+            gunsAngleUpTexture = this.Content.Load<Texture2D>("Guns\\Guns Angle");
+            gunsAngleDownTexture = this.Content.Load<Texture2D>("Guns\\Guns Angle2");
 
             spaceManTexture = this.Content.Load<Texture2D>("Spaceman");
             spaceManHeadTexture = this.Content.Load<Texture2D>("Spaceman Heads");
@@ -205,7 +210,7 @@ namespace Spaceman
                 13,
                 1,
                 false);
-            player.InitializeArsenal(bulletFlatTexture, bulletFlatTexture, bulletFlatTexture, bulletFlatTexture, bulletFlatTexture);// Placeholder Textures. Put bullet textures here.
+            player.InitializeArsenal(PistolBulletTexture, ShotgunBulletTexture, RailgunBulletTexture, MachinegunBulletTexture, BumblegunBulletTexture);// Placeholder Textures. Put bullet textures here.
             player.InitializeGunOverlay(gunsAngleUpTexture,gunsAngleDownTexture, gunsTexture);
 
             healthBarOverlayTexture = this.Content.Load<Texture2D>("HUD\\HealthBarOverlay2");
@@ -235,14 +240,6 @@ namespace Spaceman
 
             batteryTexture = this.Content.Load<Texture2D>("PickUps\\Battery");
             healthTexture = this.Content.Load<Texture2D>("PickUps\\HealthPickups");
-
-			//bulletFlatTexture = this.Content.Load<Texture2D>("Bullets");
-			//bulletAngleTexture = this.Content.Load<Texture2D>("Bullets Angled");
-            PistolBulletTexture = this.Content.Load<Texture2D>("Bullets\\PistolBullet");
-            MachinegunBulletTexture = this.Content.Load<Texture2D>("Bullets\\MachinegunBullet");
-            ShotgunBulletTexture = this.Content.Load<Texture2D>("Bullets\\ShotgunBullet");
-            RailgunBulletTexture = this.Content.Load<Texture2D>("Bullets\\RailgunBullet");
-            BumblegunBulletTexture = this.Content.Load<Texture2D>("Bullets\\BumblegunBullet");
 			
             saveStationTexture = this.Content.Load<Texture2D>("SaveStation");
 
@@ -714,7 +711,7 @@ namespace Spaceman
 		{
             worldMap[currentRoom].enemyProjectiles.Add(
                 new Projectile(
-                    new StandardProjectile(bulletFlatTexture, origin.projectileData.damage, -1, origin.projectileData.damage),
+                    new StandardProjectile(bulletFlatTexture, origin.projectileData.GetDamage(), -1, origin.projectileData.GetDamage()),
                     origin.mirrorX ? Directions.right : Directions.left,
                     origin,
                     worldMap[currentRoom].mapCoordinates,
@@ -1027,7 +1024,7 @@ namespace Spaceman
 		}
 
         // Unlocks a gun in the arsenal and adds it to the list of unlocked guns
-        public void UnlockGun(Game1.Guns gun)
+        public void UnlockGun(Guns gun)
         {
             if (!unlockedGuns.Contains(gun))
             {

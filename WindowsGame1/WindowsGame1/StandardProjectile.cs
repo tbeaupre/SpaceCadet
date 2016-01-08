@@ -30,10 +30,10 @@ namespace Spaceman
             this.damage = damage;
         }
 
-        public Projectile CreateProjectile(Game1.Directions direction, ISprite origin, Vector2 mapCoords, double worldX, double worldY, bool mirrorX)
+        public Projectile CreateProjectile(Directions direction, ISprite origin, Vector2 mapCoords, double worldX, double worldY, bool mirrorX)
         {
             int frameNum;
-            if (direction == Game1.Directions.left) frameNum = 0; // example frameNum logic. Need to add actual cases.
+            if (direction == Directions.left) frameNum = 0; // example frameNum logic. Need to add actual cases.
             else frameNum = 1;
 
             return new Projectile(this, direction, origin, mapCoords, worldX, worldY, frameNum, mirrorX);
@@ -64,25 +64,25 @@ namespace Spaceman
             return this.texture;
         }
 
-        public double GetXVel(Game1.Directions dir)
+        public double GetXVel(Directions dir)
         {
             switch (dir)
             {
-                case Game1.Directions.left:
+                case Directions.left:
                     return -this.bulletVel;
-                case Game1.Directions.right:
+                case Directions.right:
                     return this.bulletVel;
-                case Game1.Directions.up:
+                case Directions.up:
                     return 0;
-                case Game1.Directions.down:
+                case Directions.down:
                     return 0;
-                case Game1.Directions.downLeft:
+                case Directions.downLeft:
                     return -this.bulletVel / 2;
-                case Game1.Directions.downRight:
+                case Directions.downRight:
                     return this.bulletVel / 2;
-                case Game1.Directions.upLeft:
+                case Directions.upLeft:
                     return -this.bulletVel / 2;
-                case Game1.Directions.upRight:
+                case Directions.upRight:
                     return this.bulletVel / 2;
             }
             return this.bulletVel;
@@ -93,25 +93,25 @@ namespace Spaceman
             return this.yAcc;
         }
 
-        public double GetYVel(Game1.Directions dir)
+        public double GetYVel(Directions dir)
         {
             switch (dir)
             {
-                case Game1.Directions.left:
+                case Directions.left:
                     return 0;
-                case Game1.Directions.right:
+                case Directions.right:
                     return 0;
-                case Game1.Directions.up:
+                case Directions.up:
                     return this.bulletVel;
-                case Game1.Directions.down:
+                case Directions.down:
                     return -this.bulletVel;
-                case Game1.Directions.downLeft:
+                case Directions.downLeft:
                     return -this.bulletVel / 2;
-                case Game1.Directions.downRight:
+                case Directions.downRight:
                     return -this.bulletVel / 2;
-                case Game1.Directions.upLeft:
+                case Directions.upLeft:
                     return this.bulletVel / 2;
-                case Game1.Directions.upRight:
+                case Directions.upRight:
                     return this.bulletVel / 2;
             }
             return this.bulletVel;

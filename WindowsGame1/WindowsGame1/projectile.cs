@@ -18,11 +18,11 @@ namespace Spaceman
         public int life;
         public int damage;
         public ISprite origin;
-        public Game1.Directions direction;
+        public Directions direction;
         private IProjectileData data;
         private bool delete = false;
 
-        public Projectile(IProjectileData data, Game1.Directions direction, ISprite origin, Vector2 mapCoordinates, double worldX, double worldY, int frameNum, bool mirrorX)
+        public Projectile(IProjectileData data, Directions direction, ISprite origin, Vector2 mapCoordinates, double worldX, double worldY, int frameNum, bool mirrorX)
             : base(worldX, worldY, data.GetTexture(), new Vector2((float)worldX - mapCoordinates.X, (float)worldY - mapCoordinates.Y), data.GetNumFrames(), frameNum, mirrorX)
         {
             this.data = data;
@@ -47,7 +47,7 @@ namespace Spaceman
             return this.data;
         }
 
-        public Game1.Directions GetDirection()
+        public Directions GetDirection()
         {
             return this.direction;
         }

@@ -132,7 +132,11 @@ namespace Spaceman
         {
             this.gunCooldown = cooldown;
         }
-        #endregion
+
+        public int GetCurrentBodyFrame()
+        {
+            return this.currentBodyFrame;
+        }
 
         public Spaceman(Texture2D body,Texture2D head, Vector2 destCoords, int numFrames, int frameNum, bool mirrorX)
 			: base(body, destCoords, numFrames, frameNum, mirrorX)
@@ -928,7 +932,7 @@ namespace Spaceman
                 (int)map.mapCoordinates.Y - map.offset.Y + guns.GetDestRect().Y + FindBulletY(direction, mirrorX)), false);
         }
 
-        public double FindBulletX(Game1.Directions dir, bool mirrorX)
+        public double FindBulletX(Directions dir, bool mirrorX)
         {
             GunData gun = arsenal[currentGun];
             int barrelX = gun.barrelX;
@@ -937,27 +941,27 @@ namespace Spaceman
             int angledBarrelY = gun.angledBarrelY;
             switch (dir)
             {
-                case Game1.Directions.left:
+                case Directions.left:
                     return guns.GetSpriteWidth() - barrelX;
 
-                case Game1.Directions.upLeft:
+                case Directions.upLeft:
                     return guns.GetSpriteWidth() - angledBarrelX - 4;
 
-                case Game1.Directions.up:
+                case Directions.up:
 
                     if (mirrorX) return guns.GetSpriteHeight() - barrelY + 11;
                     else return -guns.GetSpriteHeight() + barrelY + 8;
 
-                case Game1.Directions.upRight:
+                case Directions.upRight:
                     return angledBarrelX - 1;
 
-                case Game1.Directions.right:
+                case Directions.right:
                     return barrelX - 6;
 
-                case Game1.Directions.downRight:
+                case Directions.downRight:
                     return guns.GetSpriteHeight() - angledBarrelY + 7;
 
-                case Game1.Directions.down:
+                case Directions.down:
                     if (mirrorX) return barrelY + 3;
                     else return guns.GetSpriteHeight() - barrelY + 1;
 
@@ -966,7 +970,7 @@ namespace Spaceman
             }
         }
 
-        public double FindBulletY(Game1.Directions dir, bool mirrorX)
+        public double FindBulletY(Directions dir, bool mirrorX)
         {
             GunData gun = arsenal[currentGun];
             int barrelX = gun.barrelX;
@@ -975,26 +979,26 @@ namespace Spaceman
             int angledBarrelY = gun.angledBarrelY;
             switch (dir)
             {
-                case Game1.Directions.left:
+                case Directions.left:
                     return barrelY - 3;
 
-                case Game1.Directions.upLeft:
+                case Directions.upLeft:
                     return angledBarrelY - 8;
 
-                case Game1.Directions.up:
+                case Directions.up:
                     if (mirrorX) return guns.GetSpriteWidth() - barrelX - 7;
                     else return guns.GetSpriteWidth() - barrelX - 1;
 
-                case Game1.Directions.upRight:
+                case Directions.upRight:
                     return angledBarrelY - 8;
 
-                case Game1.Directions.right:
+                case Directions.right:
                     return barrelY - 3;
 
-                case Game1.Directions.downRight:
+                case Directions.downRight:
                     return angledBarrelX + 3;
 
-                case Game1.Directions.down:
+                case Directions.down:
                     if (mirrorX) return guns.GetSpriteWidth() + barrelX - 15;
                     else return barrelX - 2;
 
