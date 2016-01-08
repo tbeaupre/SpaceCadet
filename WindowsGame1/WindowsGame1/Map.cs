@@ -81,9 +81,51 @@ namespace Spaceman
 			{
 				item.UpdateSprite(game);
 			}
-		}
 
-		public void AddDoor(Door d)
+            // Update the ally projectiles.
+            List<Projectile> result = new List<Projectile>(allyProjectiles);
+            foreach (Projectile projectile in allyProjectiles)
+            {
+                projectile.GetData().UpdateProjectile(projectile, game);
+
+                if (projectile.GetDelete())
+                {
+                    game.RemoveObjectToDraw(projectile);
+                    result.Remove(projectile);
+                }
+                else
+                {
+                    if (!projectile.IsNearScreen(game.worldMap[game.currentRoom]))
+                    {
+                        game.RemoveObjectToDraw(projectile);
+                    }
+                }
+            }
+            allyProjectiles = result;
+
+            // Update the enemy projectiles
+            result = new List<Projectile>(enemyProjectiles);
+            foreach (Projectile projectile in enemyProjectiles)
+            {
+                projectile.GetData().UpdateProjectile(projectile, game);
+
+                if (projectile.GetDelete())
+                {
+                    game.RemoveObjectToDraw(projectile);
+                    result.Remove(projectile);
+                }
+                else
+                {
+                    if (!projectile.IsNearScreen(game.worldMap[game.currentRoom]))
+                    {
+                        game.RemoveObjectToDraw(projectile);
+                    }
+                }
+            }
+            enemyProjectiles = result;
+		}
+        
+        public void AddDoor(Door d)
 		{
 			this.doors.Add(d);
 		}

@@ -50,13 +50,6 @@ namespace Spaceman
 		public KeyboardState newkeys;
 		public KeyboardState oldkeys;
 
-		double maxEnergy = 100;
-		double currentEnergy = 5;
-		double energyRecoveryRate = 1/60;
-
-		double maxHealth = 100;
-		double currentHealth = 50;
-
 		public RenderTarget2D lowRes;
 
 		public Spaceman player;
@@ -196,6 +189,13 @@ namespace Spaceman
 
             boostJumpTexture = this.Content.Load<Texture2D>("Boost Jump");
 
+            bulletFlatTexture = this.Content.Load<Texture2D>("Bullets");
+            bulletAngleTexture = this.Content.Load<Texture2D>("Bullets Angled");
+
+            gunsTexture = this.Content.Load<Texture2D>("Guns");
+            gunsAngleUpTexture = this.Content.Load<Texture2D>("Guns Angle");
+            gunsAngleDownTexture = this.Content.Load<Texture2D>("Guns Angle2");
+
             spaceManTexture = this.Content.Load<Texture2D>("Spaceman");
             spaceManHeadTexture = this.Content.Load<Texture2D>("Spaceman Heads");
             spaceManBodyTexture = this.Content.Load<Texture2D>("Spaceman Body");
@@ -205,10 +205,8 @@ namespace Spaceman
                 13,
                 1,
                 false);
-
-            gunsTexture = this.Content.Load<Texture2D>("Guns");
-            gunsAngleUpTexture = this.Content.Load<Texture2D>("Guns Angle");
-            gunsAngleDownTexture = this.Content.Load<Texture2D>("Guns Angle2");
+            player.InitializeArsenal(bulletFlatTexture, bulletFlatTexture, bulletFlatTexture, bulletFlatTexture, bulletFlatTexture);// Placeholder Textures. Put bullet textures here.
+            player.InitializeGunOverlay(gunsAngleUpTexture,gunsAngleDownTexture, gunsTexture);
 
             healthBarOverlayTexture = this.Content.Load<Texture2D>("HUD\\HealthBarOverlay2");
             healthBarOverlay = new Sprite(healthBarOverlayTexture, new Vector2(0, 0), 1, 0, false);
@@ -237,9 +235,6 @@ namespace Spaceman
 
             batteryTexture = this.Content.Load<Texture2D>("PickUps\\Battery");
             healthTexture = this.Content.Load<Texture2D>("PickUps\\HealthPickups");
-
-            bulletFlatTexture = this.Content.Load<Texture2D>("Bullets");
-            bulletAngleTexture = this.Content.Load<Texture2D>("Bullets Angled");
 
             saveStationTexture = this.Content.Load<Texture2D>("SaveStation");
 
@@ -371,7 +366,7 @@ namespace Spaceman
 					currentMenu = mainMenu;
 				UpdateAttributes(powerUpManager.GetCurrentPowerUps());
 				UpdateObjects();
-				UpdateEnergy();
+				player.UpdateEnergy();
 			}
 			else
 			{
@@ -405,7 +400,7 @@ namespace Spaceman
 				else
 				{
 					DrawSprite(player, 0.6f);
-					DrawSprite(guns, 0.5f);
+					DrawSprite(player.GetGuns(), 0.5f);
 					DrawOverlay(boostJump, 0.5f);
 				}
 				DrawObjects();
@@ -591,31 +586,6 @@ namespace Spaceman
 
 
 		#region CreateProjectile
-		public void CreateProjectile(Spaceman origin)
-		{
-			GunData current = arsenal[currentGun];
-			allyProjectiles.Add(
-			new Projectile(
-				origin.direction,
-				origin,
-				worldMap[currentRoom].mapCoordinates,
-				current.damage,
-				//(int)mapCoordinates.X + guns.destRect.X + (guns.mirrorX ?
-				// guns.spriteWidth - current.barrelX + 2
-				//: current.barrelX - 2) - 3,
-				(int)worldMap[currentRoom].mapCoordinates.X - worldMap[currentRoom].offset.X + guns.GetDestRect().X + FindBulletX(origin.direction, origin.mirrorX, current),
-				//(int)mapCoordinates.Y + guns.destRect.Y + current.barrelY - 3,
-				(int)worldMap[currentRoom].mapCoordinates.Y - worldMap[currentRoom].offset.Y + guns.GetDestRect().Y + FindBulletY(origin.direction, origin.mirrorX, current),
-				FindBulletXVel(origin.direction, current.bulletVel),
-				FindBulletYVel(origin.direction, current.bulletVel),
-				0,
-                current.bulletLifeSpan,
-				FindBulletTexture(origin.direction),
-				4,
-				guns.GetFrameNum(),
-				guns.GetMirrorX())
-				);
-		}
 
 		#region FindProperties
 		public Texture2D FindBulletTexture(Directions dir)
@@ -734,25 +704,16 @@ namespace Spaceman
 
 		public void CreateProjectile(Enemy origin)
 		{
-			enemyProjectiles.Add(
-			new Projectile(
-				(origin.mirrorX?Directions.right: Directions.left),
-				origin,
-				worldMap[currentRoom].mapCoordinates,
-				origin.projectileData.damage,
-				(origin.mirrorX ?
-				 origin.worldX + origin.spriteWidth - origin.projectileData.xOffset
-				: origin.worldX + origin.projectileData.xOffset),
-				origin.worldY + origin.projectileData.yOffset,
-				origin.projectileData.xVel * (origin.mirrorX ? 1 : -1),
-				origin.projectileData.yVel,
-				origin.projectileData.yAcc,
-                null,
-				origin.projectileData.texture,
-				origin.projectileData.numFrames,
-				origin.projectileData.frameNum,
-				!origin.mirrorX)
-				);
+            worldMap[currentRoom].enemyProjectiles.Add(
+                new Projectile(
+                    new StandardProjectile(bulletFlatTexture, origin.projectileData.damage, -1, origin.projectileData.damage),
+                    origin.mirrorX ? Directions.right : Directions.left,
+                    origin,
+                    worldMap[currentRoom].mapCoordinates,
+                    (origin.mirrorX ? origin.worldX + origin.spriteWidth - origin.projectileData.xOffset : origin.worldX + origin.projectileData.xOffset),
+                    origin.worldY + origin.projectileData.yOffset,
+                    origin.projectileData.frameNum,
+                    origin.mirrorX));
 		}
 #endregion
 
@@ -771,12 +732,9 @@ namespace Spaceman
 		{
             UpdatePortals();
             player.UpdateSprite(this);
-			guns.UpdateSprite();
 			worldMap[currentRoom].UpdateMap(this);
 			UpdateMapAssets();
 			UpdateSpawns();
-			UpdateProjectiles(allyProjectiles);
-			UpdateProjectiles(enemyProjectiles);
 			UpdatePickUps();
 			UpdateEnemies();
 		}
@@ -839,10 +797,10 @@ namespace Spaceman
 							if (player.status.state != "hit")
 							{
 								player.status = new Status("hit", RECOVERY_TIME);
-								TakeDamage(5);
+								player.TakeDamage(5);
 							}
 						}
-						List<Projectile> currentProjectiles = allyProjectiles;
+						List<Projectile> currentProjectiles = worldMap[currentRoom].allyProjectiles;
 						for (int j = currentProjectiles.Count - 1; j >= 0; j--)
 						{
 							int result = current[i].PerPixelCollisionDetect(currentProjectiles[j],this);
@@ -852,8 +810,8 @@ namespace Spaceman
 								{
 									current[i].TakeDamage(currentProjectiles[j].damage, this);
 								}
-								RemoveObjectToDraw(allyProjectiles[j]);
-								allyProjectiles.RemoveAt(j);
+								RemoveObjectToDraw(worldMap[currentRoom].allyProjectiles[j]);
+                                worldMap[currentRoom].allyProjectiles.RemoveAt(j);
 							}
 						}
 					}
@@ -894,53 +852,6 @@ namespace Spaceman
 				worldMap[currentRoom].objectsToDraw.Add(obj);
 		}
 
-		public void UpdateProjectiles(List<Projectile> projectiles)
-		{
-			List<Projectile> current = projectiles;
-			for (int i = current.Count - 1; i >= 0; i--)
-			{
-				bool draw = true;
-				bool delete = false;
-
-                projectiles[i].life++;
-                if (projectiles[i].life == projectiles[i].GetData().GetLifeSpan()) 
-                    {
-                        delete = true;
-                    }
-
-                projectiles[i].worldX += projectiles[i].GetData().GetXVel(projectiles[i].GetDirection());
-				projectiles[i].worldY += projectiles[i].GetData().GetYVel(projectiles[i].GetDirection());
-				projectiles[i].UpdateSprite(worldMap[currentRoom]);
-				if (projectiles[i].PerPixelCollisionDetect(this) && enemyProjectiles.Contains(projectiles[i]))
-				{
-					TakeDamage(projectiles[i]);
-					delete = true;
-				}
-				if (CheckMapCollision(0, 0, current[i]) == false)
-				{
-					if (current[i].onScreen) AddObjectToDraw(projectiles[i]);
-					else if (current[i].nearScreen) draw = false;
-					else delete = true;
-				}
-				else
-				{
-					delete = true;
-				}
-				if (delete)
-				{
-					RemoveObjectToDraw(current[i]);
-					projectiles.RemoveAt(i);
-				}
-				else
-				{
-					if (draw == false)
-					{
-						RemoveObjectToDraw(current[i]);
-					}
-				}
-			}
-		}
-
 		public void UpdateAttributes(List<PowerUps> pUps)
 		{
 			SetStandardAttributes();
@@ -958,9 +869,9 @@ namespace Spaceman
 			terminalVel = 9;
 			jumpSpeed = -5;
 			player.SetMaxJumps(1);
-			maxEnergy = 100;
-			energyRecoveryRate = .15;
-			maxHealth = 100;
+			player.SetMaxEnergy(100);
+			player.SetEnergyRecoveryRate(.15);
+            player.SetMaxHealth(100);
 		}
 
 		public void DrawObjects()
@@ -995,10 +906,10 @@ namespace Spaceman
 		{
 			int x;
 			int length;
-			if (currentEnergy == 0) length = 0;
+			if (player.GetCurrentEnergy() == 0) length = 0;
 			else
 			{
-				double ratio = (double)currentEnergy / (double)maxEnergy;
+				double ratio = player.GetCurrentEnergy() / player.GetMaxEnergy();
 				length = (int)(ratio * (double)energyBarTexture.Width);
 			}
 			x = energyBarTexture.Width - length;
@@ -1009,10 +920,10 @@ namespace Spaceman
 		public void DrawHealthBar()
 		{
 			int length;
-			if (currentHealth == 0) length = 0;
+			if (player.GetCurrentHealth() == 0) length = 0;
 			else
 			{
-				double ratio = (double)currentHealth / (double)maxHealth;
+				double ratio = player.GetCurrentHealth() / player.GetMaxHealth();
 				length = (int)(ratio * (double)healthBarTexture.Width);
 			}
 			Rectangle destRect = new Rectangle(healthBar.destRect.X, healthBar.destRect.Y, length, healthBarTexture.Height);
@@ -1078,31 +989,9 @@ namespace Spaceman
 			return new SaveStation(worldX, worldY, saveStationTexture,this.worldMap[currentRoom].mapCoordinates, 7, 0);
 		}
 
-		public void UpdateEnergy()
-		{
-			if (!player.status.state.Equals("hit") || (player.status.state.Equals("hit") && player.status.duration == 0))
-			{
-				AddEnergy(energyRecoveryRate);
-			}
-		}
-
-		public void AddEnergy(double amount)
-		{
-			currentEnergy += amount;
-			if (currentEnergy > maxEnergy) currentEnergy = maxEnergy;
-			if (currentEnergy < 0) currentEnergy = 0;
-		}
-
-		public void AddHealth(double amount)
-		{
-				currentHealth += amount;
-				if (currentHealth > maxHealth) currentHealth = maxHealth;
-				if (currentHealth < 0) currentHealth = 0;
-		}
-
 		public void PickUpBattery()
 		{
-			AddEnergy(40);
+			player.AddEnergy(40);
 		}
 
 		public void PickUpHealth(int level)
@@ -1110,43 +999,23 @@ namespace Spaceman
 			switch (level)
 			{
 				case 1:
-					AddHealth(5);
+					player.AddHealth(5);
 					break;
 				case 2:
-					AddHealth(10);
+                    player.AddHealth(10);
 					break;
 				case 3:
-					AddHealth(15);
+                    player.AddHealth(15);
 					break;
 				case 4:
-					AddHealth(20);
+                    player.AddHealth(20);
 					break;
 				case 5:
-					AddHealth(30);
+                    player.AddHealth(30);
 					break;
 				case 6:
-					AddHealth(40);
+                    player.AddHealth(40);
 					break;
-			}
-		}
-
-		public void TakeDamage(Projectile proj)
-		{
-			TakeDamage (proj.damage);
-
-		}
-
-		public void TakeDamage(int amount)
-		{
-			if (!player.status.state.Equals("hit") || (player.status.state.Equals("hit") && player.status.duration == 0))
-			{
-				player.status = new Status("hit", player.HIT_DURATION * player.FRAME_OFFSET);
-				currentEnergy -= amount;
-				if (currentEnergy < 0)
-				{
-					currentHealth += currentEnergy;
-					currentEnergy = 0;
-				}
 			}
 		}
 

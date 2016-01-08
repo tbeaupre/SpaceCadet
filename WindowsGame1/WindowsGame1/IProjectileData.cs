@@ -22,7 +22,7 @@ namespace Spaceman
         double GetYVel(Game1.Directions dir);
         double GetYAcc();
         Projectile CreateProjectile(Game1.Directions direction, ISprite origin, Vector2 mapCoords, double worldX, double worldY, bool mirrorX);
-        void UpdateProjectile(Projectile projectile);
-        void DestroyProjectile();
+        void UpdateProjectile(Projectile projectile, Game1 game);
+        void DestroyProjectile(Projectile projectile);
     }
 }

@@ -39,6 +39,54 @@ namespace Spaceman
         GunOverlay guns;
         int currentGun = 0;
 
+        // Energy
+        double maxEnergy = 100;
+        double currentEnergy = 5;
+        double energyRecoveryRate = 1 / 60;
+        // Health
+        double maxHealth = 100;
+        double currentHealth = 50;
+
+        public void SetEnergyRecoveryRate(double energyRecoveryRate)
+        {
+            this.energyRecoveryRate = energyRecoveryRate;
+        }
+
+        public double GetCurrentHealth()
+        {
+            return this.currentHealth;
+        }
+
+        public double GetMaxHealth()
+        {
+            return this.maxHealth;
+        }
+
+        public void SetMaxHealth(double max)
+        {
+            this.maxHealth = max;
+        }
+
+        public double GetCurrentEnergy()
+        {
+            return this.currentEnergy;
+        }
+
+        public double GetMaxEnergy()
+        {
+            return this.maxEnergy;
+        }
+
+        public void SetMaxEnergy(double max)
+        {
+            this.maxEnergy = max;
+        }
+
+        public GunOverlay GetGuns()
+        {
+            return this.guns;
+        }
+
         public int GetCurrentGun()
         {
             return currentGun;
@@ -333,7 +381,7 @@ namespace Spaceman
                 && this.gunCooldown == 0
                 && (arsenal[currentGun].automatic ? true : oldkeys.IsKeyUp(Game1.fire)))
             {
-                game.CreateProjectile(this);
+                CreateProjectile(game.worldMap[game.currentRoom]);
                 RefreshGunCooldown();
             }
             else
@@ -852,15 +900,35 @@ namespace Spaceman
             this.arsenal[index].unlocked = true;
         }
 
+        public void TakeDamage(Projectile proj)
+        {
+            TakeDamage(proj.damage);
+        }
+
+        public void TakeDamage(int amount)
+        {
+            if (!status.state.Equals("hit") || (status.state.Equals("hit") && status.duration == 0))
+            {
+                status = new Status("hit", HIT_DURATION * FRAME_OFFSET);
+                currentEnergy -= amount;
+                if (currentEnergy < 0)
+                {
+                    currentHealth += currentEnergy;
+                    currentEnergy = 0;
+                }
+            }
+        }
+
         public void CreateProjectile(Map map)
         {
             map.AddProjectile(arsenal[currentGun].CreateProjectile(this,map.mapCoordinates,
-                (int)map.mapCoordinates.X - map.offset.X + guns.GetDestRect().X + FindBulletX(direction, mirrorX, current),
-                (int)map.mapCoordinates.Y - map.offset.Y + guns.GetDestRect().Y + FindBulletY(direction, mirrorX, current)), false);
+                (int)map.mapCoordinates.X - map.offset.X + guns.GetDestRect().X + FindBulletX(direction, mirrorX),
+                (int)map.mapCoordinates.Y - map.offset.Y + guns.GetDestRect().Y + FindBulletY(direction, mirrorX)), false);
         }
 
-        public double FindBulletX(Game1.Directions dir, bool mirrorX, GunData gun)
+        public double FindBulletX(Game1.Directions dir, bool mirrorX)
         {
+            GunData gun = arsenal[currentGun];
             int barrelX = gun.barrelX;
             int barrelY = gun.barrelY;
             int angledBarrelX = gun.angledBarrelX;
@@ -896,8 +964,9 @@ namespace Spaceman
             }
         }
 
-        public double FindBulletY(Game1.Directions dir, bool mirrorX, GunData gun)
+        public double FindBulletY(Game1.Directions dir, bool mirrorX)
         {
+            GunData gun = arsenal[currentGun];
             int barrelX = gun.barrelX;
             int barrelY = gun.barrelY;
             int angledBarrelX = gun.angledBarrelX;
@@ -932,8 +1001,32 @@ namespace Spaceman
             }
         }
 
+        public void UpdateEnergy()
+        {
+            if (!status.state.Equals("hit") || (status.state.Equals("hit") && status.duration == 0))
+            {
+                AddEnergy(energyRecoveryRate);
+            }
+        }
+
+        public void AddEnergy(double amount)
+        {
+            currentEnergy += amount;
+            if (GetCurrentEnergy() > maxEnergy) currentEnergy = maxEnergy;
+            if (GetCurrentEnergy() < 0) currentEnergy = 0;
+        }
+
+        public void AddHealth(double amount)
+        {
+            currentHealth += amount;
+            if (currentHealth > maxHealth) currentHealth = maxHealth;
+            if (currentHealth < 0) currentHealth = 0;
+        }
+
+
         public void UpdateSprite(Game1 game)
         {
+            guns.UpdateSprite();
 			GravityUpdate(game);
             UpdateKeys(game.newkeys);
 			if (game.worldMap[game.currentRoom].GetWasJustActivated())
