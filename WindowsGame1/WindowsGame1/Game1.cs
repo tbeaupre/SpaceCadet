@@ -902,8 +902,7 @@ namespace Spaceman
 				bool draw = true;
 				bool delete = false;
 
-                projectiles[i].life++;
-                if (projectiles[i].life == projectiles[i].GetData().GetLifeSpan()) 
+                if (projectiles[i].GetLife() >= projectiles[i].GetData().GetLifeSpan()) 
                     {
                         delete = true;
                     }
