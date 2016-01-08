@@ -51,5 +51,10 @@ namespace Spaceman
         {
             return this.direction;
         }
+
+        public int GetLife()
+        {
+            return this.life;
+        }
     }
 }

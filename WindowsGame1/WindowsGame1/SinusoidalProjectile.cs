@@ -28,7 +28,7 @@ namespace Spaceman
             this.lifeSpan = lifeSpan;
             this.damage = damage;
         }
-        public new void UpdateProjectile(Projectile projectile)
+        public new void UpdateProjectile(Projectile projectile, Game1 game)
         {
             switch (projectile.GetDirection())
             {
