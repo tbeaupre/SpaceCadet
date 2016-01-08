@@ -32,35 +32,35 @@ namespace Spaceman
         {
             switch (projectile.GetDirection())
             {
-                case Game1.Directions.upLeft:
+                case Directions.upLeft:
                     yVel = -Math.Sin(0.5 * projectile.GetLife()) - Math.Sin(Math.PI / 4) * bulletVel;
                     xVel = -Math.Sin(0.5 * projectile.GetLife()) - Math.Sin(Math.PI / 4) * bulletVel;
                     break;
-                case Game1.Directions.upRight:
+                case Directions.upRight:
                     yVel = -Math.Sin(0.5 * projectile.GetLife()) - Math.Sin(Math.PI / 4) * bulletVel;
                     xVel = Math.Sin(0.5 * projectile.GetLife()) + Math.Sin(Math.PI / 4) * bulletVel;
                     break;
-                case Game1.Directions.downLeft:
+                case Directions.downLeft:
                     yVel = Math.Sin(0.5 * projectile.GetLife()) + Math.Sin(Math.PI / 4) * bulletVel;
                     xVel = -Math.Sin(0.5 * projectile.GetLife()) - Math.Sin(Math.PI / 4) * bulletVel;
                     break;
-                case Game1.Directions.downRight:
+                case Directions.downRight:
                     yVel = Math.Sin(0.5 * projectile.GetLife()) + Math.Sin(Math.PI / 4) * bulletVel;
                     xVel = Math.Sin(0.5 * projectile.GetLife()) + Math.Sin(Math.PI / 4) * bulletVel;
                     break;
-                case Game1.Directions.up:
+                case Directions.up:
                     yVel = -bulletVel;
                     xVel = Math.Sin(projectile.GetLife());
                     break;
-                case Game1.Directions.down:
+                case Directions.down:
                     yVel = bulletVel;
                     xVel = Math.Sin(projectile.GetLife());
                     break;
-                case Game1.Directions.right:
+                case Directions.right:
                     yVel = Math.Sin(projectile.GetLife());
                     xVel = bulletVel;
                     break;
-                case Game1.Directions.left:
+                case Directions.left:
                     yVel = Math.Sin(projectile.GetLife());
                     xVel = -bulletVel;
                     break;

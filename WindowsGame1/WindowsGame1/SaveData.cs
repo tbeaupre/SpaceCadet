@@ -18,17 +18,17 @@ namespace Spaceman
 		public int mapIndex;
 
 		//Power Ups information.
-		public List<Game1.PowerUps> unlockedPowerUps;
-		public List<Game1.PowerUps> currentPowerUps;
+		public List<PowerUps> unlockedPowerUps;
+		public List<PowerUps> currentPowerUps;
 
 		// For Figuring out which guns the player owns
-		public List<Game1.Guns> guns;
+		public List<Guns> guns;
 		public int currentGun;
 
 		// Coordinates
 		public Vector2 coordinates;
 
-		public SaveData(int mapIndex, List<Game1.PowerUps> unlockedPowerUps, List<Game1.PowerUps> currentPowerUps, List<Game1.Guns> guns, int currentGun, Vector2 coordinates)
+		public SaveData(int mapIndex, List<PowerUps> unlockedPowerUps, List<PowerUps> currentPowerUps, List<Guns> guns, int currentGun, Vector2 coordinates)
 		{
 			this.mapIndex = mapIndex;
 			this.unlockedPowerUps = unlockedPowerUps;

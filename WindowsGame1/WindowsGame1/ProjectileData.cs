@@ -13,7 +13,7 @@ namespace Spaceman
 {
 	public class ProjectileData
 	{
-		public int damage;
+		private int damage;
 		public double xVel;
 		public double yVel;
 		public double yAcc;
@@ -43,5 +43,10 @@ namespace Spaceman
 			this.xOffset = xOffset;
 			this.yOffset = yOffset;
 		}
-	}
+
+        public int GetDamage()
+        {
+            return damage;
+        }
+    }
 }

@@ -14,22 +14,22 @@ namespace Spaceman
 	public class Spaceman:Sprite
 	{
 		public Texture2D body;
-		int bodyFrames;
-		public int currentBodyFrame;
+		private int bodyFrames;
+		private int currentBodyFrame;
 		public Texture2D head;
-		int headFrames;
-		int currentHeadFrame;
+		private int headFrames;
+		private int currentHeadFrame;
 		public Rectangle headSource;
 		public Rectangle bodySource;
-		public Game1.Directions direction; // 1 = left, 2 = upLeft, 3 = up, 4 = upRight, 5 = right, 6 = down
+		public Directions direction; // 1 = left, 2 = upLeft, 3 = up, 4 = upRight, 5 = right, 6 = down
 		private ActionStatus bodyStatus;
-		int runCycleStart = 3;
-		public int jumpsRemaining;
+		private int runCycleStart = 3;
+		private int jumpsRemaining;
 		private int maxJumps;
         private double xAirMomentum;
         private double xGroundMomentum;
-        double xVel;
-        double yVel;
+        private double xVel;
+        private double yVel;
         KeyboardState newkeys;
 		KeyboardState oldkeys;
 		int gunCooldown;
@@ -132,6 +132,7 @@ namespace Spaceman
         {
             this.gunCooldown = cooldown;
         }
+        #endregion
 
         public Spaceman(Texture2D body,Texture2D head, Vector2 destCoords, int numFrames, int frameNum, bool mirrorX)
 			: base(body, destCoords, numFrames, frameNum, mirrorX)
@@ -144,7 +145,7 @@ namespace Spaceman
 			this.currentHeadFrame = 0;
 			this.headSource = new Rectangle(0, 0, head.Width / headFrames, head.Height);
 			this.bodySource = new Rectangle(0, 0, body.Width / bodyFrames, body.Height);
-			this.direction = Game1.Directions.right;
+			this.direction = Directions.right;
 			this.bodyStatus = new ActionStatus(ActionStates.Idle, 0);
 			this.spriteWidth = head.Width / headFrames;
 			this.spriteHeight = body.Height;
@@ -195,7 +196,7 @@ namespace Spaceman
 
 		public void UpdateHead()// 1 = left, 2 = upLeft, 3 = up, 4 = upRight, 5 = right, 6 = down, 7 = downRight, 8 = downLeft
 		{
-			if (direction.Equals(Game1.Directions.left) || direction.Equals(Game1.Directions.right) || direction.Equals(Game1.Directions.down) || direction.Equals(Game1.Directions.downRight) || direction.Equals(Game1.Directions.downLeft))
+			if (direction.Equals(Directions.left) || direction.Equals(Directions.right) || direction.Equals(Directions.down) || direction.Equals(Directions.downRight) || direction.Equals(Directions.downLeft))
 			{
 				if (currentBodyFrame == 1 || currentBodyFrame == 7 || currentBodyFrame == 8 || currentBodyFrame == 9 || currentBodyFrame == 10 || currentBodyFrame == 11)
 				{
@@ -357,8 +358,10 @@ namespace Spaceman
         public void HandleKeys(Game1 game)
         {
             // Temporary direction handling.
-            if (mirrorX) this.direction = Game1.Directions.left;
-            else this.direction = Game1.Directions.right;
+            if (mirrorX) this.direction = Directions.left;
+            else this.direction = Directions.right;
+
+            this.direction = LookDirection();
 
             if (bodyStatus.state == ActionStates.Fall)
             {
@@ -405,7 +408,6 @@ namespace Spaceman
             bool jumping = (IsKeyPressed(Game1.jump) && jumpsRemaining > 0);
             bool holding = newkeys.IsKeyDown(Game1.hold);
             bool crouching = (newkeys.IsKeyDown(Game1.down) && bodyStatus.state != ActionStates.Fall && !holding);
-            Game1.Directions lookDir = LookDirection();
 
             // If currently in the air, do certain things.
             if (currentStatus.state == ActionStates.Fall)
@@ -602,9 +604,9 @@ namespace Spaceman
         }
 
 		// Returns a Direction representing which way the character should look based upon which keys are currently pressed.
-		public Game1.Directions LookDirection()
+		public Directions LookDirection()
 		{
-			Game1.Directions result;
+			Directions result;
 
 			// Initialize boolean variables to represent whether or not a button was pressed.
 			bool up = newkeys.IsKeyDown(Game1.up);
@@ -624,22 +626,22 @@ namespace Spaceman
 			// Sets result equal to a direction based upon which keys are currently pressed. 
 			if (left)
 			{
-				if (up) result = Game1.Directions.upLeft;
-				else if (down) result = Game1.Directions.downLeft;
-				else result = Game1.Directions.left;
+				if (up) result = Directions.upLeft;
+				else if (down) result = Directions.downLeft;
+				else result = Directions.left;
 			}
 			else if (right)
 			{
-				if (up) result = Game1.Directions.upRight;
-				else if (down) result = Game1.Directions.downRight;
-				else result = Game1.Directions.right;
+				if (up) result = Directions.upRight;
+				else if (down) result = Directions.downRight;
+				else result = Directions.right;
 			}
 			else
 			{
-				if (up) result = Game1.Directions.up;
-				else if (down) result = Game1.Directions.down;
-				else if (mirrorX) result = Game1.Directions.left;
-				else result = Game1.Directions.right;
+				if (up) result = Directions.up;
+				else if (down) result = Directions.down;
+				else if (mirrorX) result = Directions.left;
+				else result = Directions.right;
 			}
 
 			return result;
@@ -757,7 +759,7 @@ namespace Spaceman
 			game.worldMap[game.currentRoom].ChangeCoords(xOffset, yOffset);
         }
 
-		// Checks to see if the character is attempting to travel up stairs and reacts accordingly, allowing the player faster travel up stairs
+		// Checks to see if the character is attempting to travel down stairs and reacts accordingly, allowing the player faster travel down stairs
 		public bool CheckDiagonalDown(Game1 game)
 		{
 			bool flag = true;

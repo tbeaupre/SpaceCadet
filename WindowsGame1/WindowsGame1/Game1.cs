@@ -20,11 +20,6 @@ namespace Spaceman
         public GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 
-		public enum EnemyNames { BioSnail };
-		public enum Directions { left, upLeft, up, upRight, right, downRight, down, downLeft };
-		public enum PowerUps { NULL, BoostJump};
-		public enum Guns { Pistol, Shotgun, Railgun, MachineGun, BumbleGun };
-
 		public int currentRoom;
 
 		public List<Guns> unlockedGuns = new List<Guns>();
@@ -41,7 +36,7 @@ namespace Spaceman
 
 		const int FRAME_OFFSET = 5;
 		public double moveSpeed;
-        private double directionInfluence;
+        private double directionInfluence = .1;
 		public double gravity;
 		public int terminalVel;
 		public double jumpSpeed;
@@ -64,10 +59,15 @@ namespace Spaceman
 		Texture2D gunsAngleUpTexture;
 		Texture2D gunsAngleDownTexture;
 
-		Texture2D bulletFlatTexture;
-		Texture2D bulletAngleTexture;
+        Texture2D bulletFlatTexture;
+        Texture2D bulletAngleTexture;
+        Texture2D PistolBulletTexture;
+        Texture2D RailgunBulletTexture;
+        Texture2D BumblegunBulletTexture;
+        Texture2D MachinegunBulletTexture;
+        Texture2D ShotgunBulletTexture;
 
-		Texture2D batteryTexture;
+        Texture2D batteryTexture;
 		int[,] batteryLocations = new int[,] {{383,718},{440,718}, {1368,971}};
 		
 		Texture2D healthTexture;
@@ -236,6 +236,14 @@ namespace Spaceman
             batteryTexture = this.Content.Load<Texture2D>("PickUps\\Battery");
             healthTexture = this.Content.Load<Texture2D>("PickUps\\HealthPickups");
 
+			//bulletFlatTexture = this.Content.Load<Texture2D>("Bullets");
+			//bulletAngleTexture = this.Content.Load<Texture2D>("Bullets Angled");
+            PistolBulletTexture = this.Content.Load<Texture2D>("Bullets\\PistolBullet");
+            MachinegunBulletTexture = this.Content.Load<Texture2D>("Bullets\\MachinegunBullet");
+            ShotgunBulletTexture = this.Content.Load<Texture2D>("Bullets\\ShotgunBullet");
+            RailgunBulletTexture = this.Content.Load<Texture2D>("Bullets\\RailgunBullet");
+            BumblegunBulletTexture = this.Content.Load<Texture2D>("Bullets\\BumblegunBullet");
+			
             saveStationTexture = this.Content.Load<Texture2D>("SaveStation");
 
             #region Menu Setup
@@ -318,7 +326,7 @@ namespace Spaceman
 			base.Initialize();
 		}
 
-		public void InitializePortals(List<Portal> portals)
+        public void InitializePortals(List<Portal> portals)
 		{
 			foreach (Portal p in portals)
 			{
@@ -864,7 +872,6 @@ namespace Spaceman
 		public void SetStandardAttributes()
 		{
 			moveSpeed = 2.3;
-            directionInfluence = moveSpeed / 3;
 			gravity = .25;
 			terminalVel = 9;
 			jumpSpeed = -5;
