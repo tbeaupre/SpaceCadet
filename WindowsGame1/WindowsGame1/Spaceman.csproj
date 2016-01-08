@@ -75,6 +75,7 @@
     <Compile Include="Battery.cs" />
     <Compile Include="BoostJump.cs" />
     <Compile Include="CharOverlay.cs" />
+    <Compile Include="SinusoidalProjectile.cs" />
     <Compile Include="GunOverlay.cs" />
     <Compile Include="BioSnail.cs" />
     <Compile Include="HealthPickupData.cs" />
