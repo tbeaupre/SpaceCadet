@@ -16,17 +16,31 @@ namespace Spaceman
         double bulletVel;
         double amplitude;
         double frequency;
+        bool randomized;
+        Random rnd= new Random();
 
-        public SinusoidalProjectile(Texture2D texture, double bulletVel, int lifeSpan, int damage, double amplitude, double frequency)
+        public SinusoidalProjectile(Texture2D texture, double bulletVel, int lifeSpan, int damage, double amplitude, double frequency, bool randomized)
             : base(texture, bulletVel, lifeSpan, damage)
         {
             this.bulletVel = bulletVel;
             this.amplitude = amplitude / 10;
             this.frequency = frequency / amplitude;
+            this.randomized = randomized;
         }
 
         public override double GetXVel(Projectile projectile)
         {
+            int randy;
+
+            if (randomized)
+            {
+                randy = rnd.Next(0,4);
+            }
+            else
+            {
+                randy = 0;
+            }
+
             switch (projectile.GetDirection())
             {
                 case Directions.left:
@@ -34,41 +48,52 @@ namespace Spaceman
                 case Directions.right:
                     return this.bulletVel;
                 case Directions.up:
-                    return amplitude * Math.Sin(frequency * projectile.GetLife());
+                    return amplitude * Math.Sin((frequency * projectile.GetLife())+randy);
                 case Directions.down:
-                    return amplitude * Math.Sin(frequency * projectile.GetLife());
+                    return amplitude * Math.Sin((frequency * projectile.GetLife())+randy);
                 case Directions.downLeft:
-                    return -(amplitude * Math.Sin(frequency / projectile.GetLife()) + 0.7 * bulletVel);
+                    return -(amplitude * Math.Sin((frequency / projectile.GetLife())+randy) + 0.7 * bulletVel);
                 case Directions.downRight:
-                    return  (amplitude * Math.Sin(frequency / projectile.GetLife()) + 0.7 * bulletVel);
+                    return  (amplitude * Math.Sin((frequency / projectile.GetLife())+randy) + 0.7 * bulletVel);
                 case Directions.upLeft:
-                    return -(amplitude * Math.Sin(frequency / projectile.GetLife()) + 0.7 * bulletVel);
+                    return -(amplitude * Math.Sin((frequency / projectile.GetLife())+randy) + 0.7 * bulletVel);
                 case Directions.upRight:
-                    return  (amplitude * Math.Sin(frequency / projectile.GetLife()) + 0.7 * bulletVel);
+                    return  (amplitude * Math.Sin((frequency / projectile.GetLife())+randy) + 0.7 * bulletVel);
             }
             return this.bulletVel;
         }
 
         public override double GetYVel(Projectile projectile)
         {
+            int randy;
+
+            if (randomized)
+            {
+                randy = rnd.Next(0, 4);
+            }
+            else
+            {
+                randy = 0;
+            }
+
             switch (projectile.GetDirection())
             {
                 case Directions.left:
-                    return amplitude * Math.Sin(frequency * projectile.GetLife());
+                    return amplitude * Math.Sin((frequency * projectile.GetLife())+randy);
                 case Directions.right:
-                    return amplitude * Math.Sin(frequency * projectile.GetLife());
+                    return amplitude * Math.Sin((frequency * projectile.GetLife())+randy);
                 case Directions.up:
                     return -this.bulletVel;
                 case Directions.down:
                     return this.bulletVel;
                 case Directions.downLeft:
-                    return  (amplitude * Math.Sin(frequency * projectile.GetLife()) + 0.7 * bulletVel);
+                    return  (amplitude * Math.Sin((frequency * projectile.GetLife())+randy) + 0.7 * bulletVel);
                 case Directions.downRight:
-                    return  (amplitude * Math.Sin(frequency * projectile.GetLife()) + 0.7 * bulletVel);
+                    return  (amplitude * Math.Sin((frequency * projectile.GetLife())+randy) + 0.7 * bulletVel);
                 case Directions.upLeft:
-                    return -(amplitude * Math.Sin(frequency * projectile.GetLife()) + 0.7 * bulletVel);
+                    return -(amplitude * Math.Sin((frequency * projectile.GetLife())+randy) + 0.7 * bulletVel);
                 case Directions.upRight:
-                    return -(amplitude * Math.Sin(frequency * projectile.GetLife()) + 0.7 * bulletVel);
+                    return -(amplitude * Math.Sin((frequency * projectile.GetLife())+randy) + 0.7 * bulletVel);
             }
             return this.bulletVel;
         }
