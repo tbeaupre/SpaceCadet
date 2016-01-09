@@ -56,5 +56,10 @@ namespace Spaceman
         {
             return this.life;
         }
+
+        public void SetLife(int life)
+        {
+            this.life = life;
+        }
     }
 }

@@ -166,7 +166,7 @@ namespace Spaceman
                     "G-32_C Phazer Pistol",                                 // name
                     false,                                                  // unlocked
                     0,                                                      // cooldown
-                    new StandardProjectile(pistolTexture, 5, -1, 10),   // projectile data
+                    new StandardProjectile(pistolTexture, 5, -1, 10),       // projectile data
                     false,                                                  // automatic
                     13,                                                     // barrel X
                     8,                                                      // barrel Y
@@ -182,11 +182,11 @@ namespace Spaceman
 
             arsenal.Add(
                 new GunData("Magmatorque Nail-Gun", false, 7, new StandardProjectile(machinegunTexture, 6, -1, 10), true, 18, 7, 10, 6));
-
+             
             arsenal.Add(
-                new GunData("Symbionic Hive-Oscilator", false, 5, new StandardProjectile(bumblegunTexture, 1, -1, 20), false, 19, 9, 10, 5));
+                new GunData("Symbionic Hive-Oscilator", false, 5, new SinusoidalProjectile(bumblegunTexture, 2.2, -1, 20, 7, 2), true, 17, 9, 10, 5));
         }
-
+        
         public void InitializeGunOverlay(Texture2D gunsAngleUpTexture, Texture2D gunsAngleDownTexture, Texture2D gunsTexture)
         {
             guns = new GunOverlay(this, gunsAngleUpTexture, gunsAngleDownTexture, gunsTexture,

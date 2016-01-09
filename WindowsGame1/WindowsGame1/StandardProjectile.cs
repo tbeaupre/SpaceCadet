@@ -64,9 +64,9 @@ namespace Spaceman
             return this.texture;
         }
 
-        public double GetXVel(Directions dir)
+        public virtual double GetXVel(Projectile projectile)
         {
-            switch (dir)
+            switch (projectile.GetDirection())
             {
                 case Directions.left:
                     return -this.bulletVel;
@@ -93,26 +93,26 @@ namespace Spaceman
             return this.yAcc;
         }
 
-        public double GetYVel(Directions dir)
+        public virtual double GetYVel(Projectile projectile)
         {
-            switch (dir)
+            switch (projectile.GetDirection())
             {
                 case Directions.left:
                     return 0;
                 case Directions.right:
                     return 0;
                 case Directions.up:
-                    return this.bulletVel;
-                case Directions.down:
                     return -this.bulletVel;
+                case Directions.down:
+                    return this.bulletVel;
                 case Directions.downLeft:
-                    return -this.bulletVel / 2;
+                    return this.bulletVel / 2;
                 case Directions.downRight:
-                    return -this.bulletVel / 2;
+                    return this.bulletVel / 2;
                 case Directions.upLeft:
-                    return this.bulletVel / 2;
+                    return -this.bulletVel / 2;
                 case Directions.upRight:
-                    return this.bulletVel / 2;
+                    return -this.bulletVel / 2;
             }
             return this.bulletVel;
         }
@@ -125,8 +125,8 @@ namespace Spaceman
                 DestroyProjectile(projectile);
             }
 
-            projectile.worldX += projectile.GetData().GetXVel(projectile.GetDirection());
-            projectile.worldY += projectile.GetData().GetYVel(projectile.GetDirection());
+            projectile.worldX += projectile.GetData().GetXVel(projectile);
+            projectile.worldY += projectile.GetData().GetYVel(projectile);
             projectile.UpdateSprite(game.worldMap[game.currentRoom]);
             if (projectile.PerPixelCollisionDetect(game) && game.worldMap[game.currentRoom].enemyProjectiles.Contains(projectile))
             {

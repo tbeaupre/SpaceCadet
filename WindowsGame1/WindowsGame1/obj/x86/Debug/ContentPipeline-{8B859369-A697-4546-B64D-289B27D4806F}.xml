@@ -20,24 +20,6 @@
       <Time>2016-01-02T22:30:32.8312546-05:00</Time>
     </Item>
     <Item>
-      <Source>Guns.png</Source>
-      <Name>Guns</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns.xnb</Output>
-      <Time>2016-01-02T22:30:32.6082275-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Bullets.png</Source>
-      <Name>Bullets</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets.xnb</Output>
-      <Time>2016-01-02T22:30:32.4791356-05:00</Time>
-    </Item>
-    <Item>
       <Source>PickUps\Battery.png</Source>
       <Name>PickUps\Battery</Name>
       <Importer>TextureImporter</Importer>
@@ -144,33 +126,6 @@
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Spaceman Heads.xnb</Output>
       <Time>2016-01-02T22:30:32.8216725-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Guns Angle.png</Source>
-      <Name>Guns Angle</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns Angle.xnb</Output>
-      <Time>2016-01-02T22:30:32.6002218-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Guns Angle2.png</Source>
-      <Name>Guns Angle2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns Angle2.xnb</Output>
-      <Time>2016-01-02T22:30:32.6072268-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Bullets Angled.png</Source>
-      <Name>Bullets Angled</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets Angled.xnb</Output>
-      <Time>2016-01-02T22:30:32.4771342-05:00</Time>
     </Item>
     <Item>
       <Source>Doors\Door.png</Source>
@@ -387,6 +342,78 @@
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Boost Jump.xnb</Output>
       <Time>2016-01-02T22:30:32.4567556-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Guns\Guns.png</Source>
+      <Name>Guns\Guns</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns\Guns.xnb</Output>
+      <Time>2016-01-08T18:59:40.5844718-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Guns\Guns Angle.png</Source>
+      <Name>Guns\Guns Angle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns\Guns Angle.xnb</Output>
+      <Time>2016-01-08T18:59:40.5814705-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Guns\Guns Angle2.png</Source>
+      <Name>Guns\Guns Angle2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns\Guns Angle2.xnb</Output>
+      <Time>2016-01-08T18:59:40.5834706-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Bullets\BumblegunBullet.png</Source>
+      <Name>Bullets\BumblegunBullet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets\BumblegunBullet.xnb</Output>
+      <Time>2016-01-08T18:59:40.5424958-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Bullets\MachinegunBullet.png</Source>
+      <Name>Bullets\MachinegunBullet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets\MachinegunBullet.xnb</Output>
+      <Time>2016-01-08T18:59:40.545498-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Bullets\PistolBullet.png</Source>
+      <Name>Bullets\PistolBullet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets\PistolBullet.xnb</Output>
+      <Time>2016-01-08T18:59:40.5584546-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Bullets\RailgunBullet.png</Source>
+      <Name>Bullets\RailgunBullet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets\RailgunBullet.xnb</Output>
+      <Time>2016-01-08T18:59:40.5604552-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Bullets\ShotgunBullet.png</Source>
+      <Name>Bullets\ShotgunBullet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets\ShotgunBullet.xnb</Output>
+      <Time>2016-01-08T18:59:40.562457-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
