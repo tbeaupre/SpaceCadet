@@ -33,8 +33,37 @@ namespace Spaceman
         public Projectile CreateProjectile(Directions direction, ISprite origin, Vector2 mapCoords, double worldX, double worldY, bool mirrorX)
         {
             int frameNum;
-            if (direction == Directions.left) frameNum = 0; // example frameNum logic. Need to add actual cases.
-            else frameNum = 1;
+
+            switch (direction)
+            {
+                case Directions.down:
+                    frameNum = 0;
+                    break;
+                case Directions.downLeft:
+                    frameNum = 1;
+                    break;
+                case Directions.downRight:
+                    frameNum = 1;
+                    break;
+                case Directions.left:
+                    frameNum = 0;
+                    break;
+                case Directions.right:
+                    frameNum = 0;
+                    break;
+                case Directions.up:
+                    frameNum = 0;
+                    break;
+                case Directions.upLeft:
+                    frameNum = 1;
+                    break;
+                case Directions.upRight:
+                    frameNum = 1;
+                    break;
+                default:
+                    frameNum = 0;
+                    break;
+            }
 
             return new Projectile(this, direction, origin, mapCoords, worldX, worldY, frameNum, mirrorX);
         }

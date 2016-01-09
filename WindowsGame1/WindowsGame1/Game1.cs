@@ -58,9 +58,7 @@ namespace Spaceman
 		Texture2D gunsTexture;
 		Texture2D gunsAngleUpTexture;
 		Texture2D gunsAngleDownTexture;
-
-        Texture2D bulletFlatTexture;
-        Texture2D bulletAngleTexture;
+        
         Texture2D PistolBulletTexture;
         Texture2D RailgunBulletTexture;
         Texture2D BumblegunBulletTexture;
@@ -189,8 +187,6 @@ namespace Spaceman
 
             boostJumpTexture = this.Content.Load<Texture2D>("Boost Jump");
             
-            //bulletFlatTexture = this.Content.Load<Texture2D>("Bullets");
-            //bulletAngleTexture = this.Content.Load<Texture2D>("Bullets Angled");
             PistolBulletTexture = this.Content.Load<Texture2D>("Bullets\\PistolBullet");
             MachinegunBulletTexture = this.Content.Load<Texture2D>("Bullets\\MachinegunBullet");
             ShotgunBulletTexture = this.Content.Load<Texture2D>("Bullets\\ShotgunBullet");
@@ -592,28 +588,6 @@ namespace Spaceman
 
 		#region CreateProjectile
 
-		#region FindProperties
-		public Texture2D FindBulletTexture(Directions dir)
-		{
-			switch (dir)
-			{
-				case Directions.upLeft:
-					return bulletAngleTexture;
-
-				case Directions.upRight:
-					return bulletAngleTexture;
-
-				case Directions.downRight:
-					return bulletAngleTexture;
-
-				case Directions.downLeft:
-					return bulletAngleTexture;
-
-				default:
-					return bulletFlatTexture;
-			}
-		}
-
 		public double FindBulletXVel(Directions dir, double vel)
 		{
 			switch (dir)
@@ -711,7 +685,7 @@ namespace Spaceman
 		{
             worldMap[currentRoom].enemyProjectiles.Add(
                 new Projectile(
-                    new StandardProjectile(bulletFlatTexture, origin.projectileData.GetDamage(), -1, origin.projectileData.GetDamage()),
+                    new StandardProjectile(bioSnailProjectileTexture, origin.projectileData.GetDamage(), -1, origin.projectileData.GetDamage()),
                     origin.mirrorX ? Directions.right : Directions.left,
                     origin,
                     worldMap[currentRoom].mapCoordinates,
@@ -720,7 +694,6 @@ namespace Spaceman
                     origin.projectileData.frameNum,
                     origin.mirrorX));
 		}
-#endregion
 
 		public void callMenuFunction(String function)
 		{
