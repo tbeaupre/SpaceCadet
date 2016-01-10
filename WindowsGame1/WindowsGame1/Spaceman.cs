@@ -359,6 +359,7 @@ namespace Spaceman
 			game.boostJump.reset();
 		}
 
+        // Takes in an ActionStatus and looks at the current Look Direction to return a Direction that will actually work with the current action.
         public Directions HandleDirection(ActionStatus status)
         {
             this.direction = LookDirection();
@@ -455,6 +456,7 @@ namespace Spaceman
             this.guns.mirrorX = mirrorX;
         }
 
+        // Looks at the current status and which keys are pressed and returns a new ActionStatus.
         public ActionStatus HandleKeys(ActionStatus currentStatus)
         {
             ActionStatus result = new ActionStatus(ActionStates.Idle,0);
@@ -634,7 +636,8 @@ namespace Spaceman
                     }
                     break;
                 case ActionStates.Jump:
-                    SetYVel(game.jumpSpeed);
+                    if (status.duration == maxJumps - 1)
+                        SetYVel(game.jumpSpeed);
                     jumpsRemaining--;
                     SetBodyStatus(new ActionStatus(ActionStates.Fall, status.duration));
 
