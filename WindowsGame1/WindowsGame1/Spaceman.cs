@@ -158,7 +158,6 @@ namespace Spaceman
             this.yVel = 0;
 			this.gunCooldown = 0;
 		}
-
         public void InitializeArsenal(Texture2D pistolTexture, Texture2D shotgunTexture, Texture2D railgunTexture, Texture2D machinegunTexture, Texture2D bumblegunTexture)
         {
             arsenal.Add(
@@ -184,7 +183,7 @@ namespace Spaceman
                 new GunData("Magmatorque Nail-Gun", false, 7, new StandardProjectile(machinegunTexture, 6, -1, 10), true, 18, 7, 10, 6));
              
             arsenal.Add(
-                new GunData("Symbionic Hive-Oscilator", false, 5, new SinusoidalProjectile(bumblegunTexture, 2.2, -1, 20, 7, 2, true), true, 17, 9, 10, 5));
+                new GunData("Symbionic Hive-Oscilator", false, 5, new SinusoidalProjectile(bumblegunTexture, 2.2, -1, 20, 7, 2, true), false, 17, 9, 10, 5));
         }
         
         public void InitializeGunOverlay(Texture2D gunsAngleUpTexture, Texture2D gunsAngleDownTexture, Texture2D gunsTexture)
