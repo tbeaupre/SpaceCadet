@@ -21,6 +21,7 @@ namespace Spaceman
         public Directions direction;
         private IProjectileData data;
         private bool delete = false;
+        
 
         public Projectile(IProjectileData data, Directions direction, ISprite origin, Vector2 mapCoordinates, double worldX, double worldY, int frameNum, bool mirrorX)
             : base(worldX, worldY, data.GetTexture(), new Vector2((float)worldX - mapCoordinates.X, (float)worldY - mapCoordinates.Y), data.GetNumFrames(), frameNum, mirrorX)

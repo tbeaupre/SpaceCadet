@@ -13,7 +13,6 @@ namespace Spaceman
         Walk,
         Skid,
         Turn,
-        Hold,
         Jump
     }
 }

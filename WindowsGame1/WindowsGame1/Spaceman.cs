@@ -38,6 +38,7 @@ namespace Spaceman
         List<GunData> arsenal = new List<GunData>();
         GunOverlay guns;
         int currentGun = 0;
+        bool hold;
 
         // Energy
         double maxEnergy = 100;
@@ -183,7 +184,8 @@ namespace Spaceman
                 new GunData("Magmatorque Nail-Gun", false, 7, new StandardProjectile(machinegunTexture, 6, -1, 10), true, 18, 7, 10, 6));
              
             arsenal.Add(
-                new GunData("Symbionic Hive-Oscilator", false, 5, new SinusoidalProjectile(bumblegunTexture, 2.2, -1, 20, 7, 2, true), false, 17, 9, 10, 5));
+                new GunData("Symbionic Hive-Oscilator", false, 10, new SinusoidalProjectile(bumblegunTexture, 2.2, -1, 20, 7, 2, true), true, 17, 9, 10, 5));
+
         }
         
         public void InitializeGunOverlay(Texture2D gunsAngleUpTexture, Texture2D gunsAngleDownTexture, Texture2D gunsTexture)
@@ -357,15 +359,59 @@ namespace Spaceman
 			game.boostJump.reset();
 		}
 
+        public Directions HandleDirection(ActionStatus status)
+        {
+            this.direction = LookDirection();
+            switch (status.state)
+            {
+                case ActionStates.Crouch:
+                    if (!hold) return (mirrorX ? Directions.left : Directions.right);
+                    else if (direction == Directions.left || direction == Directions.downLeft || direction == Directions.upLeft)
+                    {
+                        mirrorX = true;
+                    }
+                    else if (direction == Directions.right || direction == Directions.downRight || direction == Directions.upRight)
+                    {
+                        mirrorX = false;
+                    }
+                    return direction;
+                case ActionStates.Idle:
+                    return direction;
+                default:
+                    if (mirrorX)
+                    {
+                        switch (direction)
+                        {
+                            case Directions.downRight:
+                                return Directions.down;
+                            case Directions.right:
+                                return Directions.left;
+                            case Directions.upRight:
+                                return Directions.up;
+                            default:
+                                return direction;
+                        }
+                    }
+                    else
+                    {
+                        switch (direction)
+                        {
+                            case Directions.downLeft:
+                                return Directions.down;
+                            case Directions.left:
+                                return Directions.right;
+                            case Directions.upLeft:
+                                return Directions.up;
+                            default:
+                                return direction;
+                        }
+                    }
+            }
+        }
+
         // Handles peripheral keys which do not interact with the other movements
         public void HandleKeys(Game1 game)
         {
-            // Temporary direction handling.
-            if (mirrorX) this.direction = Directions.left;
-            else this.direction = Directions.right;
-
-            this.direction = LookDirection();
-
             if (bodyStatus.state == ActionStates.Fall)
             {
                 if (IsKeyHeld(Game1.left))
@@ -380,6 +426,10 @@ namespace Spaceman
                 {
                     SetYVel(yVel + game.gravity);
                 }
+            }
+            else if (bodyStatus.state != ActionStates.Jump)
+            {
+                hold = IsKeyHeld(Game1.hold);
             }
 
             // firing logic
@@ -535,10 +585,6 @@ namespace Spaceman
                 case ActionStates.Fall:
                     xVel = xAirMomentum;
                     break;
-                case ActionStates.Hold:
-                    xVel = 0;
-                    xGroundMomentum = 0;
-                    break;
                 case ActionStates.Idle:
                     xVel = 0;
                     xGroundMomentum = 0;
@@ -569,11 +615,23 @@ namespace Spaceman
                         xGroundMomentum = (status.duration * -game.moveSpeed) / TURN_FRAMES;
                     break;
                 case ActionStates.Walk:
-                    if (mirrorX)
-                        xGroundMomentum = -game.moveSpeed;
+                    if (hold)
+                    {
+                        if (direction == Directions.down || direction == Directions.downLeft || direction == Directions.downRight)
+                            SetBodyStatus(new ActionStatus(ActionStates.Crouch, 0));
+                        else
+                            SetBodyStatus(new ActionStatus(ActionStates.Idle, 0));
+                        xGroundMomentum = 0;
+                        xVel = 0;
+                    }
                     else
-                        xGroundMomentum = game.moveSpeed;
-                    xVel = xGroundMomentum;
+                    {
+                        if (mirrorX)
+                            xGroundMomentum = -game.moveSpeed;
+                        else
+                            xGroundMomentum = game.moveSpeed;
+                        xVel = xGroundMomentum;
+                    }
                     break;
                 case ActionStates.Jump:
                     SetYVel(game.jumpSpeed);
@@ -1039,11 +1097,12 @@ namespace Spaceman
 				StopMomentum();
 			}
 			else
-			{
-                SetBodyStatus(HandleKeys(bodyStatus));
-                HandleStatus(bodyStatus, game);
+            {
                 HandleKeys(game);
-			}
+                SetBodyStatus(HandleKeys(bodyStatus));
+                this.direction = HandleDirection(bodyStatus);
+                HandleStatus(bodyStatus, game);
+            }
 			UpdateHead();
 			UpdateBody(game);
 			UpdateWorldCoords(game);
