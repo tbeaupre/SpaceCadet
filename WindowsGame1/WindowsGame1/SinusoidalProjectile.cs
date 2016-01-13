@@ -26,19 +26,24 @@ namespace Spaceman
             this.amplitude = amplitude / 10;
             this.frequency = frequency / amplitude;
             this.random = random;
-            if (random)
-            {
-                Random rnd = new Random();
-                shift = rnd.Next();
-            }
-            else
-            {
-                shift = 0; 
-            }
         }
 
         public override double GetXVel(Projectile projectile)
         {
+            if (random)
+                if (projectile.GetRandom() % 2 == 0)
+                {
+                    shift = Math.PI;
+                }
+                else
+                {
+                    shift = Math.PI / 4;
+                }
+            else
+            {
+                shift = 0;
+            }
+
             int life = projectile.GetLife();
             switch (projectile.GetDirection())
             {
@@ -64,6 +69,22 @@ namespace Spaceman
 
         public override double GetYVel(Projectile projectile)
         {
+            if (random)
+            {
+                if(projectile.GetRandom() % 2 == 0)
+                {
+                    shift = Math.PI;
+                }
+                else
+                {
+                    shift = Math.PI / 4;
+                }
+            }
+            else
+            {
+                shift = 0;
+            }
+
             int life = projectile.GetLife();
             switch (projectile.GetDirection())
             {
