@@ -36,7 +36,7 @@ namespace Spaceman
 
 		const int FRAME_OFFSET = 5;
 		public double moveSpeed;
-        private double directionInfluence = .1;
+        private double directionInfluence ;
 		public double gravity;
 		public int terminalVel;
 		public double jumpSpeed;
@@ -159,7 +159,7 @@ namespace Spaceman
 		}
 
         #region Getters
-        public double getDirectionalInfluence()
+        public double GetDirectionalInfluence()
         {
             return this.directionInfluence;
         }
@@ -493,28 +493,27 @@ namespace Spaceman
         {
             Texture2D texture;
             if (sprite.GetStatus().state.Equals("hit") && (sprite.GetStatus().duration / sprite.GetHitDuration()) % 2 == 1)
-
                 texture = WhiteSilhouette(sprite.GetTexture(), sprite.GetSourceRect());
             else texture = sprite.GetTexture();
 
             if (sprite.GetMirrorX())
-                spriteBatch.Draw(texture, sprite.GetDestRect(), sprite.GetSourceRect(), Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, layer);
+                spriteBatch.Draw(texture, sprite.GetDestRect().ToRectangle(), sprite.GetSourceRect(), Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, layer);
             else
-                spriteBatch.Draw(texture, sprite.GetDestRect(), sprite.GetSourceRect(), Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, layer);
+                spriteBatch.Draw(texture, sprite.GetDestRect().ToRectangle(), sprite.GetSourceRect(), Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, layer);
         }
 
 		public void DrawOverlay(CharOverlay sprite, float layer)
 		{
-			Rectangle originalDest = sprite.getDestRect(this);
+			DRectangle originalDest = sprite.getDestRect(this);
 			Rectangle newDest;
-			if (sprite.getMirrorX(this))
+			if (player.GetMirrorX())
 			{
-				newDest = new Rectangle(originalDest.X, originalDest.Y + sprite.getYOffset(), originalDest.Width, originalDest.Height);
+				newDest = new Rectangle((int)originalDest.X, (int)(originalDest.Y + sprite.getYOffset()), originalDest.Width, originalDest.Height);
 				spriteBatch.Draw(sprite.getTexture(), newDest, sprite.getSourceRect(this), Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, layer);
 			}
 			else
 			{
-				newDest = new Rectangle(originalDest.X + sprite.getXOffset(), originalDest.Y + sprite.getYOffset(), originalDest.Width, originalDest.Height);
+				newDest = new Rectangle((int)(originalDest.X + sprite.getXOffset()), (int)(originalDest.Y + sprite.getYOffset()), originalDest.Width, originalDest.Height);
 				spriteBatch.Draw(sprite.getTexture(), newDest, sprite.getSourceRect(this), Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, layer);
 			}
 		}
@@ -525,9 +524,9 @@ namespace Spaceman
 			texture = sprite.texture;
 
 			if (sprite.mirrorX)
-				spriteBatch.Draw(texture, sprite.destRect, sprite.sourceRect, Color.White, (float)FindBulletAngle(sprite.direction, sprite.mirrorX), new Vector2(0, 0), SpriteEffects.FlipHorizontally, layer);
+				spriteBatch.Draw(texture, sprite.destRect.ToRectangle(), sprite.sourceRect, Color.White, (float)FindBulletAngle(sprite.direction, sprite.mirrorX), new Vector2(0, 0), SpriteEffects.FlipHorizontally, layer);
 			else
-				spriteBatch.Draw(texture, sprite.destRect, sprite.sourceRect, Color.White, (float)FindBulletAngle(sprite.direction, sprite.mirrorX), new Vector2(0, 0), SpriteEffects.None, layer);
+				spriteBatch.Draw(texture, sprite.destRect.ToRectangle(), sprite.sourceRect, Color.White, (float)FindBulletAngle(sprite.direction, sprite.mirrorX), new Vector2(0, 0), SpriteEffects.None, layer);
 		}
 
 		public void DrawAllyProjectile(Projectile sprite, float layer)
@@ -536,23 +535,22 @@ namespace Spaceman
 			texture = sprite.texture;
 
 			if (sprite.mirrorX)
-				spriteBatch.Draw(texture, sprite.destRect, sprite.sourceRect, Color.White, (float)FindBulletAngle(sprite.direction, sprite.mirrorX), new Vector2(0, 0), SpriteEffects.FlipHorizontally, layer);
+				spriteBatch.Draw(texture, sprite.destRect.ToRectangle(), sprite.sourceRect, Color.White, (float)FindBulletAngle(sprite.direction, sprite.mirrorX), new Vector2(0, 0), SpriteEffects.FlipHorizontally, layer);
 			else
-				spriteBatch.Draw(texture, sprite.destRect, sprite.sourceRect, Color.White, (float)FindBulletAngle(sprite.direction, sprite.mirrorX), new Vector2(0, 0), SpriteEffects.None, layer);
+				spriteBatch.Draw(texture, sprite.destRect.ToRectangle(), sprite.sourceRect, Color.White, (float)FindBulletAngle(sprite.direction, sprite.mirrorX), new Vector2(0, 0), SpriteEffects.None, layer);
 		}
 
 		public void DrawSprite(GunOverlay sprite, float layer)
 		{
 			Texture2D texture;
 			if (sprite.GetStatus().state.Equals("hit") && (sprite.GetStatus().duration / sprite.GetHitDuration()) % 2 == 1)
-
 				texture = WhiteSilhouette(sprite.GetTexture(), sprite.GetSourceRect());
 			else texture = sprite.GetTexture();
 
 			if (sprite.GetMirrorX())
-				spriteBatch.Draw(texture, new Rectangle(sprite.GetDestRect().X + sprite.xOffset, sprite.GetDestRect().Y + sprite.yOffset, sprite.GetDestRect().Width, sprite.GetDestRect().Height), sprite.GetSourceRect(), Color.White, sprite.angle, new Vector2(0, 0), SpriteEffects.FlipHorizontally, layer);
+				spriteBatch.Draw(texture, new Rectangle((int)(sprite.GetDestRect().X + sprite.xOffset), (int)(sprite.GetDestRect().Y + sprite.yOffset), sprite.GetDestRect().Width, sprite.GetDestRect().Height), sprite.GetSourceRect(), Color.White, sprite.angle, new Vector2(0, 0), SpriteEffects.FlipHorizontally, layer);
 			else
-				spriteBatch.Draw(texture, new Rectangle(sprite.GetDestRect().X + sprite.xOffset, sprite.GetDestRect().Y + sprite.yOffset, sprite.GetDestRect().Width, sprite.GetDestRect().Height), sprite.GetSourceRect(), Color.White, -sprite.angle, new Vector2(0, 0), SpriteEffects.None, layer);
+				spriteBatch.Draw(texture, new Rectangle((int)(sprite.GetDestRect().X + sprite.xOffset), (int)(sprite.GetDestRect().Y + sprite.yOffset), sprite.GetDestRect().Width, sprite.GetDestRect().Height), sprite.GetSourceRect(), Color.White, -sprite.angle, new Vector2(0, 0), SpriteEffects.None, layer);
 		}
 
 		public Texture2D WhiteSilhouette(Texture2D texture, Rectangle source)
@@ -708,21 +706,12 @@ namespace Spaceman
 
 		public void UpdateObjects()
 		{
-            UpdatePortals();
             player.UpdateSprite(this);
 			worldMap[currentRoom].UpdateMap(this);
 			UpdateMapAssets();
 			UpdateSpawns();
 			UpdatePickUps();
 			UpdateEnemies();
-		}
-
-		public void UpdatePortals()
-		{
-			foreach (Portal p in worldMap[currentRoom].portals)
-			{
-				p.UpdatePortal(this);
-			}
 		}
 
 		public void SpawnEnemy(Enemy enemy)
@@ -770,7 +759,7 @@ namespace Spaceman
 
 					if (current[i].status.state.Equals("die") == false)
 					{
-						if (current[i].PerPixelCollisionDetect(player,this) > 0)
+						if (CollisionDetector.PerPixelSprite(current[i], player, graphics) > 0)
 						{
 							if (player.status.state != "hit")
 							{
@@ -781,10 +770,10 @@ namespace Spaceman
 						List<Projectile> currentProjectiles = worldMap[currentRoom].allyProjectiles;
 						for (int j = currentProjectiles.Count - 1; j >= 0; j--)
 						{
-							int result = current[i].PerPixelCollisionDetect(currentProjectiles[j],this);
-							if (result > 0 && currentProjectiles[j].origin == player)
+							CollisionState result = CollisionDetector.PerPixelSprite(current[i], currentProjectiles[j], graphics);
+							if ((result == CollisionState.Hurtbox || result == CollisionState.Standard) && currentProjectiles[j].origin == player)
 							{
-								if (result == 2)
+								if (result == CollisionState.Hurtbox)
 								{
 									current[i].TakeDamage(currentProjectiles[j].damage, this);
 								}
@@ -805,7 +794,8 @@ namespace Spaceman
 				current[i].UpdateSprite(worldMap[currentRoom]);
 				if (current[i].onScreen)
 				{
-					if (current[i].PerPixelCollisionDetect(this))
+                    CollisionState result = CollisionDetector.PerPixelSprite(current[i], player, graphics);
+                    if (result == CollisionState.Hurtbox || result == CollisionState.Standard)
 					{
 						current[i].PickUpObj(this);
 						RemoveObjectToDraw(current[i]);
@@ -841,8 +831,9 @@ namespace Spaceman
 
 		public void SetStandardAttributes()
 		{
-			moveSpeed = 2.1;
-			gravity = .25;
+			moveSpeed = 2.4;
+            directionInfluence = .5;
+			gravity = .27;
 			terminalVel = 9;
 			jumpSpeed = -5;
 			player.SetMaxJumps(1);
@@ -890,7 +881,7 @@ namespace Spaceman
 				length = (int)(ratio * (double)energyBarTexture.Width);
 			}
 			x = energyBarTexture.Width - length;
-			Rectangle destRect = new Rectangle(energyBar.destRect.X + x, energyBar.destRect.Y, length, energyBarTexture.Height);
+			Rectangle destRect = new Rectangle((int)energyBar.destRect.X + x, (int)energyBar.destRect.Y, length, energyBarTexture.Height);
 			spriteBatch.Draw(energyBar.texture, destRect, energyBar.sourceRect, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, 1f);
 		}
 
@@ -903,57 +894,8 @@ namespace Spaceman
 				double ratio = player.GetCurrentHealth() / player.GetMaxHealth();
 				length = (int)(ratio * (double)healthBarTexture.Width);
 			}
-			Rectangle destRect = new Rectangle(healthBar.destRect.X, healthBar.destRect.Y, length, healthBarTexture.Height);
+			Rectangle destRect = new Rectangle((int)healthBar.destRect.X, (int)healthBar.destRect.Y, length, healthBarTexture.Height);
 			spriteBatch.Draw(healthBar.texture, destRect, healthBar.sourceRect, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, 1f);
-		}
-
-		public Rectangle OffsetRect(Rectangle rect, int xOffset, int yOffset)
-		{
-			return new Rectangle(rect.X + xOffset, rect.Y + yOffset, rect.Width, rect.Height);
-		}
-
-		public bool CheckMapCollision(int xOffset, int yOffset, Sprite sprite)
-		{
-			return MapCollisionDetect(sprite.spriteWidth, sprite.spriteHeight, OffsetRect(sprite.destRect, xOffset, yOffset));
-		}
-
-		public bool CheckMapCollision(int xOffset, int yOffset, Spaceman sprite)
-		{
-			Rectangle newRect = new Rectangle(sprite.destRect.X + 1, sprite.destRect.Y + 1, sprite.spriteWidth - 2, sprite.spriteHeight - 1);
-			return MapCollisionDetect(sprite.spriteWidth-2, sprite.spriteHeight-1, OffsetRect(newRect, xOffset, yOffset));
-		}
-
-		public bool MapCollisionDetect(int spritewidth, int spriteheight, Rectangle rect)
-		{
-			Color[] pixels;
-			Rectangle newRect = new Rectangle((rect.X + (int)worldMap[currentRoom].mapCoordinates.X - (int)worldMap[currentRoom].offset.X),
-				(rect.Y + (int)worldMap[currentRoom].mapCoordinates.Y - (int)worldMap[currentRoom].offset.Y),
-				rect.Width,
-				rect.Height);
-
-			pixels = new Color[spritewidth * spriteheight];
-
-			// Check to see if rectangle is outside of map.
-			if (newRect.X < 0
-				|| newRect.Y < 0
-				|| newRect.X + spritewidth > worldMap[currentRoom].hitbox.Width
-				|| newRect.Y + spriteheight > worldMap[currentRoom].hitbox.Height) return false;
-
-			this.worldMap[currentRoom].hitbox.GetData<Color>(
-				0, newRect, pixels, 0, spritewidth * spriteheight
-				);
-			for (int y = 0; y < spriteheight; y++)
-			{
-				for (int x = 0; x < spritewidth; x++)
-				{
-					Color colorA = pixels[y * spritewidth + x];
-					if (colorA.A != 0)
-					{
-						return true;
-					}
-				}
-			}
-			return false;
 		}
 
 		public Door CreateDoor(double worldX, double worldY, int level, bool isLeft)

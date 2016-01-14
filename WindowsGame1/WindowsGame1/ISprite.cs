@@ -16,15 +16,17 @@ namespace Spaceman
     {
         int GetHitDuration();
         Texture2D GetTexture();
+        Texture2D GetHitbox();
+        Texture2D GetVulnerable();
         Status GetStatus();
         bool GetMirrorX();
-        Rectangle GetDestRect();
+        DRectangle GetDestRect();
         Rectangle GetSourceRect();
         int GetSpriteWidth();
         int GetSpriteHeight();
         void NextFrame(int offset);
         int GetFrameNum();
         void SetFrameNum(int frameNum);
-        Texture2D MirrorTexture(ISprite sprite, Game1 game, Texture2D texture);
+        Texture2D MirrorTexture(ISprite sprite, GraphicsDeviceManager graphics, Texture2D texture);
     }
 }

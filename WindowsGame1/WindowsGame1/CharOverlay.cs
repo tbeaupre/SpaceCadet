@@ -16,7 +16,7 @@ namespace Spaceman
 		int getXOffset();
 		int getYOffset();
 		Texture2D getTexture();
-		Rectangle getDestRect(Game1 game);
+		DRectangle getDestRect(Game1 game);
 		Rectangle getSourceRect(Game1 game);
 		bool getMirrorX(Game1 game);
 
