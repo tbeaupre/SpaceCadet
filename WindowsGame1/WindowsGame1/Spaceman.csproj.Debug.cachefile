@@ -44,3 +44,6 @@ Content\Bullets\MachinegunBullet.xnb
 Content\Bullets\PistolBullet.xnb
 Content\Bullets\RailgunBullet.xnb
 Content\Bullets\ShotgunBullet.xnb
+Content\Music\Demo\demo.xgs
+Content\Music\Demo\DemoSoundBank.xsb
+Content\Music\Demo\DemoWaveBank.xwb

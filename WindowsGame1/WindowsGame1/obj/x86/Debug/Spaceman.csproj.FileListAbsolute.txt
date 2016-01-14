@@ -227,3 +227,8 @@ C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x
 C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets\PistolBullet.xnb
 C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets\RailgunBullet.xnb
 C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets\ShotgunBullet.xnb
+C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Music\Demo\demo.xgs
+C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Music\Demo\DemoSoundBank.xsb
+C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Music\Demo\DemoWaveBank.xwb
+C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.Xact.dll
+C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.Xact.xml

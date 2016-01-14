@@ -103,6 +103,12 @@ namespace Spaceman
 		Texture2D boostJumpTexture;
 		public BoostJump boostJump;
 
+        AudioEngine demoEngine;
+        SoundBank demoSB;
+        WaveBank demosWB;
+
+        Cue demoDrumsCue; 
+
 		#region Map Resources
 
 		public Vector2 initMapCoordinates = new Vector2(560, 100); // technically the world coordinates of the top left-hand corner of the screen
@@ -314,11 +320,20 @@ namespace Spaceman
 
 			InitializePortals(this.portals);
 
+            InitializeMusic();
+            
 			SetStandardAttributes();
 
 			base.Initialize();
 		}
-
+        public void InitializeMusic()
+        {
+            demoEngine = new AudioEngine(Content.RootDirectory + "//Music\\Demo\\demo.xgs");
+            demoSB = new SoundBank(demoEngine, Content.RootDirectory + "//Music\\Demo\\DemoSoundBank.xsb");
+            demosWB = new WaveBank(demoEngine, Content.RootDirectory + "//Music\\Demo\\DemoWaveBank.xwb");
+            demoDrumsCue = demoSB.GetCue("drums");
+            demoDrumsCue.Play();
+        }
         public void InitializePortals(List<Portal> portals)
 		{
 			foreach (Portal p in portals)

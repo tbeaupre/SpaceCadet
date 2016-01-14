@@ -350,7 +350,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns\Guns.xnb</Output>
-      <Time>2016-01-08T18:59:40.5844718-05:00</Time>
+      <Time>2016-01-10T18:49:46.5140326-05:00</Time>
     </Item>
     <Item>
       <Source>Guns\Guns Angle.png</Source>
@@ -359,7 +359,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns\Guns Angle.xnb</Output>
-      <Time>2016-01-08T18:59:40.5814705-05:00</Time>
+      <Time>2016-01-10T18:49:46.506032-05:00</Time>
     </Item>
     <Item>
       <Source>Guns\Guns Angle2.png</Source>
@@ -368,7 +368,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns\Guns Angle2.xnb</Output>
-      <Time>2016-01-08T18:59:40.5834706-05:00</Time>
+      <Time>2016-01-10T18:49:46.5100353-05:00</Time>
     </Item>
     <Item>
       <Source>Bullets\BumblegunBullet.png</Source>
@@ -377,7 +377,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets\BumblegunBullet.xnb</Output>
-      <Time>2016-01-08T18:59:40.5424958-05:00</Time>
+      <Time>2016-01-13T12:54:42.5573223-05:00</Time>
     </Item>
     <Item>
       <Source>Bullets\MachinegunBullet.png</Source>
