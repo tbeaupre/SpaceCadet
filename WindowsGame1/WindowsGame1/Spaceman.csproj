@@ -83,6 +83,7 @@
     <Compile Include="CollisionDetector.cs" />
     <Compile Include="CollisionStateEnum.cs" />
     <Compile Include="DRectangle.cs" />
+    <Compile Include="ProjectileData.cs" />
     <Compile Include="Song.cs" />
     <Compile Include="SinusoidalProjectile.cs" />
     <Compile Include="DirectionsEnum.cs" />
@@ -116,7 +117,6 @@
     <Compile Include="SaveData.cs" />
     <Compile Include="SaveStation.cs" />
     <Compile Include="Sprite.cs" />
-    <Compile Include="ProjectileData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
