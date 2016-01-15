@@ -18,7 +18,7 @@ namespace Spaceman
 			: base(15, worldX, worldY, texture, new Vector2((float)worldX - mapCoordinates.X, (float)worldY - mapCoordinates.Y), 4, 0, 1, false, null)
 		{
 				this.level = level;
-				this.destRect = new DRectangle(worldX - mapCoordinates.X, worldY - mapCoordinates.Y, texture.Width / 4, texture.Height / 6);
+				this.destRect = new Rectangle((int)(worldX - mapCoordinates.X), (int)(worldY - mapCoordinates.Y), texture.Width / 4, texture.Height / 6);
 				this.sourceRect = new Rectangle(this.spriteWidth * this.frameNum, (this.level - 1) * texture.Height / 6, texture.Width / 4, texture.Height / 6);
 			}
 
