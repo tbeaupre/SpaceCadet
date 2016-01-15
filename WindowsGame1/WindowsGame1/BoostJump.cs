@@ -77,9 +77,9 @@ namespace Spaceman
 			return this.texture;
 		}
 
-		public Rectangle getDestRect(Game1 game)
+		public DRectangle getDestRect(Game1 game)
 		{
-			return new Rectangle(game.player.destRect.X, game.player.destRect.Y, spriteWidth, texture.Height);
+			return new DRectangle(game.player.destRect.X, game.player.destRect.Y, spriteWidth, texture.Height);
 		}
 
 		public Rectangle getSourceRect(Game1 game)

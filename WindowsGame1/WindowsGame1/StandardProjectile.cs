@@ -157,12 +157,13 @@ namespace Spaceman
             projectile.worldX += projectile.GetData().GetXVel(projectile);
             projectile.worldY += projectile.GetData().GetYVel(projectile);
             projectile.UpdateSprite(game.worldMap[game.currentRoom]);
-            if (projectile.PerPixelCollisionDetect(game) && game.worldMap[game.currentRoom].enemyProjectiles.Contains(projectile))
+            CollisionState result = CollisionDetector.PerPixelSprite(projectile, game.player, game.graphics);
+            if ((result == CollisionState.Hurtbox || result == CollisionState.Standard) && game.worldMap[game.currentRoom].enemyProjectiles.Contains(projectile))
             {
                 game.player.TakeDamage(projectile);
                 DestroyProjectile(projectile);
             }
-            if (game.CheckMapCollision(0, 0, projectile) == false)
+            if (CollisionDetector.CheckMapCollision(0, 0, projectile, game.worldMap[game.currentRoom]) == false)
             {
                 if (projectile.onScreen && projectile.nearScreen) game.AddObjectToDraw(projectile);
                 else projectile.Delete();

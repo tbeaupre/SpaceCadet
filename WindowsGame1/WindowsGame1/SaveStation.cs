@@ -21,7 +21,8 @@ namespace Spaceman
 
 		void IMapItem.UpdateSprite(Game1 game)
 		{
-			if (this.PerPixelCollisionDetect(game))
+            CollisionState result = CollisionDetector.PerPixelSprite(this, game.player, game.graphics);
+            if (result == CollisionState.Hurtbox || result == CollisionState.Standard)
 			{
 				this.timer++;
 				if (this.timer >= 3 * this.FRAME_OFFSET)
@@ -74,7 +75,7 @@ namespace Spaceman
 			return this.onScreen;
 		}
 
-		new public String GetType()
+		public String GetObjectType()
 		{
 			return "MapItem";
 		}
