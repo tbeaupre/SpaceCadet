@@ -79,6 +79,9 @@
     <Compile Include="Battery.cs" />
     <Compile Include="BoostJump.cs" />
     <Compile Include="CharOverlay.cs" />
+    <Compile Include="CollisionDetector.cs" />
+    <Compile Include="CollisionStateEnum.cs" />
+    <Compile Include="DRectangle.cs" />
     <Compile Include="SinusoidalProjectile.cs" />
     <Compile Include="DirectionsEnum.cs" />
     <Compile Include="EnemyNamesEnum.cs" />
