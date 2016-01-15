@@ -8,7 +8,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Spaceman.xnb</Output>
-      <Time>2016-01-02T22:30:32.8236735-05:00</Time>
+      <Time>2016-01-15T12:36:39.3498252-05:00</Time>
     </Item>
     <Item>
       <Source>TestMapResized.png</Source>
@@ -17,7 +17,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\TestMapResized.xnb</Output>
-      <Time>2016-01-02T22:30:32.8312546-05:00</Time>
+      <Time>2016-01-15T12:36:39.3578253-05:00</Time>
     </Item>
     <Item>
       <Source>PickUps\Battery.png</Source>
@@ -26,7 +26,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\PickUps\Battery.xnb</Output>
-      <Time>2016-01-02T22:30:32.7997462-05:00</Time>
+      <Time>2016-01-15T12:36:39.3358097-05:00</Time>
     </Item>
     <Item>
       <Source>HUD\EnergyBar.png</Source>
@@ -35,7 +35,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\HUD\EnergyBar.xnb</Output>
-      <Time>2016-01-02T22:30:32.6102293-05:00</Time>
+      <Time>2016-01-15T12:36:39.1416689-05:00</Time>
     </Item>
     <Item>
       <Source>HUD\HealthBar.png</Source>
@@ -44,7 +44,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\HUD\HealthBar.xnb</Output>
-      <Time>2016-01-02T22:30:32.6190074-05:00</Time>
+      <Time>2016-01-15T12:36:39.144671-05:00</Time>
     </Item>
     <Item>
       <Source>HUD\HealthBarOverlay2.png</Source>
@@ -53,7 +53,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\HUD\HealthBarOverlay2.xnb</Output>
-      <Time>2016-01-02T22:30:32.6210088-05:00</Time>
+      <Time>2016-01-15T12:36:39.1476731-05:00</Time>
     </Item>
     <Item>
       <Source>PickUps\HealthPickups.png</Source>
@@ -62,7 +62,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\PickUps\HealthPickups.xnb</Output>
-      <Time>2016-01-02T22:30:32.8097538-05:00</Time>
+      <Time>2016-01-15T12:36:39.3408128-05:00</Time>
     </Item>
     <Item>
       <Source>Enemies\BioSoldier.png</Source>
@@ -71,7 +71,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Enemies\BioSoldier.xnb</Output>
-      <Time>2016-01-02T22:30:32.5992211-05:00</Time>
+      <Time>2016-01-15T12:36:39.1296604-05:00</Time>
     </Item>
     <Item>
       <Source>Enemies\Bio-Snail\Bio-Snail Hitbox.png</Source>
@@ -80,7 +80,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Enemies\Bio-Snail\Bio-Snail Hitbox.xnb</Output>
-      <Time>2016-01-02T22:30:32.590216-05:00</Time>
+      <Time>2016-01-15T12:36:39.1166533-05:00</Time>
     </Item>
     <Item>
       <Source>Enemies\Bio-Snail\Bio-Snail Vulnerable.png</Source>
@@ -89,7 +89,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Enemies\Bio-Snail\Bio-Snail Vulnerable.xnb</Output>
-      <Time>2016-01-02T22:30:32.5962185-05:00</Time>
+      <Time>2016-01-15T12:36:39.1216547-05:00</Time>
     </Item>
     <Item>
       <Source>Enemies\Bio-Snail\Bio-Snail.png</Source>
@@ -98,7 +98,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Enemies\Bio-Snail\Bio-Snail.xnb</Output>
-      <Time>2016-01-02T22:30:32.5972197-05:00</Time>
+      <Time>2016-01-15T12:36:39.1246572-05:00</Time>
     </Item>
     <Item>
       <Source>Enemies\Bio-Snail\Bio-Snail Projectile.png</Source>
@@ -107,7 +107,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Enemies\Bio-Snail\Bio-Snail Projectile.xnb</Output>
-      <Time>2016-01-02T22:30:32.5912154-05:00</Time>
+      <Time>2016-01-15T12:36:39.119655-05:00</Time>
     </Item>
     <Item>
       <Source>Spaceman Body.png</Source>
@@ -116,7 +116,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Spaceman Body.xnb</Output>
-      <Time>2016-01-02T22:30:32.8127559-05:00</Time>
+      <Time>2016-01-15T12:36:39.3438196-05:00</Time>
     </Item>
     <Item>
       <Source>Spaceman Heads.png</Source>
@@ -125,7 +125,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Spaceman Heads.xnb</Output>
-      <Time>2016-01-02T22:30:32.8216725-05:00</Time>
+      <Time>2016-01-15T12:36:39.3478242-05:00</Time>
     </Item>
     <Item>
       <Source>Doors\Door.png</Source>
@@ -134,7 +134,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Doors\Door.xnb</Output>
-      <Time>2016-01-02T22:30:32.493146-05:00</Time>
+      <Time>2016-01-15T12:36:39.0976376-05:00</Time>
     </Item>
     <Item>
       <Source>Doors\DoorHitbox.png</Source>
@@ -143,7 +143,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Doors\DoorHitbox.xnb</Output>
-      <Time>2016-01-02T22:30:32.509157-05:00</Time>
+      <Time>2016-01-15T12:36:39.1006432-05:00</Time>
     </Item>
     <Item>
       <Source>Doors\DoorHitbox2.png</Source>
@@ -152,7 +152,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Doors\DoorHitbox2.xnb</Output>
-      <Time>2016-01-02T22:30:32.5101581-05:00</Time>
+      <Time>2016-01-15T12:36:39.1026412-05:00</Time>
     </Item>
     <Item>
       <Source>MapResources\Backgrounds\Background1.png</Source>
@@ -161,7 +161,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\Backgrounds\Background1.xnb</Output>
-      <Time>2016-01-02T22:30:32.6640621-05:00</Time>
+      <Time>2016-01-15T12:36:39.1656851-05:00</Time>
     </Item>
     <Item>
       <Source>MapResources\Foregrounds\Foreground1.png</Source>
@@ -170,7 +170,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\Foregrounds\Foreground1.xnb</Output>
-      <Time>2016-01-02T22:30:32.6901011-05:00</Time>
+      <Time>2016-01-15T12:36:39.1887023-05:00</Time>
     </Item>
     <Item>
       <Source>MapResources\Hitboxes\Hitbox1.png</Source>
@@ -179,7 +179,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\Hitboxes\Hitbox1.xnb</Output>
-      <Time>2016-01-02T22:30:32.6961045-05:00</Time>
+      <Time>2016-01-15T12:36:39.1917044-05:00</Time>
     </Item>
     <Item>
       <Source>MapResources\Hitboxes\Hitbox2.png</Source>
@@ -188,7 +188,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\Hitboxes\Hitbox2.xnb</Output>
-      <Time>2016-01-02T22:30:32.6981068-05:00</Time>
+      <Time>2016-01-15T12:36:39.1947065-05:00</Time>
     </Item>
     <Item>
       <Source>MapResources\OtherAssets\Spaceship.png</Source>
@@ -197,7 +197,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\OtherAssets\Spaceship.xnb</Output>
-      <Time>2016-01-02T22:30:32.7411233-05:00</Time>
+      <Time>2016-01-15T12:36:39.2047141-05:00</Time>
     </Item>
     <Item>
       <Source>Menu\MainMenu.png</Source>
@@ -206,7 +206,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\MainMenu.xnb</Output>
-      <Time>2016-01-02T22:30:32.7531409-05:00</Time>
+      <Time>2016-01-15T12:36:39.2187232-05:00</Time>
     </Item>
     <Item>
       <Source>Menu\StartMenuItem.png</Source>
@@ -215,7 +215,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\StartMenuItem.xnb</Output>
-      <Time>2016-01-02T22:30:32.7977452-05:00</Time>
+      <Time>2016-01-15T12:36:39.2547521-05:00</Time>
     </Item>
     <Item>
       <Source>Menu\OptionsMenuItem.png</Source>
@@ -224,7 +224,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\OptionsMenuItem.xnb</Output>
-      <Time>2016-01-02T22:30:32.7741528-05:00</Time>
+      <Time>2016-01-15T12:36:39.2467477-05:00</Time>
     </Item>
     <Item>
       <Source>PickUps\DNAPickup.png</Source>
@@ -233,7 +233,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\PickUps\DNAPickup.xnb</Output>
-      <Time>2016-01-02T22:30:32.8077519-05:00</Time>
+      <Time>2016-01-15T12:36:39.3378111-05:00</Time>
     </Item>
     <Item>
       <Source>MapResources\Backgrounds\Background3.png</Source>
@@ -242,7 +242,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\Backgrounds\Background3.xnb</Output>
-      <Time>2016-01-02T22:30:32.6861051-05:00</Time>
+      <Time>2016-01-15T12:36:39.1846994-05:00</Time>
     </Item>
     <Item>
       <Source>MapResources\Backgrounds\Background2.png</Source>
@@ -251,7 +251,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\Backgrounds\Background2.xnb</Output>
-      <Time>2016-01-02T22:30:32.6720674-05:00</Time>
+      <Time>2016-01-15T12:36:39.1816973-05:00</Time>
     </Item>
     <Item>
       <Source>MapResources\Hitboxes\Hitbox3.png</Source>
@@ -260,7 +260,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\MapResources\Hitboxes\Hitbox3.xnb</Output>
-      <Time>2016-01-02T22:30:32.7001078-05:00</Time>
+      <Time>2016-01-15T12:36:39.1987094-05:00</Time>
     </Item>
     <Item>
       <Source>Doors\Door2.png</Source>
@@ -269,7 +269,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Doors\Door2.xnb</Output>
-      <Time>2016-01-02T22:30:32.5081567-05:00</Time>
+      <Time>2016-01-15T12:36:39.0996391-05:00</Time>
     </Item>
     <Item>
       <Source>Doors\DoorHitbox3.png</Source>
@@ -278,7 +278,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Doors\DoorHitbox3.xnb</Output>
-      <Time>2016-01-02T22:30:32.5431808-05:00</Time>
+      <Time>2016-01-15T12:36:39.1126479-05:00</Time>
     </Item>
     <Item>
       <Source>SaveStation.png</Source>
@@ -287,7 +287,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\SaveStation.xnb</Output>
-      <Time>2016-01-02T22:30:32.8107532-05:00</Time>
+      <Time>2016-01-15T12:36:39.3428138-05:00</Time>
     </Item>
     <Item>
       <Source>Menu\AlterSuitMenuItem.png</Source>
@@ -296,7 +296,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\AlterSuitMenuItem.xnb</Output>
-      <Time>2016-01-02T22:30:32.7431235-05:00</Time>
+      <Time>2016-01-15T12:36:39.2137196-05:00</Time>
     </Item>
     <Item>
       <Source>Menu\SaveMenuItem.png</Source>
@@ -305,7 +305,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\SaveMenuItem.xnb</Output>
-      <Time>2016-01-02T22:30:32.7751557-05:00</Time>
+      <Time>2016-01-15T12:36:39.2487483-05:00</Time>
     </Item>
     <Item>
       <Source>Menu\SaveStationMenu.png</Source>
@@ -314,7 +314,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\SaveStationMenu.xnb</Output>
-      <Time>2016-01-02T22:30:32.7967441-05:00</Time>
+      <Time>2016-01-15T12:36:39.2517522-05:00</Time>
     </Item>
     <Item>
       <Source>Menu\LoadMenuItem.png</Source>
@@ -323,7 +323,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\LoadMenuItem.xnb</Output>
-      <Time>2016-01-02T22:30:32.7441242-05:00</Time>
+      <Time>2016-01-15T12:36:39.215721-05:00</Time>
     </Item>
     <Item>
       <Source>Menu\NewMenuItem.png</Source>
@@ -332,7 +332,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\NewMenuItem.xnb</Output>
-      <Time>2016-01-02T22:30:32.7731542-05:00</Time>
+      <Time>2016-01-15T12:36:39.244745-05:00</Time>
     </Item>
     <Item>
       <Source>Boost Jump.png</Source>
@@ -341,7 +341,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Boost Jump.xnb</Output>
-      <Time>2016-01-02T22:30:32.4567556-05:00</Time>
+      <Time>2016-01-15T12:36:39.0556074-05:00</Time>
     </Item>
     <Item>
       <Source>Guns\Guns.png</Source>
@@ -350,7 +350,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns\Guns.xnb</Output>
-      <Time>2016-01-10T18:49:46.5140326-05:00</Time>
+      <Time>2016-01-15T12:36:39.1366658-05:00</Time>
     </Item>
     <Item>
       <Source>Guns\Guns Angle.png</Source>
@@ -359,7 +359,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns\Guns Angle.xnb</Output>
-      <Time>2016-01-10T18:49:46.506032-05:00</Time>
+      <Time>2016-01-15T12:36:39.1326625-05:00</Time>
     </Item>
     <Item>
       <Source>Guns\Guns Angle2.png</Source>
@@ -368,7 +368,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns\Guns Angle2.xnb</Output>
-      <Time>2016-01-10T18:49:46.5100353-05:00</Time>
+      <Time>2016-01-15T12:36:39.1356646-05:00</Time>
     </Item>
     <Item>
       <Source>Bullets\BumblegunBullet.png</Source>
@@ -377,7 +377,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets\BumblegunBullet.xnb</Output>
-      <Time>2016-01-13T12:54:42.5573223-05:00</Time>
+      <Time>2016-01-15T12:36:39.0606113-05:00</Time>
     </Item>
     <Item>
       <Source>Bullets\MachinegunBullet.png</Source>
@@ -386,7 +386,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets\MachinegunBullet.xnb</Output>
-      <Time>2016-01-08T18:59:40.545498-05:00</Time>
+      <Time>2016-01-15T12:36:39.0636126-05:00</Time>
     </Item>
     <Item>
       <Source>Bullets\PistolBullet.png</Source>
@@ -395,7 +395,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets\PistolBullet.xnb</Output>
-      <Time>2016-01-08T18:59:40.5584546-05:00</Time>
+      <Time>2016-01-15T12:36:39.0656145-05:00</Time>
     </Item>
     <Item>
       <Source>Bullets\RailgunBullet.png</Source>
@@ -404,7 +404,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets\RailgunBullet.xnb</Output>
-      <Time>2016-01-08T18:59:40.5604552-05:00</Time>
+      <Time>2016-01-15T12:36:39.0676163-05:00</Time>
     </Item>
     <Item>
       <Source>Bullets\ShotgunBullet.png</Source>
@@ -413,7 +413,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets\ShotgunBullet.xnb</Output>
-      <Time>2016-01-08T18:59:40.562457-05:00</Time>
+      <Time>2016-01-15T12:36:39.0696173-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

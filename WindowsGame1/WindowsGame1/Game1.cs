@@ -862,8 +862,10 @@ namespace Spaceman
 
 		public void SetStandardAttributes()
 		{
-			moveSpeed = 2.1;
-			gravity = .25;
+
+			moveSpeed = 2.4;
+            directionInfluence = .7;
+			gravity = .27;
 			terminalVel = 9;
 			jumpSpeed = -5;
 			player.SetMaxJumps(1);

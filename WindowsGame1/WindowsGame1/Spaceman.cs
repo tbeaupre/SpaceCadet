@@ -648,6 +648,13 @@ namespace Spaceman
                         if (xGroundMomentum == 0) xAirMomentum = 0;
                         xGroundMomentum = 0;
                     }
+                    else
+                    {
+                        if (IsKeyHeld(Game1.left) && !IsKeyHeld(Game1.right)) xAirMomentum -= game.moveSpeed * 0.75;
+                        if (IsKeyHeld(Game1.right) && !IsKeyHeld(Game1.left)) xAirMomentum += game.moveSpeed * 0.75;
+                        //if (xAirMomentum > game.moveSpeed - game.GetDirectionalInfluence()) xAirMomentum = game.moveSpeed - game.GetDirectionalInfluence();
+                        //if (xAirMomentum < -game.moveSpeed + game.GetDirectionalInfluence()) xAirMomentum = -game.moveSpeed + game.GetDirectionalInfluence();
+                    }
                     break;
                 default:
                     SetBodyStatus(new ActionStatus(ActionStates.Idle, 0));
@@ -719,6 +726,7 @@ namespace Spaceman
 
         public void UpdateWorldCoords(Game1 game)
         {
+            double xDecimal = xVel - (int)xVel;
             int yOffset;
 			int xOffset;
 			bool stairs = false;
@@ -741,7 +749,7 @@ namespace Spaceman
 					if (yOffset > 0 && CheckMapCollision(game, 0, 1)) ResetJump(game);
 				}
 				if (!CheckMapCollision(game, xOffset, 0))
-					game.worldMap[game.currentRoom].ChangeCoords(xOffset, 0);
+					game.worldMap[game.currentRoom].ChangeCoords(xOffset + (float)xDecimal, 0);
 
 				if (xOffset == 0 && !(bodyStatus.state == ActionStates.Fall) && Math.Abs(xVel) > 0)
 				{
@@ -1092,7 +1100,6 @@ namespace Spaceman
 
         public void UpdateSprite(Game1 game)
         {
-            guns.UpdateSprite();
 			GravityUpdate(game);
             UpdateKeys(game.newkeys);
 			if (game.worldMap[game.currentRoom].GetWasJustActivated())
@@ -1106,7 +1113,8 @@ namespace Spaceman
                 this.direction = HandleDirection(bodyStatus);
                 HandleStatus(bodyStatus, game);
             }
-			UpdateHead();
+            guns.UpdateSprite();
+            UpdateHead();
 			UpdateBody(game);
 			UpdateWorldCoords(game);
 			CreateTexture(game);
