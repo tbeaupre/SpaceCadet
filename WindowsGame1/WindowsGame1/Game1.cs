@@ -832,7 +832,7 @@ namespace Spaceman
 		public void SetStandardAttributes()
 		{
 			moveSpeed = 2.4;
-            directionInfluence = .5;
+            directionInfluence = .7;
 			gravity = .27;
 			terminalVel = 9;
 			jumpSpeed = -5;
