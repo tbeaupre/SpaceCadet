@@ -66,7 +66,7 @@ namespace Spaceman
 		{
 			foreach (IMapItem item in items)
 			{
-				switch (item.GetObjectType()) {
+				switch (item.GetType()) {
 					case "MapItem": this.mapItems.Add(item);
 						break;
 					default: this.mapItems.Add(item);
@@ -77,12 +77,7 @@ namespace Spaceman
 
 		public void UpdateMap(Game1 game)
 		{
-            foreach (Portal p in portals)
-            {
-                p.UpdatePortal(game);
-            }
-
-            foreach (IMapItem item in mapItems)
+			foreach (IMapItem item in mapItems)
 			{
 				item.UpdateSprite(game);
 			}
@@ -146,11 +141,11 @@ namespace Spaceman
 		{
 			if (door.isLeft)
 			{
-				SetCoordinates((float)door.worldX - (Game1.screenWidth / 2) + game.player.spriteWidth - 1, (float)door.worldY - Game1.screenHeight / 2 + game.player.spriteHeight + 7);
+				SetCoordinates((float)door.worldX - Game1.screenWidth / 2 + game.player.spriteWidth - 1, (float)door.worldY - Game1.screenHeight / 2 + game.player.spriteHeight + 7);
 			}
 			else
 			{
-                SetCoordinates((float)door.worldX - (Game1.screenWidth / 2) + door.spriteWidth - game.player.spriteWidth + 1, (float)door.worldY - Game1.screenHeight / 2 + game.player.spriteHeight + 7);
+                SetCoordinates((float)door.worldX - Game1.screenWidth / 2 + door.spriteWidth - game.player.spriteWidth + 1, (float)door.worldY - Game1.screenHeight / 2 + game.player.spriteHeight + 7);
 			}
             OffsetCheck();
 			this.objectsToDraw.Clear();

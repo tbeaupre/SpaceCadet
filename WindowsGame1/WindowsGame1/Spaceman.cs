@@ -415,23 +415,21 @@ namespace Spaceman
         {
             if (bodyStatus.state == ActionStates.Fall)
             {
-                xVel = xAirMomentum;
                 if (IsKeyHeld(Game1.left))
                 {
-                    this.xVel -= game.GetDirectionalInfluence();
+                    this.xVel -= game.getDirectionalInfluence();
                 }
                 if (IsKeyHeld(Game1.right))
                 {
-                    this.xVel += game.GetDirectionalInfluence();
+                    this.xVel += game.getDirectionalInfluence();
                 }
-                //if (IsKeyHeld(Game1.down) && yVel > 0)
-                //{
-                //    SetYVel(yVel + game.gravity);
-                //}
+                if (IsKeyHeld(Game1.down) && yVel > 0)
+                {
+                    SetYVel(yVel + game.gravity);
+                }
             }
             else if (bodyStatus.state != ActionStates.Jump)
             {
-                xVel = xGroundMomentum;
                 hold = IsKeyHeld(Game1.hold);
             }
 
@@ -583,11 +581,14 @@ namespace Spaceman
         {
             switch (status.state) {
                 case ActionStates.Crouch:
+                    xVel = 0;
                     xGroundMomentum = 0;
                     break;
                 case ActionStates.Fall:
+                    xVel = xAirMomentum;
                     break;
                 case ActionStates.Idle:
+                    xVel = 0;
                     xGroundMomentum = 0;
                     break;
                 case ActionStates.Skid:
@@ -600,6 +601,7 @@ namespace Spaceman
                         xGroundMomentum = (status.duration * -game.moveSpeed) / SKID_FRAMES;
                     else
                         xGroundMomentum = (status.duration * game.moveSpeed) / SKID_FRAMES;
+                    xVel = xGroundMomentum;
                     break;
                 case ActionStates.Turn:
                     if (status.duration == TURN_FRAMES)
@@ -622,6 +624,7 @@ namespace Spaceman
                         else
                             SetBodyStatus(new ActionStatus(ActionStates.Idle, 0));
                         xGroundMomentum = 0;
+                        xVel = 0;
                     }
                     else
                     {
@@ -629,6 +632,7 @@ namespace Spaceman
                             xGroundMomentum = -game.moveSpeed;
                         else
                             xGroundMomentum = game.moveSpeed;
+                        xVel = xGroundMomentum;
                     }
                     break;
                 case ActionStates.Jump:
@@ -639,22 +643,16 @@ namespace Spaceman
 
                     if (jumpsRemaining != 0)
                     {
-                        if (xGroundMomentum > 0) xAirMomentum = game.moveSpeed - game.GetDirectionalInfluence();
-                        if (xGroundMomentum < 0) xAirMomentum = -game.moveSpeed + game.GetDirectionalInfluence();
+                        if (xGroundMomentum > 0) xAirMomentum = game.moveSpeed;
+                        if (xGroundMomentum < 0) xAirMomentum = -game.moveSpeed;
                         if (xGroundMomentum == 0) xAirMomentum = 0;
                         xGroundMomentum = 0;
-                    }
-                    else
-                    {
-                        if (IsKeyHeld(Game1.left) && !IsKeyHeld(Game1.right)) xAirMomentum -= game.moveSpeed;
-                        if (IsKeyHeld(Game1.right) && !IsKeyHeld(Game1.left)) xAirMomentum += game.moveSpeed;
-                        if (xAirMomentum > game.moveSpeed) xAirMomentum = game.moveSpeed;
-                        if (xAirMomentum < -game.moveSpeed) xAirMomentum = -game.moveSpeed;
                     }
                     break;
                 default:
                     SetBodyStatus(new ActionStatus(ActionStates.Idle, 0));
                     xGroundMomentum = 0;
+                    xVel = xGroundMomentum;
                     break;
                     }
         }
@@ -915,13 +913,13 @@ namespace Spaceman
 
 		public bool CheckMapCollision(Game1 game, int xOffset, int yOffset)
 		{
-			if (CollisionDetector.CheckMapCollision(xOffset, yOffset, this, game.worldMap[game.currentRoom])) return true;
+			if (game.CheckMapCollision(xOffset, yOffset, this)) return true;
 			if (game.worldMap[game.currentRoom].assets.Count > 0)
 			{
 				Spaceman offset = game.worldMap[game.currentRoom].assets[0].offsetSpaceMan(this, xOffset, yOffset);
 				foreach (MapAsset asset in game.worldMap[game.currentRoom].assets)
 				{
-						if (CollisionDetector.RectCollisionDetect(asset, offset)) return true;
+						if (asset.RectCollisionDetect(offset)) return true;
 				}
 			}
 			return false;
@@ -1103,10 +1101,10 @@ namespace Spaceman
 			}
 			else
             {
+                HandleKeys(game);
                 SetBodyStatus(HandleKeys(bodyStatus));
                 this.direction = HandleDirection(bodyStatus);
                 HandleStatus(bodyStatus, game);
-                HandleKeys(game);
             }
 			UpdateHead();
 			UpdateBody(game);

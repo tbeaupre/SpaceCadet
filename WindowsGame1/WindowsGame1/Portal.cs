@@ -31,14 +31,10 @@ namespace Spaceman
 			if (side1.active)
 			{
 				door1.UpdateDoor(game.worldMap[game.currentRoom]);
-                CollisionState result = CollisionDetector.PerPixelSprite(door1, game.player, game.graphics);
-                if (result == CollisionState.Hurtbox)
+				if (door1.PerPixelCollisionDetect(game))
 				{
-                    if (!side1.GetWasJustActivated())
-                    {
-                        game.RemoveObjectToDraw(door1);
-                        game.ActivateMap(side2, door2);
-                    }
+					game.RemoveObjectToDraw(door1);
+					game.ActivateMap(side2, door2);
 				}
 				else
 				{
@@ -52,17 +48,13 @@ namespace Spaceman
 					}
 				}
 			}
-			else if (side2.active)
+			if (side2.active)
 			{
 				door2.UpdateDoor(game.worldMap[game.currentRoom]);
-                CollisionState result = CollisionDetector.PerPixelSprite(door2, game.player, game.graphics);
-                if (result == CollisionState.Hurtbox)
-                {
-                    if (!side2.GetWasJustActivated())
-                    {
-                        game.RemoveObjectToDraw(door2);
-                        game.ActivateMap(side1, door1);
-                    }
+				if (door2.PerPixelCollisionDetect(game))
+				{
+					game.RemoveObjectToDraw(door2);
+					game.ActivateMap(side1, door1);
 				}
 				else
 				{

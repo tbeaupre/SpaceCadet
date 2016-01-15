@@ -15,25 +15,15 @@ namespace Spaceman
 	{
 		int level;
 		public bool isLeft;
-        Texture2D vulnerable;
 
-		public Door(double worldX, double worldY, Texture2D texture,Texture2D vulnerable, Vector2 mapCoordinates, int level, bool isLeft)
+		public Door(double worldX, double worldY, Texture2D texture,Texture2D hitbox, Vector2 mapCoordinates, int level, bool isLeft)
 			: base(worldX, worldY, texture, mapCoordinates, 1, 0, !isLeft)
+		//	: base(worldX, worldY, texture, new Vector2((float)worldX - mapCoordinates.X, (float)worldY - mapCoordinates.Y), 2, 0, false, hitbox)
 		{
+			this.hitbox = hitbox;
 			this.level = level;
 			this.isLeft = isLeft;
-            this.vulnerable = vulnerable;
-        }
-
-        public override Texture2D GetHitbox()
-        {
-            return this.texture;
-        }
-
-        public override Texture2D GetVulnerable()
-        {
-            return this.vulnerable;
-        }
+		}
 
 		public virtual void UpdateDoor(Map map)
 		{
