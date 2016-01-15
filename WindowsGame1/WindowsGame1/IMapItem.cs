@@ -15,6 +15,6 @@ namespace Spaceman
 
 		Boolean GetIsOnScreen();
 
-		String GetType();
+		String GetObjectType();
 	}
 }

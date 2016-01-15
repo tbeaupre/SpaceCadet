@@ -334,16 +334,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Music\Demo\demo.xgs">
+    <None Include="Music\demo\demo.xgs">
       <Name>demo</Name>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Music\Demo\DemoSoundBank.xsb">
-      <Name>DemoSoundBank</Name>
+    <None Include="Music\demo\demoSoundBank.xsb">
+      <Name>demoSoundBank</Name>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Music\Demo\DemoWaveBank.xwb">
-      <Name>DemoWaveBank</Name>
+    <None Include="Music\demo\demoWaveBank.xwb">
+      <Name>demoWaveBank</Name>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
