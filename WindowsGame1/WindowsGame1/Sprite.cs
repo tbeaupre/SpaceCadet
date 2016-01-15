@@ -16,7 +16,7 @@ namespace Spaceman
 	{
 		public Texture2D texture;
 		public Rectangle sourceRect;
-		public Rectangle destRect;
+		public DRectangle destRect;
 		public int spriteWidth;
 		public int spriteHeight;
 		public int numFrames;
@@ -36,7 +36,7 @@ namespace Spaceman
 			this.numFrames = numFrames;
 			this.frameNum = frameNum;
 			this.sourceRect = new Rectangle(this.spriteWidth * frameNum, 0, spriteWidth, texture.Height);
-			this.destRect = new Rectangle((int)destCoords.X, (int)destCoords.Y, this.spriteWidth, this.spriteHeight);
+			this.destRect = new DRectangle(destCoords.X, destCoords.Y, this.spriteWidth, this.spriteHeight);
 			this.mirrorX = mirrorX;
 			this.timer = 0;
 			this.FRAME_OFFSET = 5;
@@ -88,318 +88,9 @@ namespace Spaceman
 			}
 		}
 
-		public virtual bool PerPixelCollisionDetect(Sprite sprite, Game1 game)
+		public Texture2D MirrorTexture(ISprite sprite, GraphicsDeviceManager graphics, Texture2D texture)
 		{
-			Rectangle rect = new Rectangle(sprite.destRect.X - this.destRect.X, sprite.destRect.Y - this.destRect.Y, sprite.spriteWidth, sprite.spriteHeight);
-			// sets the coordinates relative to (0,0) being the top left corner of this.
-			Texture2D projTexture = sprite.texture;
-			Texture2D hitBoxTexture = this.texture;
-
-			Color[] hitBoxPixels;
-			Color[] projectilePixels;
-			Rectangle objRect = rect;
-			Rectangle projRect = new Rectangle(0, 0, sprite.spriteWidth, sprite.spriteHeight);
-
-			//initial tests to see if the box is even applicable to the object texure being checked
-			if (rect.X + rect.Width <= 0 || rect.Y + rect.Height <= 0) return false;
-			if (rect.X >= this.spriteWidth || rect.Y >= this.spriteHeight) return false;
-
-			if (rect.X < 0)
-			{
-				objRect.X = 0;
-				objRect.Width += rect.X;
-				projRect.X -= rect.X;
-				projRect.Width += rect.X;
-			}
-
-			if (rect.Y < 0)
-			{
-				objRect.Height += rect.Y;
-				objRect.Y = 0;
-				projRect.Y -= rect.Y;
-				projRect.Height = objRect.Height;
-			}
-
-			for (int i = 0; i <= objRect.Width; i++)
-			{
-				if (objRect.X + i == this.spriteWidth)
-				{
-					objRect.Width = i;
-					projRect.Width = objRect.Width;
-					break;
-				}
-			}
-			for (int i = 0; i <= objRect.Height; i++)
-			{
-				if (objRect.Y + i == this.spriteHeight)
-				{
-					objRect.Height = i;
-					projRect.Height = objRect.Height;
-					break;
-				}
-			}
-
-			if (objRect.Width == 0 || objRect.Height == 0) return false;
-
-			hitBoxPixels = new Color[objRect.Width * objRect.Height];
-			projectilePixels = new Color[objRect.Width * objRect.Height];
-
-			if (sprite.mirrorX)
-			{
-				projTexture = MirrorTexture(sprite, game, sprite.texture);
-			}
-
-			if (this.mirrorX)
-			{
-				hitBoxTexture = MirrorTexture(this, game, this.texture);
-			}
-
-			projTexture.GetData<Color>(
-				0, projRect, projectilePixels, 0, objRect.Width * objRect.Height
-				);
-
-			hitBoxTexture.GetData<Color>(
-				0, objRect, hitBoxPixels, 0, objRect.Width * objRect.Height
-				);
-
-			for (int y = 0; y < objRect.Height; y++)
-			{
-				for (int x = 0; x < objRect.Width; x++)
-				{
-					Color colorA = hitBoxPixels[y * objRect.Width + x];
-					Color colorB = projectilePixels[y * objRect.Width + x];
-					if (colorA.A != 0 && colorB.A != 0)
-					{
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-
-		public virtual bool PerPixelCollisionDetect(Game1 game)
-		{
-			Rectangle rect = new Rectangle(this.destRect.X - game.player.destRect.X + 2, this.destRect.Y - game.player.destRect.Y + 1, this.spriteWidth, this.spriteHeight);
-
-			Texture2D projTexture = game.player.GetTexture();
-			Texture2D hitBoxTexture = this.texture;
-
-			Color[] objectPixels;
-			Color[] projectilePixels;
-			Rectangle objRect = rect;
-			Rectangle projRect = new Rectangle(0, 0, rect.Width, rect.Height);
-
-			//initial tests to see if the box is even applicable to the object texure being checked
-			if (rect.X + rect.Width <= 0 || rect.Y + rect.Height <= 0) return false;
-			if (rect.X >= game.player.spriteWidth - 4 || rect.Y >= game.player.spriteHeight - 1) return false;
-
-			if (rect.X < 0)
-			{
-				objRect.Width += rect.X;
-				objRect.X = 0;
-				projRect.X -= rect.X;
-				projRect.Width = objRect.Width;
-			}
-
-			if (rect.Y < 0)
-			{
-				objRect.Height += rect.Y;
-				objRect.Y = 0;
-				projRect.Y -= rect.Y;
-				projRect.Height = objRect.Height;
-			}
-
-			for (int i = 0; i <= objRect.Width; i++)
-			{
-				if (objRect.X + i == game.player.spriteWidth - 4)
-				{
-					objRect.Width = i;
-					projRect.Width = objRect.Width;
-					break;
-				}
-			}
-			for (int i = 0; i <= objRect.Height; i++)
-			{
-				if (objRect.Y + i == game.player.spriteHeight - 1)
-				{
-					objRect.Height = i;
-					projRect.Height = objRect.Height;
-					break;
-				}
-			}
-
-			objectPixels = new Color[objRect.Width * objRect.Height];
-			projectilePixels = new Color[objRect.Width * objRect.Height];
-
-			if (this.mirrorX)
-			{
-				hitBoxTexture = MirrorTexture(this, game, this.texture);
-			}
-
-			projTexture.GetData<Color>(
-				0, objRect, objectPixels, 0, objRect.Width * objRect.Height
-				);
-
-			hitBoxTexture.GetData<Color>(
-				0, projRect, projectilePixels, 0, objRect.Width * objRect.Height
-				);
-
-			for (int y = 0; y < objRect.Height; y++)
-			{
-				for (int x = 0; x < objRect.Width; x++)
-				{
-					Color colorA = objectPixels[y * objRect.Width + x];
-					Color colorB = projectilePixels[y * objRect.Width + x];
-					if (colorA.A != 0 && colorB.A != 0)
-					{
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-
-		public bool RectCollisionDetect(Sprite sprite)
-		{
-			Color[] pixels;
-
-			Rectangle rect = new Rectangle(sprite.destRect.X - this.destRect.X, sprite.destRect.Y - this.destRect.Y, sprite.spriteWidth, sprite.spriteHeight);  // this rectangle represents the space the sprite takes up relative to "this"'s top left corner
-			Rectangle newRect = rect; // newRect is the actual rectangle to check
-
-			//initial tests to see if the box is even applicable to the object texure being checked
-			if (rect.X + rect.Width <= 0 || rect.Y + rect.Height <= 0) return false;
-			if (rect.X >= this.spriteWidth || rect.Y >= this.spriteHeight) return false;
-
-			// Removes the space on the rectangle that is outside of the bounds of "this"'s texture
-			if (rect.X < 0)
-			{
-				newRect.X = 0;
-				newRect.Width += rect.X;
-			}
-			if (rect.Y < 0)
-			{
-				newRect.Y = 0;
-				newRect.Height += rect.Y;
-			}
-
-			if (newRect.X + newRect.Width > this.spriteWidth)
-			{
-				for (int i = 0; i <= this.spriteWidth; i++)
-				{
-					if (newRect.X + i == this.spriteWidth)
-					{
-						newRect.Width = i;
-						break;
-					}
-				}
-			}
-			if (newRect.Y + newRect.Height > this.spriteHeight)
-			{
-				for (int i = 0; i <= this.spriteHeight; i++)
-				{
-					if (newRect.Y + i == this.spriteHeight)
-					{
-						newRect.Height = i;
-						break;
-					}
-				}
-			}
-
-			if (newRect.Width == 0 || newRect.Height == 0) return false;
-
-			pixels = new Color[newRect.Width * newRect.Height];
-
-			this.texture.GetData<Color>(
-				0, newRect, pixels, 0, newRect.Width * newRect.Height
-				);
-
-			for (int y = 0; y < newRect.Height; y++)
-			{
-				for (int x = 0; x < newRect.Width; x++)
-				{
-					Color colorA = pixels[y * newRect.Width + x];
-					if (colorA.A != 0)
-					{
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-
-		public bool RectCollisionDetect(Spaceman sprite)
-		{
-			Color[] pixels;
-			int spriteWidth = sprite.spriteWidth - 4; // because the hitbox on the spaceman should be slightly smaller than it is.
-			int spriteHeight = sprite.spriteHeight - 1;
-
-			Rectangle rect = new Rectangle(sprite.destRect.X - this.destRect.X + 2, sprite.destRect.Y - this.destRect.Y + 1, spriteWidth, spriteHeight);  // this rectangle represents the space the sprite takes up relative to "this"'s top left corner
-			Rectangle newRect = rect; // newRect is the actual rectangle to check
-
-			//initial tests to see if the box is even applicable to the object texure being checked
-			if (rect.X + rect.Width <= 0 || rect.Y + rect.Height <= 0) return false;
-			if (rect.X >= this.spriteWidth || rect.Y >= this.spriteHeight) return false;
-
-			// Removes the space on the rectangle that is outside of the bounds of "this"'s texture
-			if (rect.X < 0)
-			{
-				newRect.X = 0;
-				newRect.Width += rect.X;
-			}
-			if (rect.Y < 0)
-			{
-				newRect.Y = 0;
-				newRect.Height += rect.Y;
-			}
-
-			if (newRect.X + newRect.Width > this.spriteWidth)
-			{
-				for (int i = 0; i <= this.spriteWidth; i++)
-				{
-					if (newRect.X + i == this.spriteWidth)
-					{
-						newRect.Width = i;
-						break;
-					}
-				}
-			}
-			if (newRect.Y + newRect.Height > this.spriteHeight)
-			{
-				for (int i = 0; i <= this.spriteHeight; i++)
-				{
-					if (newRect.Y + i == this.spriteHeight)
-					{
-						newRect.Height = i;
-						break;
-					}
-				}
-			}
-
-			if (newRect.Width == 0 || newRect.Height == 0) return false;
-
-			pixels = new Color[newRect.Width * newRect.Height];
-
-			this.texture.GetData<Color>(
-				0, newRect, pixels, 0, newRect.Width * newRect.Height
-				);
-
-			for (int y = 0; y < newRect.Height; y++)
-			{
-				for (int x = 0; x < newRect.Width; x++)
-				{
-					Color colorA = pixels[y * newRect.Width + x];
-					if (colorA.A != 0)
-					{
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-
-		public Texture2D MirrorTexture(ISprite sprite, Game1 game, Texture2D texture)
-		{
-			Texture2D mirroredProjectile = new Texture2D(game.graphics.GraphicsDevice, sprite.GetSpriteWidth(), sprite.GetSpriteHeight());
+			Texture2D mirroredProjectile = new Texture2D(graphics.GraphicsDevice, sprite.GetSpriteWidth(), sprite.GetSpriteHeight());
 			Color[] projectileTextureHelper = new Color[sprite.GetSpriteWidth() * sprite.GetSpriteHeight()];
 			Color[] newTextureData = new Color[sprite.GetSpriteWidth() * sprite.GetSpriteHeight()];
 			texture.GetData<Color>(
@@ -438,7 +129,7 @@ namespace Spaceman
             return this.mirrorX;
         }
 
-        public Rectangle GetDestRect()
+        public DRectangle GetDestRect()
         {
             return this.destRect;
         }
@@ -466,6 +157,16 @@ namespace Spaceman
         public void SetFrameNum(int frameNum)
         {
             this.frameNum = frameNum;
+        }
+
+        public virtual Texture2D GetHitbox()
+        {
+            return this.texture;
+        }
+
+        public virtual Texture2D GetVulnerable()
+        {
+            return this.texture;
         }
     }
 }

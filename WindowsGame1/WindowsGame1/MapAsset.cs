@@ -21,7 +21,7 @@ namespace Spaceman
 
 		public Spaceman offsetSpaceMan(Spaceman s, int xOffset, int yOffset)
 		{
-			Spaceman result = new Spaceman(s.body, s.head,new Vector2(s.destRect.X, s.destRect.Y),s.numFrames, s.frameNum, s.mirrorX);
+			Spaceman result = new Spaceman(s.body, s.head,new Vector2((float)s.destRect.X, (float)s.destRect.Y),s.numFrames, s.frameNum, s.mirrorX);
 			result.destRect.X += xOffset;
 			result.destRect.Y += yOffset;
 			return result;

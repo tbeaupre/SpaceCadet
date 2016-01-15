@@ -107,13 +107,5 @@ namespace Spaceman
             }
             return this.bulletVel;
         }
-        //private double angledXVel(double angle)
-        //{
-
-        //}
-        //private double angledYVel(double angle)
-        //{
-
-        //}
     }
 }
