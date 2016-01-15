@@ -107,11 +107,13 @@ namespace Spaceman
         SoundBank demoSB;
         WaveBank demosWB;
 
-        Cue demoDrumsCue; 
+        Cue demoDrumsCue;
+        Cue demoBassCue;
+        Cue demoKeysCue;
 
-		#region Map Resources
+        #region Map Resources
 
-		public Vector2 initMapCoordinates = new Vector2(560, 100); // technically the world coordinates of the top left-hand corner of the screen
+        public Vector2 initMapCoordinates = new Vector2(560, 100); // technically the world coordinates of the top left-hand corner of the screen
 
 		#endregion
 
@@ -332,7 +334,11 @@ namespace Spaceman
             demoSB = new SoundBank(demoEngine, Content.RootDirectory + "//Music\\Demo\\DemoSoundBank.xsb");
             demosWB = new WaveBank(demoEngine, Content.RootDirectory + "//Music\\Demo\\DemoWaveBank.xwb");
             demoDrumsCue = demoSB.GetCue("drums");
+            demoBassCue = demoSB.GetCue("bass");
+            demoKeysCue = demoSB.GetCue("keys");
             demoDrumsCue.Play();
+            demoKeysCue.Play();
+            demoBassCue.Play();
         }
         public void InitializePortals(List<Portal> portals)
 		{
