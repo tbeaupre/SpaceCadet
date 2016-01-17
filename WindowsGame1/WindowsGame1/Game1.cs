@@ -165,6 +165,11 @@ namespace Spaceman
         {
             return this.directionInfluence;
         }
+
+        public PowerUpManager GetPowerUpManager()
+        {
+            return this.powerUpManager;
+        }
         #endregion
 
         #region Setters
@@ -183,7 +188,8 @@ namespace Spaceman
         protected override void Initialize()
         {
             powerUpManager.UnlockPowerUp(PowerUps.BoostJump);
-            powerUpManager.UpdateAbilities(PowerUps.BoostJump, PowerUps.NULL, PowerUps.NULL);
+            powerUpManager.UnlockPowerUp(PowerUps.Warp);
+            powerUpManager.UpdateAbilities(PowerUps.BoostJump, PowerUps.Warp, PowerUps.NULL);
 
             spaceshipTexture = this.Content.Load<Texture2D>("MapResources\\OtherAssets\\Spaceship");
 
@@ -320,6 +326,7 @@ namespace Spaceman
 
             SetStandardAttributes();
 
+            UpdateAttributes(powerUpManager.GetCurrentPowerUps());
             base.Initialize();
         }
         public void InitializeMusic()
@@ -374,7 +381,6 @@ namespace Spaceman
             {
                 if (newkeys.IsKeyDown(back) && oldkeys.IsKeyUp(back))
                     currentMenu = mainMenu;
-                UpdateAttributes(powerUpManager.GetCurrentPowerUps());
                 UpdateObjects();
                 player.UpdateEnergy();
             }
@@ -837,6 +843,20 @@ namespace Spaceman
             if (pUps.Contains(PowerUps.BoostJump))
             {
                 player.SetMaxJumps(2);
+            }
+            player.SetCooldown(0, GetPowerUpCooldown(pUps[0]));
+            player.SetCooldown(1, GetPowerUpCooldown(pUps[1]));
+            player.SetCooldown(2, GetPowerUpCooldown(pUps[2]));
+        }
+
+        public int GetPowerUpCooldown(PowerUps pu)
+        {
+            switch(pu)
+            {
+                case PowerUps.Warp:
+                    return 40;
+                default:
+                    return 0;
             }
         }
 
