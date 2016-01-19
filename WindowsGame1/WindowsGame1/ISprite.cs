@@ -14,6 +14,7 @@ namespace Spaceman
 {
     public interface ISprite
     {
+        Color GetColor();
         int GetHitDuration();
         Texture2D GetTexture();
         Texture2D GetHitbox();

@@ -44,6 +44,8 @@ namespace Spaceman
         Cooldown powerUp1 = new Cooldown(0);
         Cooldown powerUp2 = new Cooldown(0);
         Cooldown powerUp3 = new Cooldown(0);
+        private int destRectXOffset;
+        const int BOOST_SPEED = 10;
 
         // Energy
         double maxEnergy = 100;
@@ -52,6 +54,11 @@ namespace Spaceman
         // Health
         double maxHealth = 100;
         double currentHealth = 50;
+
+        public int GetDestRectXOffset()
+        {
+            return this.destRectXOffset;
+        }
 
         public void SetCooldown(int i, int cooldown)
         {
@@ -690,21 +697,37 @@ namespace Spaceman
             {
                 case PowerUps.Warp:
                     if (IsKeyPressed(key))
+                    {
+                        if (cooldown.Iterate())
                         {
-                            if (cooldown.Iterate())
-                                cooldown.SetCooldown();
+                            cooldown.SetCooldown();
                         }
+                    }
                     else
                     {
                         cooldown.Iterate();
                     }
-                    if (cooldown.GetCurrent() > cooldown.GetMax() - 5)
-                        SetXVel(10 * (mirrorX? -1 : 1));
+                    if (cooldown.GetCurrent() > cooldown.GetMax() - 7)
+                    {
+                        SetXVel(BOOST_SPEED * (mirrorX ? -1 : 1));
+                        SetYVel(0);
+                        SetColor(Color.LightBlue);
+                        if (cooldown.GetCurrent() != cooldown.GetMax() - 7 && cooldown.GetCurrent() != cooldown.GetMax())
+                        {
+                            this.destRect.Width = this.spriteWidth + BOOST_SPEED;
+                            if (!mirrorX) this.destRectXOffset = -BOOST_SPEED;
+                        }
+                        else
+                            this.destRectXOffset = 0;
+                    }
+                    else
+                    {
+                        SetColor(Color.White);
+                        this.destRectXOffset = 0;
+                        this.destRect.Width = this.spriteWidth;
+                    }
                     break;
             }
-            if (position == 0) powerUp1 = cooldown;
-            if (position == 1) powerUp2 = cooldown;
-            if (position == 2) powerUp3 = cooldown;
         }
 
         public void HandlePowerUps(PowerUpManager manager)

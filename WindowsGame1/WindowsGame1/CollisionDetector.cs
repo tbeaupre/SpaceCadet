@@ -14,9 +14,9 @@ namespace Spaceman
 {
     public static class CollisionDetector
     {
-        public static bool CheckMapCollision(int xOffset, int yOffset, Sprite sprite, Map map)
+        public static bool CheckMapCollision(int xOffset, int yOffset, ISprite sprite, Map map)
         {
-            return MapCollisionDetect(sprite.spriteWidth, sprite.spriteHeight, OffsetRect(sprite.destRect, xOffset, yOffset).ToRectangle(), map);
+            return MapCollisionDetect(sprite.GetSpriteWidth(), sprite.GetSpriteHeight(), OffsetRect(sprite.GetDestRect(), xOffset, yOffset).ToRectangle(), map);
         }
 
         public static bool CheckMapCollision(int xOffset, int yOffset, Spaceman sprite, Map map)
