@@ -16,7 +16,7 @@ namespace Spaceman
     {
         private Vector2 destCoord;
         private bool cornered;
-        private bool mapCollide;
+        private bool mapCollide = true;
         public Droplet(Texture2D pixel, Vector2 destCoord, int numFrames, int frameNum)
             : base(pixel, destCoord, numFrames, frameNum, false)
         {

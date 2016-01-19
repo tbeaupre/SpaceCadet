@@ -436,7 +436,6 @@ namespace Spaceman
                     }
                     DrawSprite(player.GetGuns(), 0.5f);
                     DrawOverlay(boostJump, 0.5f, Color.White);
-
                 }
                 DrawObjects();
                 DrawForeground(worldMap[currentRoom]);
@@ -757,7 +756,7 @@ namespace Spaceman
         public void UpdateObjects()
         {
             player.UpdateSprite(this);
-            liquidPlayer.UpdateLiquid( 0 , player.destRect.Y);
+            liquidPlayer.UpdateLiquid( 1 , player.destRect.Y);
             worldMap[currentRoom].UpdateMap(this);
             UpdateMapAssets();
             UpdateSpawns();

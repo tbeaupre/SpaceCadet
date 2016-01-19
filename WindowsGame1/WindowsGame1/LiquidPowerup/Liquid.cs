@@ -49,6 +49,7 @@ namespace Spaceman
         }
         public void UpdateLiquid(double speed, double h)
         {
+
             int dir=0;
             if (speed > 0) dir = 1;
             if (speed < 0) dir = -1;
