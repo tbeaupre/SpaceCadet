@@ -415,6 +415,15 @@
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets\ShotgunBullet.xnb</Output>
       <Time>2016-01-15T12:36:39.0696173-05:00</Time>
     </Item>
+    <Item>
+      <Source>LiquidSpaceman.png</Source>
+      <Name>LiquidSpaceman</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\LiquidSpaceman.xnb</Output>
+      <Time>2016-01-18T12:32:05.8582006-05:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID>{8B859369-A697-4546-B64D-289B27D4806F}</ContentProjectGUID>

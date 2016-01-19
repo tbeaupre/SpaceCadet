@@ -44,6 +44,7 @@ Content\Bullets\MachinegunBullet.xnb
 Content\Bullets\PistolBullet.xnb
 Content\Bullets\RailgunBullet.xnb
 Content\Bullets\ShotgunBullet.xnb
+Content\LiquidSpaceman.xnb
 Content\Music\demo\demo.xgs
 Content\Music\demo\demoSoundBank.xsb
 Content\Music\demo\demoWaveBank.xwb

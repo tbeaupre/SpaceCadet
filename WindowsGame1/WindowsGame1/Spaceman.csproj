@@ -77,6 +77,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Battery.cs" />
+    <Compile Include="Cooldown.cs" />
+    <Compile Include="LiquidPowerup\Droplet.cs" />
+    <Compile Include="LiquidPowerup\Liquid.cs" />
     <Compile Include="MusicEnum.cs" />
     <Compile Include="BoostJump.cs" />
     <Compile Include="CharOverlay.cs" />

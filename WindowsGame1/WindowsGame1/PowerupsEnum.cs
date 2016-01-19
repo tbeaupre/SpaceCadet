@@ -8,6 +8,8 @@ namespace Spaceman
     public enum PowerUps
     {
         NULL,
-        BoostJump
+        BoostJump,
+        Warp,
+        Liquid
     };
 }

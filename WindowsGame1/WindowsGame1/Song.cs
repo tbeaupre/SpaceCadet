@@ -87,12 +87,12 @@ namespace Spaceman
                     break;
                 case 4:
                     track1 = 0.0f;
-                    track2 = 1.0f;
+                    track2 = 0.0f;
                     track3 = 1.0f;
                     break;
                 case 5:
                     track1 = 0.0f;
-                    track2 = 0.0f;
+                    track2 = 1.0f;
                     track3 = 1.0f;
                     break;
                 default:

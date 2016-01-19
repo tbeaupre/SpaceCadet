@@ -40,13 +40,28 @@ namespace Spaceman
         int currentGun = 0;
         bool hold;
 
+        //Power Ups
+        Cooldown powerUp1 = new Cooldown(0);
+        Cooldown powerUp2 = new Cooldown(0);
+        Cooldown powerUp3 = new Cooldown(0);
+
         // Energy
         double maxEnergy = 100;
-        double currentEnergy = 5;
+        double currentEnergy = 50;
         double energyRecoveryRate = 1 / 60;
         // Health
         double maxHealth = 100;
         double currentHealth = 50;
+
+        public void SetCooldown(int i, int cooldown)
+        {
+            if (i == 0)
+                powerUp1 = new Cooldown(cooldown);
+            if (i == 1)
+                powerUp2 = new Cooldown(cooldown);
+            if (i == 2)
+                powerUp3 = new Cooldown(cooldown);
+        }
 
         public void SetEnergyRecoveryRate(double energyRecoveryRate)
         {
@@ -117,6 +132,10 @@ namespace Spaceman
         public double GetYVel()
         {
             return this.yVel;
+        }
+        public double GetXVel()
+        {
+            return this.xVel;
         }
 
         public void SetYVel(double val)
@@ -424,10 +443,6 @@ namespace Spaceman
                 {
                     this.xVel += game.GetDirectionalInfluence();
                 }
-                //if (IsKeyHeld(Game1.down) && yVel > 0)
-                //{
-                //    SetYVel(yVel + game.gravity);
-                //}
             }
             else if (bodyStatus.state != ActionStates.Jump)
             {
@@ -658,6 +673,59 @@ namespace Spaceman
                     xGroundMomentum = 0;
                     break;
                     }
+        }
+
+        public void HandlePowerUp(PowerUps pu, int position)
+        {
+            Keys key = Game1.special1;
+            if (position == 1) key = Game1.special2;
+            if (position == 2) key = Game1.special3;
+
+
+            Cooldown cooldown = powerUp1;
+            if (position == 1) cooldown = powerUp2;
+            if (position == 2) cooldown = powerUp3;
+
+
+            switch (pu)
+            {
+                case PowerUps.Warp:
+                    if (IsKeyPressed(key))
+                    {
+                        if (cooldown.Iterate())
+                            cooldown.SetCooldown();
+                    }
+                    else
+                    {
+                        cooldown.Iterate();
+                    }
+                    if (cooldown.GetCurrent() > cooldown.GetMax() - 5)
+                        SetXVel(10 * (mirrorX ? -1 : 1));
+                    break;
+
+                case PowerUps.Liquid:
+                    if (IsKeyPressed(key))
+                    {
+                        if (cooldown.Iterate())
+                            cooldown.SetCooldown();
+                    }
+                    else
+                    {
+                        cooldown.Iterate();
+                    }
+                    break;
+            }
+            if (position == 0) powerUp1 = cooldown;
+            if (position == 1) powerUp2 = cooldown;
+            if (position == 2) powerUp3 = cooldown;
+        }
+
+        public void HandlePowerUps(PowerUpManager manager)
+        {
+            foreach(PowerUps pu in manager.currentPowerUps)
+            {
+                HandlePowerUp(pu, manager.currentPowerUps.IndexOf(pu));
+            }
         }
 
 		public bool IsKeyPressed(Keys key)
@@ -1108,6 +1176,7 @@ namespace Spaceman
                 this.direction = HandleDirection(bodyStatus);
                 HandleStatus(bodyStatus, game);
                 HandleKeys(game);
+                HandlePowerUps(game.GetPowerUpManager());
             }
             guns.UpdateSprite();
             UpdateHead();

@@ -50,6 +50,7 @@ namespace Spaceman
         public RenderTarget2D lowRes;
 
         public Spaceman player;
+        public Liquid liquidPlayer;
         Texture2D spaceManHeadTexture;
         Texture2D spaceManBodyTexture;
 
@@ -103,6 +104,7 @@ namespace Spaceman
         Texture2D saveStationTexture;
 
         Texture2D boostJumpTexture;
+        Texture2D LiquidSpacemanTexture;
         public BoostJump boostJump;
 
         #region Map Resources
@@ -123,6 +125,7 @@ namespace Spaceman
         public const Keys back = Keys.Back;
         public const Keys special1 = Keys.A;
         public const Keys special2 = Keys.S;
+        public const Keys special3 = Keys.D;
         #endregion
 
         List<Portal> portals = new List<Portal>();
@@ -165,6 +168,11 @@ namespace Spaceman
         {
             return this.directionInfluence;
         }
+
+        public PowerUpManager GetPowerUpManager()
+        {
+            return this.powerUpManager;
+        }
         #endregion
 
         #region Setters
@@ -183,7 +191,9 @@ namespace Spaceman
         protected override void Initialize()
         {
             powerUpManager.UnlockPowerUp(PowerUps.BoostJump);
-            powerUpManager.UpdateAbilities(PowerUps.BoostJump, PowerUps.NULL, PowerUps.NULL);
+            powerUpManager.UnlockPowerUp(PowerUps.Warp);
+            powerUpManager.UnlockPowerUp(PowerUps.Liquid);
+            powerUpManager.UpdateAbilities(PowerUps.BoostJump, PowerUps.Warp, PowerUps.Liquid, PowerUps.NULL);
 
             spaceshipTexture = this.Content.Load<Texture2D>("MapResources\\OtherAssets\\Spaceship");
 
@@ -202,12 +212,20 @@ namespace Spaceman
             spaceManTexture = this.Content.Load<Texture2D>("Spaceman");
             spaceManHeadTexture = this.Content.Load<Texture2D>("Spaceman Heads");
             spaceManBodyTexture = this.Content.Load<Texture2D>("Spaceman Body");
+            LiquidSpacemanTexture = Content.Load<Texture2D>("LiquidSpaceman");
+
             player = new Spaceman(spaceManBodyTexture,
                 spaceManHeadTexture,
                 new Vector2(spaceManX, spaceManY),
                 13,
-                1,
+                7,
                 false);
+
+            liquidPlayer = new Liquid(LiquidSpacemanTexture,
+    spaceManX, spaceManY);
+
+
+
             player.InitializeArsenal(PistolBulletTexture, ShotgunBulletTexture, RailgunBulletTexture, MachinegunBulletTexture, BumblegunBulletTexture);// Placeholder Textures. Put bullet textures here.
             player.InitializeGunOverlay(gunsAngleUpTexture, gunsAngleDownTexture, gunsTexture);
 
@@ -320,6 +338,7 @@ namespace Spaceman
 
             SetStandardAttributes();
 
+            UpdateAttributes(powerUpManager.GetCurrentPowerUps());
             base.Initialize();
         }
         public void InitializeMusic()
@@ -374,7 +393,6 @@ namespace Spaceman
             {
                 if (newkeys.IsKeyDown(back) && oldkeys.IsKeyUp(back))
                     currentMenu = mainMenu;
-                UpdateAttributes(powerUpManager.GetCurrentPowerUps());
                 UpdateObjects();
                 player.UpdateEnergy();
             }
@@ -412,6 +430,10 @@ namespace Spaceman
                 else
                 {
                     DrawSprite(player, 0.6f);
+                    for (int i = 0; i < 18; i++)
+                    {
+                        DrawSprite(liquidPlayer.Pixel(i), 0.6f);
+                    }
                     DrawSprite(player.GetGuns(), 0.5f);
                     DrawOverlay(boostJump, 0.5f);
                 }
@@ -714,10 +736,11 @@ namespace Spaceman
                     break;
             }
         }
-
+        
         public void UpdateObjects()
         {
             player.UpdateSprite(this);
+            liquidPlayer.UpdateLiquid( 0 , player.destRect.Y);
             worldMap[currentRoom].UpdateMap(this);
             UpdateMapAssets();
             UpdateSpawns();
@@ -837,6 +860,20 @@ namespace Spaceman
             if (pUps.Contains(PowerUps.BoostJump))
             {
                 player.SetMaxJumps(2);
+            }
+            player.SetCooldown(0, GetPowerUpCooldown(pUps[0]));
+            player.SetCooldown(1, GetPowerUpCooldown(pUps[1]));
+            player.SetCooldown(2, GetPowerUpCooldown(pUps[2]));
+        }
+
+        public int GetPowerUpCooldown(PowerUps pu)
+        {
+            switch(pu)
+            {
+                case PowerUps.Warp:
+                    return 40;
+                default:
+                    return 0;
             }
         }
 
