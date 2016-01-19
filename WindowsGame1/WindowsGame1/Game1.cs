@@ -429,12 +429,12 @@ namespace Spaceman
                 }
                 else
                 {
-                    DrawSprite(player, 0.6f);
+                    DrawSprite(player, 0.6f, player.GetColor(), player.GetDestRectXOffset());
                     for (int i = 0; i < 18; i++)
                     {
                         DrawSprite(liquidPlayer.Pixel(i), 0.6f);
                     }
-                    DrawSprite(player.GetGuns(), 0.5f);
+                    DrawSprite(player.GetGuns(), 0.5f, player.GetColor());
                     DrawOverlay(boostJump, 0.5f, Color.White);
 
                 }
@@ -757,7 +757,7 @@ namespace Spaceman
         public void UpdateObjects()
         {
             player.UpdateSprite(this);
-            liquidPlayer.UpdateLiquid( 0 , player.destRect.Y);
+            liquidPlayer.UpdateLiquid( 0, player.destRect.Y);
             worldMap[currentRoom].UpdateMap(this);
             UpdateMapAssets();
             UpdateSpawns();
