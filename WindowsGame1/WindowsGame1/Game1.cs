@@ -430,11 +430,11 @@ namespace Spaceman
                 else
                 {
                     DrawSprite(player, 0.6f, player.GetColor(), player.GetDestRectXOffset());
+                    DrawSprite(player.GetGuns(), 0.5f, player.GetColor());
                     for (int i = 0; i < 18; i++)
                     {
                         DrawSprite(liquidPlayer.Pixel(i), 0.6f);
                     }
-                    DrawSprite(player.GetGuns(), 0.5f, player.GetColor());
                     DrawOverlay(boostJump, 0.5f, Color.White);
 
                 }

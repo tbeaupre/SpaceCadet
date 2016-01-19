@@ -1202,13 +1202,13 @@ namespace Spaceman
                 HandleKeys(game);
                 HandlePowerUps(game.GetPowerUpManager());
             }
-            guns.UpdateSprite();
             UpdateHead();
 			UpdateBody(game);
 			UpdateWorldCoords(game);
 			CreateTexture(game);
 			UpdateCoords(game.worldMap[game.currentRoom].offset);
-			if (status.state.Equals("hit"))
+            guns.UpdateSprite();
+            if (status.state.Equals("hit"))
 			{
 				if (status.duration > 0) status.duration--;
 			}
