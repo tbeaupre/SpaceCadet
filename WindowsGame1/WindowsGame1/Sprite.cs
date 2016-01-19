@@ -27,6 +27,7 @@ namespace Spaceman
 		public int HIT_DURATION = 5;
 		public Status status;
 		public int FRAME_OFFSET;
+        Color color = Color.White;
 
 		public Sprite(Texture2D texture, Vector2 destCoords, int numFrames, int frameNum, bool mirrorX)
 		{
@@ -167,6 +168,16 @@ namespace Spaceman
         public virtual Texture2D GetVulnerable()
         {
             return this.texture;
+        }
+
+        public Color GetColor()
+        {
+            return this.color;
+        }
+
+        public void SetColor(Color color)
+        {
+            this.color = color;
         }
     }
 }

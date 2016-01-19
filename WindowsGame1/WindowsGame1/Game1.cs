@@ -435,7 +435,8 @@ namespace Spaceman
                         DrawSprite(liquidPlayer.Pixel(i), 0.6f);
                     }
                     DrawSprite(player.GetGuns(), 0.5f);
-                    DrawOverlay(boostJump, 0.5f);
+                    DrawOverlay(boostJump, 0.5f, Color.White);
+
                 }
                 DrawObjects();
                 DrawForeground(worldMap[currentRoom]);
@@ -535,19 +536,35 @@ namespace Spaceman
                 spriteBatch.Draw(texture, sprite.GetDestRect().ToRectangle(), sprite.GetSourceRect(), Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, layer);
         }
 
-        public void DrawOverlay(CharOverlay sprite, float layer)
+        public void DrawSprite(ISprite sprite, float layer, Color color, int xOffset)
+        {
+            Rectangle destRect = sprite.GetDestRect().ToRectangle();
+            destRect.X += xOffset;
+
+            Texture2D texture;
+            if (sprite.GetStatus().state.Equals("hit") && (sprite.GetStatus().duration / sprite.GetHitDuration()) % 2 == 1)
+                texture = WhiteSilhouette(sprite.GetTexture(), sprite.GetSourceRect());
+            else texture = sprite.GetTexture();
+
+            if (sprite.GetMirrorX())
+                spriteBatch.Draw(texture, destRect, sprite.GetSourceRect(), color, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, layer);
+            else
+                spriteBatch.Draw(texture, destRect, sprite.GetSourceRect(), color, 0.0f, new Vector2(0, 0), SpriteEffects.None, layer);
+        }
+
+        public void DrawOverlay(CharOverlay sprite, float layer, Color color)
         {
             DRectangle originalDest = sprite.getDestRect(this);
             Rectangle newDest;
             if (player.GetMirrorX())
             {
                 newDest = new Rectangle((int)originalDest.X, (int)(originalDest.Y + sprite.getYOffset()), originalDest.Width, originalDest.Height);
-                spriteBatch.Draw(sprite.getTexture(), newDest, sprite.getSourceRect(this), Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, layer);
+                spriteBatch.Draw(sprite.getTexture(), newDest, sprite.getSourceRect(this), color, 0.0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, layer);
             }
             else
             {
                 newDest = new Rectangle((int)(originalDest.X + sprite.getXOffset()), (int)(originalDest.Y + sprite.getYOffset()), originalDest.Width, originalDest.Height);
-                spriteBatch.Draw(sprite.getTexture(), newDest, sprite.getSourceRect(this), Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, layer);
+                spriteBatch.Draw(sprite.getTexture(), newDest, sprite.getSourceRect(this), color, 0.0f, new Vector2(0, 0), SpriteEffects.None, layer);
             }
         }
 
@@ -573,7 +590,7 @@ namespace Spaceman
                 spriteBatch.Draw(texture, sprite.destRect.ToRectangle(), sprite.sourceRect, Color.White, (float)FindBulletAngle(sprite.direction, sprite.mirrorX), new Vector2(0, 0), SpriteEffects.None, layer);
         }
 
-        public void DrawSprite(GunOverlay sprite, float layer)
+        public void DrawSprite(GunOverlay sprite, float layer, Color color)
         {
             Texture2D texture;
             if (sprite.GetStatus().state.Equals("hit") && (sprite.GetStatus().duration / sprite.GetHitDuration()) % 2 == 1)
@@ -581,9 +598,9 @@ namespace Spaceman
             else texture = sprite.GetTexture();
 
             if (sprite.GetMirrorX())
-                spriteBatch.Draw(texture, new Rectangle((int)(sprite.GetDestRect().X + sprite.xOffset), (int)(sprite.GetDestRect().Y + sprite.yOffset), sprite.GetDestRect().Width, sprite.GetDestRect().Height), sprite.GetSourceRect(), Color.White, sprite.angle, new Vector2(0, 0), SpriteEffects.FlipHorizontally, layer);
+                spriteBatch.Draw(texture, new Rectangle((int)(sprite.GetDestRect().X + sprite.xOffset), (int)(sprite.GetDestRect().Y + sprite.yOffset), sprite.GetDestRect().Width, sprite.GetDestRect().Height), sprite.GetSourceRect(), color, sprite.angle, new Vector2(0, 0), SpriteEffects.FlipHorizontally, layer);
             else
-                spriteBatch.Draw(texture, new Rectangle((int)(sprite.GetDestRect().X + sprite.xOffset), (int)(sprite.GetDestRect().Y + sprite.yOffset), sprite.GetDestRect().Width, sprite.GetDestRect().Height), sprite.GetSourceRect(), Color.White, -sprite.angle, new Vector2(0, 0), SpriteEffects.None, layer);
+                spriteBatch.Draw(texture, new Rectangle((int)(sprite.GetDestRect().X + sprite.xOffset), (int)(sprite.GetDestRect().Y + sprite.yOffset), sprite.GetDestRect().Width, sprite.GetDestRect().Height), sprite.GetSourceRect(), color, -sprite.angle, new Vector2(0, 0), SpriteEffects.None, layer);
         }
 
         public Texture2D WhiteSilhouette(Texture2D texture, Rectangle source)
@@ -866,6 +883,7 @@ namespace Spaceman
             player.SetCooldown(2, GetPowerUpCooldown(pUps[2]));
         }
 
+        // Returns the cooldown value of the input power up.
         public int GetPowerUpCooldown(PowerUps pu)
         {
             switch(pu)
@@ -881,7 +899,7 @@ namespace Spaceman
         {
 
             moveSpeed = 2.4;
-            directionInfluence = .7;
+            directionInfluence = .9;
             gravity = .27;
             terminalVel = 9;
             jumpSpeed = -5;
@@ -889,6 +907,7 @@ namespace Spaceman
             player.SetMaxEnergy(100);
             player.SetEnergyRecoveryRate(.15);
             player.SetMaxHealth(100);
+            player.SetColor(Color.White);
         }
 
         public void DrawObjects()
