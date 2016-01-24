@@ -346,6 +346,18 @@
       <Name>demoWaveBank</Name>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Sounds\EffectsSB.xsb">
+      <Name>EffectsSB</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Sounds\EffectsWB.xwb">
+      <Name>EffectsWB</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Sounds\sound effects.xgs">
+      <Name>sound effects</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LiquidSpaceman.png">

@@ -13,10 +13,12 @@ namespace Spaceman
 {
 	public class SaveStation: Object, IMapItem
 	{
+        SoundFX dialUp;
 		private bool recentlyActivated;
 		public SaveStation(double worldX, double worldY, Texture2D texture, Vector2 mapCoordinates, int numFrames, int frameNum)
 			: base(worldX, worldY, texture, new Vector2((float)worldX - mapCoordinates.X, (float)worldY - mapCoordinates.Y), numFrames, frameNum, false)
 		{
+            dialUp = new SoundFX("dialUp");
 		}
 
 		void IMapItem.UpdateSprite(Game1 game)
@@ -33,6 +35,8 @@ namespace Spaceman
 						{
 							game.OpenSaveStationMenu();
 							this.recentlyActivated = true;
+                            dialUp.play();
+
 						}
 					}
 					else

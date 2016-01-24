@@ -192,7 +192,8 @@ namespace Spaceman
                     "G-32_C Phazer Pistol",                                 // name
                     false,                                                  // unlocked
                     0,                                                      // cooldown
-                    new StandardProjectile(pistolTexture, 5, -1, 10),       // projectile data
+                    new StandardProjectile(pistolTexture, 5, -1, 10,        // projectile data
+                    "bees"),                                                // projectile sound 
                     false,                                                  // automatic
                     13,                                                     // barrel X
                     8,                                                      // barrel Y
@@ -201,16 +202,16 @@ namespace Spaceman
                 );
 
             arsenal.Add(
-                new GunData("Flouroantimonic Shotgun", false, 15, new StandardProjectile(shotgunTexture, 5, 15, 20), false, 16, 8, 10, 6));
+                new GunData("Flouroantimonic Shotgun", false, 15, new StandardProjectile(shotgunTexture, 5, 15, 20,"bees"), false, 16, 8, 10, 6));
 
             arsenal.Add(
-                new GunData("IT-6.7 Rail Gun", false, 5, new StandardProjectile(railgunTexture, 5, -1, 50), false, 14, 8, 9, 9));
+                new GunData("IT-6.7 Rail Gun", false, 5, new StandardProjectile(railgunTexture, 5, -1, 50,"bees"), false, 14, 8, 9, 9));
 
             arsenal.Add(
-                new GunData("Magmatorque Nail-Gun", false, 7, new StandardProjectile(machinegunTexture, 6, -1, 10), true, 18, 7, 10, 6));
+                new GunData("Magmatorque Nail-Gun", false, 7, new StandardProjectile(machinegunTexture, 6, -1, 10,"bees"), true, 18, 7, 10, 6));
              
             arsenal.Add(
-                new GunData("Symbionic Hive-Oscilator", false, 5, new SinusoidalProjectile(bumblegunTexture, 2.2, -1, 20, 7, 2, true), true, 17, 9, 10, 5));
+                new GunData("Symbionic Hive-Oscilator", false, 5, new SinusoidalProjectile(bumblegunTexture, 2.2, -1, 20, 7, 2, true,"bees"), true, 17, 9, 10, 5));
 
         }
         

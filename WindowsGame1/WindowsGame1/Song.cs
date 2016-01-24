@@ -45,6 +45,7 @@ namespace Spaceman
             SB = new SoundBank(engine, directory + "//Music\\" + songName + "\\" + songName + "SoundBank.xsb");
             WB = new WaveBank(engine, directory + "//Music\\" + songName + "\\" + songName + "WaveBank.xwb");
 
+
             first = SB.GetCue(cue1);
             second = SB.GetCue(cue2);
             third = SB.GetCue(cue3);

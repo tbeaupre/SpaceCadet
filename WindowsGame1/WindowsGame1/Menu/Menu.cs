@@ -18,6 +18,9 @@ namespace Spaceman
 		int currentItem;
 		public int numItems;
 		public Vector2 itemZone; // X is the Y value and Y is the Height of the item zone;
+        private SoundFX click1;
+        private SoundFX click2;
+
 
 		public Menu(Texture2D background, List<IMenuItem> items, Vector2 itemZone)
 		{
@@ -27,7 +30,10 @@ namespace Spaceman
 			this.numItems = items.Count;
 			this.itemZone = itemZone;
 			this.items[0].SetIsHighlighted(true);
-		}
+
+            click1 = new SoundFX("click1");
+            click2 = new SoundFX("click2");
+        }
 
 		public void ChangeCurrentItem(int changeBy)
 		{
@@ -47,20 +53,23 @@ namespace Spaceman
 		{
 			if (game.newkeys.IsKeyDown(Keys.Down) && game.oldkeys.IsKeyUp(Keys.Down))
 			{
-				items[currentItem].SetIsHighlighted(false);
+                items[currentItem].SetIsHighlighted(false);
 				ChangeCurrentItem(1);
 				items[currentItem].SetIsHighlighted(true);
+                click1.play();
 			}
 			if (game.newkeys.IsKeyDown(Keys.Up) && game.oldkeys.IsKeyUp(Keys.Up))
-			{
+            {
 				items[currentItem].SetIsHighlighted(false);
 				ChangeCurrentItem(-1);
 				items[currentItem].SetIsHighlighted(true);
-			}
+                click1.play();             
+            }
 			if (game.newkeys.IsKeyDown(Game1.fire) && game.oldkeys.IsKeyUp(Game1.fire))
 			{
 				items[currentItem].ActivateItem(game);
-			}
-		}
+                click2.play();
+            }
+        }
 	}
 }

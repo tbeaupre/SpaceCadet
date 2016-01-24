@@ -429,13 +429,13 @@ namespace Spaceman
                 }
                 else
                 {
-                    DrawSprite(player, 0.6f);
+                    DrawSprite(player, 0.6f, player.GetColor(), player.GetDestRectXOffset());
+                    DrawSprite(player.GetGuns(), 0.5f, player.GetColor());
+                    DrawOverlay(boostJump, 0.5f, Color.White);
                     for (int i = 0; i < 18; i++)
                     {
                         DrawSprite(liquidPlayer.Pixel(i), 0.6f);
                     }
-                    DrawSprite(player.GetGuns(), 0.5f);
-                    DrawOverlay(boostJump, 0.5f, Color.White);
                 }
                 DrawObjects();
                 DrawForeground(worldMap[currentRoom]);
@@ -732,7 +732,7 @@ namespace Spaceman
         {
             worldMap[currentRoom].enemyProjectiles.Add(
                 new Projectile(
-                    new StandardProjectile(bioSnailProjectileTexture, origin.projectileData.GetDamage(), -1, origin.projectileData.GetDamage()),
+                    new StandardProjectile(bioSnailProjectileTexture, origin.projectileData.GetDamage(), -1, origin.projectileData.GetDamage(),"bees"),
                     origin.mirrorX ? Directions.right : Directions.left,
                     origin,
                     worldMap[currentRoom].mapCoordinates,
@@ -756,7 +756,7 @@ namespace Spaceman
         public void UpdateObjects()
         {
             player.UpdateSprite(this);
-            liquidPlayer.UpdateLiquid( 1 , player.destRect.Y);
+            liquidPlayer.UpdateLiquid(6, player.destRect.Y);
             worldMap[currentRoom].UpdateMap(this);
             UpdateMapAssets();
             UpdateSpawns();
