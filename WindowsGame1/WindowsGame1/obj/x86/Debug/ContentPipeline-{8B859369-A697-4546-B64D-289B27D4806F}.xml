@@ -424,6 +424,15 @@
       <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\LiquidSpaceman.xnb</Output>
       <Time>2016-01-18T12:32:05.8582006-05:00</Time>
     </Item>
+    <Item>
+      <Source>PickUps\PowerUps\BoostJumpPickUp.png</Source>
+      <Name>PickUps\PowerUps\BoostJumpPickUp</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\PickUps\PowerUps\BoostJumpPickUp.xnb</Output>
+      <Time>2016-01-24T17:24:39.4084434-05:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID>{8B859369-A697-4546-B64D-289B27D4806F}</ContentProjectGUID>

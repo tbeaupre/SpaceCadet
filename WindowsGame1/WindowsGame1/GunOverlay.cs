@@ -120,10 +120,5 @@ namespace Spaceman
 				else this.destRect.X = this.baseSprite.destRect.X - (this.spriteWidth - this.baseSprite.spriteWidth);
 			}
 		}
-        
-        public bool isMirrorX()
-        {
-            return mirrorX;
-        }
     }
 }

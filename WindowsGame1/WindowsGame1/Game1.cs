@@ -105,6 +105,8 @@ namespace Spaceman
 
         Texture2D boostJumpTexture;
         Texture2D LiquidSpacemanTexture;
+
+        Texture2D boostJumpPickUpTexture;
         public BoostJump boostJump;
 
         #region Map Resources
@@ -190,10 +192,12 @@ namespace Spaceman
         /// </summary>
         protected override void Initialize()
         {
-            powerUpManager.UnlockPowerUp(PowerUps.BoostJump);
+            //powerUpManager.UnlockPowerUp(PowerUps.BoostJump);
             powerUpManager.UnlockPowerUp(PowerUps.Warp);
             powerUpManager.UnlockPowerUp(PowerUps.Liquid);
-            powerUpManager.UpdateAbilities(PowerUps.BoostJump, PowerUps.Warp, PowerUps.Liquid, PowerUps.NULL);
+            powerUpManager.UpdateAbilities(PowerUps.BoostJump, PowerUps.Warp, PowerUps.Liquid);
+
+            boostJumpPickUpTexture = this.Content.Load<Texture2D>("PickUps\\PowerUps\\BoostJumpPickUp");
 
             spaceshipTexture = this.Content.Load<Texture2D>("MapResources\\OtherAssets\\Spaceship");
 
@@ -221,10 +225,7 @@ namespace Spaceman
                 7,
                 false);
 
-            liquidPlayer = new Liquid(LiquidSpacemanTexture,
-    spaceManX, spaceManY);
-
-
+            liquidPlayer = new Liquid(LiquidSpacemanTexture, spaceManX, spaceManY);
 
             player.InitializeArsenal(PistolBulletTexture, ShotgunBulletTexture, RailgunBulletTexture, MachinegunBulletTexture, BumblegunBulletTexture);// Placeholder Textures. Put bullet textures here.
             player.InitializeGunOverlay(gunsAngleUpTexture, gunsAngleDownTexture, gunsTexture);
@@ -288,10 +289,12 @@ namespace Spaceman
 				new Map(new MapResource(this, "3", false), 5), // 3 X 2
 			};
             this.currentRoom = 1;
+
             List<IMapItem> items = new List<IMapItem>();
             items.Add(CreateSaveStation(500, 341));
             worldMap[currentRoom].InitializeMap(items);
             this.worldMap[currentRoom].active = true;
+
             this.worldMap[currentRoom].mapCoordinates = initMapCoordinates;
 
             doorTexture = this.Content.Load<Texture2D>("Doors\\Door2");
@@ -299,6 +302,10 @@ namespace Spaceman
 
             worldMap[2].spawns.Add(new Spawn(150, 115, "BioSnail"));
             worldMap[currentRoom].assets.Add(new MapAsset(141, 232, spaceshipTexture, worldMap[currentRoom].mapCoordinates, 1, 0, false));
+
+            #region Initialize PickUps
+            //Initialize PowerUps
+            this.worldMap[2].pickUps.Add(new BoostJumpPickUp(worldMap[currentRoom].mapCoordinates, 611, 247, boostJumpPickUpTexture));
 
             //Initialize Batteries
             for (int i = 0; i <= batteryLocations.GetUpperBound(0); i++)
@@ -311,6 +318,7 @@ namespace Spaceman
             {
                 worldMap[currentRoom].pickUps.Add(new Health(worldMap[currentRoom].mapCoordinates, healthLocations[i].x, healthLocations[i].y, healthTexture, healthLocations[i].level));
             }
+            #endregion
 
             //Initialize Doors
             //Door door1 = CreateDoor(1995, 1339, 1, true);
@@ -431,11 +439,13 @@ namespace Spaceman
                 {
                     DrawSprite(player, 0.6f, player.GetColor(), player.GetDestRectXOffset());
                     DrawSprite(player.GetGuns(), 0.5f, player.GetColor());
-                    DrawOverlay(boostJump, 0.5f, Color.White);
                     for (int i = 0; i < 18; i++)
                     {
-                        DrawSprite(liquidPlayer.Pixel(i), 0.6f);
+                        //DrawSprite(liquidPlayer.Pixel(i), 0.6f);
                     }
+
+                    DrawOverlay(boostJump, 0.5f, Color.White);
+
                 }
                 DrawObjects();
                 DrawForeground(worldMap[currentRoom]);
@@ -1032,6 +1042,13 @@ namespace Spaceman
                         break;
                 }
             }
+        }
+
+        public void UnlockPowerUp(PowerUps pu)
+        {
+            this.powerUpManager.UnlockPowerUp(pu);
+            powerUpManager.UpdateAbilities(PowerUps.BoostJump, PowerUps.Warp, PowerUps.Liquid);
+            UpdateAttributes(powerUpManager.currentPowerUps);
         }
 
         // Saves Game Data by serializing it to XML and exporting it to a file

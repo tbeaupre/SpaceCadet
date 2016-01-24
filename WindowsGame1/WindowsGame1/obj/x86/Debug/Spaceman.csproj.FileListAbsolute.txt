@@ -236,3 +236,4 @@ C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x
 C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Sounds\EffectsSB.xsb
 C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Sounds\EffectsWB.xwb
 C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Sounds\sound effects.xgs
+C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\PickUps\PowerUps\BoostJumpPickUp.xnb

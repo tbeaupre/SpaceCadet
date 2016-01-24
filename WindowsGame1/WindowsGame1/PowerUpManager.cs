@@ -17,7 +17,7 @@ namespace Spaceman
 			this.currentPowerUps = current;
 		}
 
-		public void UpdateAbilities (PowerUps pu1, PowerUps pu2, PowerUps pu3, PowerUps pu4)
+		public void UpdateAbilities (PowerUps pu1, PowerUps pu2, PowerUps pu3)
 		{
 			currentPowerUps.Clear();
             if (unlockedPowerUps.Contains(pu1))
@@ -30,10 +30,6 @@ namespace Spaceman
                 currentPowerUps.Add(PowerUps.NULL);
             if (unlockedPowerUps.Contains(pu3))
                 currentPowerUps.Add(pu3);
-            else
-                currentPowerUps.Add(PowerUps.NULL);
-            if (unlockedPowerUps.Contains(pu4))
-                currentPowerUps.Add(pu4);
             else
                 currentPowerUps.Add(PowerUps.NULL);
         }
