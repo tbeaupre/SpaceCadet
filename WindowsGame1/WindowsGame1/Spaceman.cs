@@ -261,7 +261,7 @@ namespace Spaceman
             }
             if (bodyStatus.state == ActionStates.Fall)
             {
-				if (bodyStatus.duration == 0)
+				if (bodyStatus.duration == 0 && maxJumps > 1)
 				{
 					game.boostJump.incrementTimer();
 					currentBodyFrame = game.boostJump.getSpacemanFrame();
@@ -363,7 +363,6 @@ namespace Spaceman
 					game.worldMap[game.currentRoom].ChangeCoords(0, 1);
 				}
                 SetYVel(yVel + game.gravity);
-
 			}
 			else
 			{
@@ -712,7 +711,7 @@ namespace Spaceman
                         SetXVel(BOOST_SPEED * (mirrorX ? -1 : 1));
                         SetYVel(0);
                         SetColor(Color.LightBlue);
-                        if (cooldown.GetCurrent() != cooldown.GetMax() - 7 && cooldown.GetCurrent() != cooldown.GetMax())
+                        if (cooldown.GetCurrent() != cooldown.GetMax() - 7 && cooldown.GetCurrent() < cooldown.GetMax() - 1)
                         {
                             this.destRect.Width = this.spriteWidth + BOOST_SPEED;
                             if (!mirrorX) this.destRectXOffset = -BOOST_SPEED;
@@ -827,7 +826,7 @@ namespace Spaceman
 			xOffset = FindXOffset(game, yOffset);
 			if (yOffset == 0)
 			{
-				stairs = CheckDiagonalDown(game);
+                stairs = CheckDiagonalDown(game);
 			}
 			if (!stairs)
 			{

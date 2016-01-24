@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Spaceman
 {
-	public class PickUp : Object
+	public abstract class PickUp : Object
 	{
 		public int idleTimer;
 		public PickUp(int idleTimer, double worldX, double worldY, Texture2D texture, Vector2 destCoords, int numFrames, int frameNum, int sizeMultiplier, bool mirrorX, Nullable<int> cycleStart)

@@ -86,6 +86,7 @@
     <Compile Include="CollisionDetector.cs" />
     <Compile Include="CollisionStateEnum.cs" />
     <Compile Include="DRectangle.cs" />
+    <Compile Include="PowerUpPickUps\BoostJumpPickUp.cs" />
     <Compile Include="ProjectileData.cs" />
     <Compile Include="Song.cs" />
     <Compile Include="SinusoidalProjectile.cs" />
