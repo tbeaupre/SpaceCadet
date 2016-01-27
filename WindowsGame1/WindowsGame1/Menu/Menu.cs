@@ -56,19 +56,19 @@ namespace Spaceman
                 items[currentItem].SetIsHighlighted(false);
 				ChangeCurrentItem(1);
 				items[currentItem].SetIsHighlighted(true);
-                click1.play();
+                click1.Play();
 			}
 			if (game.newkeys.IsKeyDown(Keys.Up) && game.oldkeys.IsKeyUp(Keys.Up))
             {
 				items[currentItem].SetIsHighlighted(false);
 				ChangeCurrentItem(-1);
 				items[currentItem].SetIsHighlighted(true);
-                click1.play();             
+                click1.Play();             
             }
 			if (game.newkeys.IsKeyDown(Game1.fire) && game.oldkeys.IsKeyUp(Game1.fire))
 			{
 				items[currentItem].ActivateItem(game);
-                click2.play();
+                click2.Play();
             }
         }
 	}

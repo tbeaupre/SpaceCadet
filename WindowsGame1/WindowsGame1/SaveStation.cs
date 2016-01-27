@@ -35,7 +35,7 @@ namespace Spaceman
 						{
 							game.OpenSaveStationMenu();
 							this.recentlyActivated = true;
-                            dialUp.play();
+                            dialUp.Play();
 
 						}
 					}

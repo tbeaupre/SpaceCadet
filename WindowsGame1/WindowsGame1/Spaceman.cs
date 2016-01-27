@@ -39,6 +39,9 @@ namespace Spaceman
         GunOverlay guns;
         int currentGun = 0;
         bool hold;
+        public List<SoundFX> SoundLibrary = new List<SoundFX>();
+        
+
 
         //Power Ups
         Cooldown powerUp1 = new Cooldown(0);
@@ -192,8 +195,7 @@ namespace Spaceman
                     "G-32_C Phazer Pistol",                                 // name
                     false,                                                  // unlocked
                     0,                                                      // cooldown
-                    new StandardProjectile(pistolTexture, 5, -1, 10,        // projectile data
-                    "bees"),                                                // projectile sound 
+                    new StandardProjectile(pistolTexture, 5, -1, 10),       // projectile data
                     false,                                                  // automatic
                     13,                                                     // barrel X
                     8,                                                      // barrel Y
@@ -202,16 +204,16 @@ namespace Spaceman
                 );
 
             arsenal.Add(
-                new GunData("Flouroantimonic Shotgun", false, 15, new StandardProjectile(shotgunTexture, 5, 15, 20,"bees"), false, 16, 8, 10, 6));
+                new GunData("Flouroantimonic Shotgun", false, 15, new StandardProjectile(shotgunTexture, 5, 15, 20), false, 16, 8, 10, 6));
 
             arsenal.Add(
-                new GunData("IT-6.7 Rail Gun", false, 5, new StandardProjectile(railgunTexture, 5, -1, 50,"bees"), false, 14, 8, 9, 9));
+                new GunData("IT-6.7 Rail Gun", false, 5, new StandardProjectile(railgunTexture, 5, -1, 50), false, 14, 8, 9, 9));
 
             arsenal.Add(
-                new GunData("Magmatorque Nail-Gun", false, 7, new StandardProjectile(machinegunTexture, 6, -1, 10,"bees"), true, 18, 7, 10, 6));
+                new GunData("Magmatorque Nail-Gun", false, 7, new StandardProjectile(machinegunTexture, 6, -1, 10), true, 18, 7, 10, 6));
              
             arsenal.Add(
-                new GunData("Symbionic Hive-Oscilator", false, 5, new SinusoidalProjectile(bumblegunTexture, 2.2, -1, 20, 7, 2, true,"bees"), true, 17, 9, 10, 5));
+                new GunData("Symbionic Hive-Oscilator", false, 5, new SinusoidalProjectile(bumblegunTexture, 2.2, -1, 20, 7, 2, true), true, 17, 9, 10, 5));
 
         }
         
@@ -224,6 +226,21 @@ namespace Spaceman
                                 1,
                                 false,
                                 null);
+        }
+
+        public void InitializeSoundEffects()
+        {   /*bees 0,1,2
+              
+            */
+            SoundLibrary.Add(new SoundFX("bees1"));
+            SoundLibrary.Add(new SoundFX("bees2"));
+            SoundLibrary.Add(new SoundFX("bees3"));
+        }
+
+        public void PlaySoundEffects(int i)
+        {
+            SoundLibrary[i].Play();
+            SoundLibrary[i].Update();
         }
 
 		public void UpdateHead()// 1 = left, 2 = upLeft, 3 = up, 4 = upRight, 5 = right, 6 = down, 7 = downRight, 8 = downLeft
@@ -464,6 +481,13 @@ namespace Spaceman
             {
                 CreateProjectile(game.worldMap[game.currentRoom]);
                 RefreshGunCooldown();
+                int rand = (game.rnd.Next() % 2);
+
+                if (currentGun == 4)
+                {
+                    PlaySoundEffects(rand);
+                }
+
             }
             else
             {

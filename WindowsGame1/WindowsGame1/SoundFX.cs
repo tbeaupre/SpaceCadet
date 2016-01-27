@@ -14,6 +14,7 @@ namespace Spaceman
         SoundBank SB;
         WaveBank WB;
 
+
         Cue first;
 
         public SoundFX(string sound)
@@ -25,13 +26,16 @@ namespace Spaceman
             WB = new WaveBank(engine, "content//Sounds\\EffectsWB.xwb");
         }
 
-        public void play()
-        {            
+        public void Play()
+        { 
             first = SB.GetCue(sound);
-            if (!first.IsPlaying)
-            {
-                first.Play();
-            }
+            first.Play();
+        }
+        public bool hasStopped;
+
+        public void Update()
+        {
+            engine.Update();
         }
     }
 }

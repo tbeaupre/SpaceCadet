@@ -43,6 +43,7 @@ namespace Spaceman
         public int terminalVel;
         public double jumpSpeed;
         const int RECOVERY_TIME = 10;
+        public Random rnd;
 
         public KeyboardState newkeys;
         public KeyboardState oldkeys;
@@ -156,6 +157,7 @@ namespace Spaceman
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            rnd = new Random();
 
             graphics.PreferredBackBufferWidth = fullScreenWidth;
             graphics.PreferredBackBufferHeight = fullScreenHeight;
@@ -229,6 +231,7 @@ namespace Spaceman
 
             player.InitializeArsenal(PistolBulletTexture, ShotgunBulletTexture, RailgunBulletTexture, MachinegunBulletTexture, BumblegunBulletTexture);// Placeholder Textures. Put bullet textures here.
             player.InitializeGunOverlay(gunsAngleUpTexture, gunsAngleDownTexture, gunsTexture);
+            player.InitializeSoundEffects();
 
             healthBarOverlayTexture = this.Content.Load<Texture2D>("HUD\\HealthBarOverlay2");
             healthBarOverlay = new Sprite(healthBarOverlayTexture, new Vector2(0, 0), 1, 0, false);
@@ -441,7 +444,7 @@ namespace Spaceman
                     DrawSprite(player.GetGuns(), 0.5f, player.GetColor());
                     for (int i = 0; i < 18; i++)
                     {
-                        //DrawSprite(liquidPlayer.Pixel(i), 0.6f);
+                        DrawSprite(liquidPlayer.Pixel(i), 0.6f);
                     }
 
                     DrawOverlay(boostJump, 0.5f, Color.White);
@@ -742,7 +745,7 @@ namespace Spaceman
         {
             worldMap[currentRoom].enemyProjectiles.Add(
                 new Projectile(
-                    new StandardProjectile(bioSnailProjectileTexture, origin.projectileData.GetDamage(), -1, origin.projectileData.GetDamage(),"bees"),
+                    new StandardProjectile(bioSnailProjectileTexture, origin.projectileData.GetDamage(), -1, origin.projectileData.GetDamage()),
                     origin.mirrorX ? Directions.right : Directions.left,
                     origin,
                     worldMap[currentRoom].mapCoordinates,
