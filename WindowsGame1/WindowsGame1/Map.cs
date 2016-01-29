@@ -92,6 +92,7 @@ namespace Spaceman
             foreach (Projectile projectile in allyProjectiles)
             {
                 projectile.GetData().UpdateProjectile(projectile, game);
+                
 
                 if (projectile.GetDelete())
                 {

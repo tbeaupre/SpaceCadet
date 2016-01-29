@@ -56,13 +56,6 @@ namespace Spaceman
         }
         public void UpdateMusic()
         {
-            engine.Update();
-            firstCat = engine.GetCategory(cue1);
-            firstCat.SetVolume(track1);
-            secondCat = engine.GetCategory(cue2);
-            secondCat.SetVolume(track2);
-            thirdCat = engine.GetCategory(cue3);
-            thirdCat.SetVolume(track3);
 
             switch (musicDynamic)
             {
@@ -72,29 +65,29 @@ namespace Spaceman
                     track3 = 0.0f;
                     break;
                 case 1:
-                    track1 = 1.0f;
+                    track1 = 5.0f;
                     track2 = 0.0f;
                     track3 = 0.0f;
                     break;
                 case 2:
-                    track1 = 1.0f;
-                    track2 = 1.0f;
+                    track1 = 5.0f;
+                    track2 = 5.0f;
                     track3 = 0.0f;
                     break;
                 case 3:
-                    track1 = 1.0f;
-                    track2 = 1.0f;
-                    track3 = 1.0f;
+                    track1 = 5.0f;
+                    track2 = 5.0f;
+                    track3 = 5.0f;
                     break;
                 case 4:
                     track1 = 0.0f;
                     track2 = 0.0f;
-                    track3 = 1.0f;
+                    track3 = 5.0f;
                     break;
                 case 5:
                     track1 = 0.0f;
-                    track2 = 1.0f;
-                    track3 = 1.0f;
+                    track2 = 5.0f;
+                    track3 = 5.0f;
                     break;
                 default:
                     track1 = 0.0f;
@@ -102,6 +95,13 @@ namespace Spaceman
                     track3 = 0.0f;
                     break;
             }
+            engine.Update();
+            firstCat = engine.GetCategory(cue1);
+            firstCat.SetVolume(track1);
+            secondCat = engine.GetCategory(cue2);
+            secondCat.SetVolume(track2);
+            thirdCat = engine.GetCategory(cue3);
+            thirdCat.SetVolume(track3);
         }
         public void SetMusicDynamic(int i)
         {

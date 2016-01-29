@@ -229,9 +229,8 @@ namespace Spaceman
 
             liquidPlayer = new Liquid(LiquidSpacemanTexture, spaceManX, spaceManY);
 
-            player.InitializeArsenal(PistolBulletTexture, ShotgunBulletTexture, RailgunBulletTexture, MachinegunBulletTexture, BumblegunBulletTexture);// Placeholder Textures. Put bullet textures here.
+            player.InitializeArsenal(PistolBulletTexture, ShotgunBulletTexture, RailgunBulletTexture, MachinegunBulletTexture, BumblegunBulletTexture,rnd.Next());// Placeholder Textures. Put bullet textures here.
             player.InitializeGunOverlay(gunsAngleUpTexture, gunsAngleDownTexture, gunsTexture);
-            player.InitializeSoundEffects();
 
             healthBarOverlayTexture = this.Content.Load<Texture2D>("HUD\\HealthBarOverlay2");
             healthBarOverlay = new Sprite(healthBarOverlayTexture, new Vector2(0, 0), 1, 0, false);
@@ -419,7 +418,7 @@ namespace Spaceman
 
             base.Update(gameTime);
             MusicLibrary[currentSong].UpdateMusic();
-            MusicLibrary[currentSong].SetMusicDynamic(player.GetCurrentGun());
+            MusicLibrary[currentSong].SetMusicDynamic(3);
         }
 
         /// <summary>
@@ -745,14 +744,14 @@ namespace Spaceman
         {
             worldMap[currentRoom].enemyProjectiles.Add(
                 new Projectile(
-                    new StandardProjectile(bioSnailProjectileTexture, origin.projectileData.GetDamage(), -1, origin.projectileData.GetDamage()),
+                    new StandardProjectile(bioSnailProjectileTexture, origin.projectileData.GetDamage(), -1, origin.projectileData.GetDamage(),"click1"),
                     origin.mirrorX ? Directions.right : Directions.left,
                     origin,
                     worldMap[currentRoom].mapCoordinates,
                     (origin.mirrorX ? origin.worldX + origin.spriteWidth - origin.projectileData.xOffset : origin.worldX + origin.projectileData.xOffset),
                     origin.worldY + origin.projectileData.yOffset,
                     origin.projectileData.frameNum,
-                    origin.mirrorX));
+                    origin.mirrorX,new SoundFX("click1")));
         }
 
         public void callMenuFunction(String function)
