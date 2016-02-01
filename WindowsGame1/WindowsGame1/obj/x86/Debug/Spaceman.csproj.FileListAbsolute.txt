@@ -162,8 +162,6 @@ C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\obj\x
 C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\obj\x86\Debug\Spaceman.pdb
 C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Spaceman.xnb
 C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\TestMapResized.xnb
-C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns.xnb
-C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets.xnb
 C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\PickUps\Battery.xnb
 C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\HUD\EnergyBar.xnb
 C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\HUD\HealthBar.xnb
@@ -176,9 +174,6 @@ C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin
 C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Enemies\Bio-Snail\Bio-Snail Projectile.xnb
 C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Spaceman Body.xnb
 C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Spaceman Heads.xnb
-C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns Angle.xnb
-C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns Angle2.xnb
-C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets Angled.xnb
 C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Doors\Door.xnb
 C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Doors\DoorHitbox.xnb
 C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Doors\DoorHitbox2.xnb
@@ -237,3 +232,21 @@ C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x
 C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Sounds\EffectsWB.xwb
 C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Sounds\sound effects.xgs
 C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\PickUps\PowerUps\BoostJumpPickUp.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns\Guns.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns\Guns Angle.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Guns\Guns Angle2.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets\BumblegunBullet.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets\MachinegunBullet.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets\PistolBullet.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets\RailgunBullet.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Bullets\ShotgunBullet.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\LiquidSpaceman.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\PickUps\PowerUps\BoostJumpPickUp.xnb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Music\demo\demo.xgs
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Music\demo\demoSoundBank.xsb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Music\demo\demoWaveBank.xwb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Sounds\EffectsSB.xsb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Sounds\EffectsWB.xwb
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Sounds\sound effects.xgs
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.Xact.dll
+C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.Xact.xml

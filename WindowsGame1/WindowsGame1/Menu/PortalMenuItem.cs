@@ -14,10 +14,10 @@ namespace Spaceman
 	class PortalMenuItem : IMenuItem
 	{
 		Texture2D texture;
-		Menu goesTo;
+		MenuList goesTo;
 		bool isHighlighted = false;
 
-		public PortalMenuItem(Texture2D texture, Menu goesTo)
+		public PortalMenuItem(Texture2D texture, MenuList goesTo)
 		{
 			this.texture = texture;
 			this.goesTo = goesTo;

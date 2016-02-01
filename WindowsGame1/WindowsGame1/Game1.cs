@@ -135,16 +135,16 @@ namespace Spaceman
 
         #region Menus
 
-        public Menu currentMenu;
-        public Menu lastMenu;
+        public IMenu currentMenu;
+        public IMenu lastMenu;
 
-        Menu mainMenu;
+        MenuList mainMenu;
         List<IMenuItem> mainMenuItems;
 
-        Menu startMenu;
+        MenuList startMenu;
         List<IMenuItem> startMenuItems;
 
-        public Menu saveStationMenu;
+        public MenuList saveStationMenu;
         List<IMenuItem> saveStationMenuItems;
 
         #endregion
@@ -267,18 +267,18 @@ namespace Spaceman
             startMenuItems = new List<IMenuItem>();
             startMenuItems.Add(new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\NewMenuItem"), null));
             startMenuItems.Add(new ActionMenuItem(this.Content.Load<Texture2D>("Menu\\LoadMenuItem"), null, "loadMenuItem"));
-            startMenu = new Menu(this.Content.Load<Texture2D>("Menu\\MainMenu"), startMenuItems, new Vector2(600, 200));
+            startMenu = new MenuList(this.Content.Load<Texture2D>("Menu\\MainMenu"), startMenuItems, new Vector2(600, 200));
 
             mainMenuItems = new List<IMenuItem>();
             mainMenuItems.Add(new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\StartMenuItem"), startMenu));
             mainMenuItems.Add(new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\OptionsMenuItem"), startMenu));
-            mainMenu = new Menu(this.Content.Load<Texture2D>("Menu\\MainMenu"), mainMenuItems, new Vector2(600, 200));
+            mainMenu = new MenuList(this.Content.Load<Texture2D>("Menu\\MainMenu"), mainMenuItems, new Vector2(600, 200));
             currentMenu = mainMenu;
 
             saveStationMenuItems = new List<IMenuItem>();
             saveStationMenuItems.Add(new ActionMenuItem(this.Content.Load<Texture2D>("Menu\\SaveMenuItem"), null, "saveMenuItem"));
             saveStationMenuItems.Add(new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\AlterSuitMenuItem"), null));
-            saveStationMenu = new Menu(this.Content.Load<Texture2D>("Menu\\SaveStationMenu"), saveStationMenuItems, new Vector2(340, 200));
+            saveStationMenu = new MenuList(this.Content.Load<Texture2D>("Menu\\SaveStationMenu"), saveStationMenuItems, new Vector2(340, 200));
 
             #endregion
 
@@ -468,13 +468,13 @@ namespace Spaceman
             if (currentMenu != null)
             {
                 spriteBatch.Begin();
-                DrawMenu(currentMenu);
+                DrawMenu((MenuList)currentMenu);
                 base.Draw(gameTime);
                 spriteBatch.End();
             }
         }
 
-        public void DrawMenu(Menu menu)
+        public void DrawMenu(MenuList menu)
         {
             int rectX = (graphics.PreferredBackBufferWidth - menu.background.Width) / 2;
             int rectY = (graphics.PreferredBackBufferHeight - menu.background.Height) / 2;
@@ -751,7 +751,8 @@ namespace Spaceman
                     (origin.mirrorX ? origin.worldX + origin.spriteWidth - origin.projectileData.xOffset : origin.worldX + origin.projectileData.xOffset),
                     origin.worldY + origin.projectileData.yOffset,
                     origin.projectileData.frameNum,
-                    origin.mirrorX,new SoundFX("click1")));
+                    origin.mirrorX,
+                    new SoundFX("click1")));
         }
 
         public void callMenuFunction(String function)

@@ -1,5 +1,6 @@
 Content\Spaceman.xnb
 Content\TestMapResized.xnb
+Content\Guns\Guns.xnb
 Content\PickUps\Battery.xnb
 Content\HUD\EnergyBar.xnb
 Content\HUD\HealthBar.xnb
@@ -12,6 +13,8 @@ Content\Enemies\Bio-Snail\Bio-Snail.xnb
 Content\Enemies\Bio-Snail\Bio-Snail Projectile.xnb
 Content\Spaceman Body.xnb
 Content\Spaceman Heads.xnb
+Content\Guns\Guns Angle.xnb
+Content\Guns\Guns Angle2.xnb
 Content\Doors\Door.xnb
 Content\Doors\DoorHitbox.xnb
 Content\Doors\DoorHitbox2.xnb
@@ -36,9 +39,6 @@ Content\Menu\SaveStationMenu.xnb
 Content\Menu\LoadMenuItem.xnb
 Content\Menu\NewMenuItem.xnb
 Content\Boost Jump.xnb
-Content\Guns\Guns.xnb
-Content\Guns\Guns Angle.xnb
-Content\Guns\Guns Angle2.xnb
 Content\Bullets\BumblegunBullet.xnb
 Content\Bullets\MachinegunBullet.xnb
 Content\Bullets\PistolBullet.xnb

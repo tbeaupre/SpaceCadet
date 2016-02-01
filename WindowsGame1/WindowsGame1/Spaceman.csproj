@@ -77,6 +77,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Battery.cs" />
+    <Compile Include="Menu\IMenu.cs" />
+    <Compile Include="Menu\MenuGrid.cs" />
     <Compile Include="SoundFX.cs" />
     <Compile Include="Cooldown.cs" />
     <Compile Include="LiquidPowerup\Droplet.cs" />
@@ -108,7 +110,7 @@
     <Compile Include="IMapItem.cs" />
     <Compile Include="MapResource.cs" />
     <Compile Include="Menu\ActionMenuItem.cs" />
-    <Compile Include="Menu\Menu.cs" />
+    <Compile Include="Menu\MenuList.cs" />
     <Compile Include="Menu\IMenuItem.cs" />
     <Compile Include="Menu\PortalMenuItem.cs" />
     <Compile Include="Object.cs" />

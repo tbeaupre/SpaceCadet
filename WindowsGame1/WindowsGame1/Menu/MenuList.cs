@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Spaceman
 {
-	public class Menu
+	public class MenuList : IMenu
 	{
 		public Texture2D background;
 		public List<IMenuItem> items;
@@ -22,7 +22,7 @@ namespace Spaceman
         private SoundFX click2;
 
 
-		public Menu(Texture2D background, List<IMenuItem> items, Vector2 itemZone)
+		public MenuList(Texture2D background, List<IMenuItem> items, Vector2 itemZone)
 		{
 			this.background = background;
 			this.items = items;

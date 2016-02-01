@@ -14,11 +14,11 @@ namespace Spaceman
 	class ActionMenuItem : IMenuItem
 	{
 		Texture2D texture;
-		Menu goesTo;
+		MenuList goesTo;
 		bool isHighlighted = false;
 		String function;
 
-		public ActionMenuItem(Texture2D texture, Menu goesTo, String function)
+		public ActionMenuItem(Texture2D texture, MenuList goesTo, String function)
 		{
 			this.texture = texture;
 			this.goesTo = goesTo;

@@ -19,12 +19,12 @@ namespace Spaceman
         double yAcc;
         int lifeSpan;
         int damage;
-        public SoundFX Sound;
+        public SoundFX sound;
         const int NUM_FRAMES = 2; // one for straight and one for angled.
 
         public StandardProjectile(Texture2D texture, double bulletVel, int lifeSpan, int damage, string sound)
         {
-            this.Sound = new SoundFX(sound);
+            this.sound = new SoundFX(sound);
             this.texture = texture;
             this.bulletVel = bulletVel;
             this.yAcc = 0;
@@ -67,7 +67,7 @@ namespace Spaceman
                     break;
             }
 
-             return new Projectile(this, direction, origin, mapCoords, worldX, worldY, frameNum, mirrorX,Sound);
+             return new Projectile(this, direction, origin, mapCoords, worldX, worldY, frameNum, mirrorX, sound);
         }
 
 
@@ -127,7 +127,7 @@ namespace Spaceman
 
         public void playSound()
         {
-            Sound.Play();
+            sound.Play();
         }
 
         public virtual double GetYVel(Projectile projectile)
