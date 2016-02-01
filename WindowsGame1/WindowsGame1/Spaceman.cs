@@ -38,9 +38,7 @@ namespace Spaceman
         List<GunData> arsenal = new List<GunData>();
         GunOverlay guns;
         int currentGun = 0;
-        bool hold;
-        public List<String> SoundLibrary = new List<String>();
-        
+        bool hold;        
 
 
         //Power Ups
@@ -188,7 +186,7 @@ namespace Spaceman
             this.yVel = 0;
 			this.gunCooldown = 0;
 		}
-        public void InitializeArsenal(Texture2D pistolTexture, Texture2D shotgunTexture, Texture2D railgunTexture, Texture2D machinegunTexture, Texture2D bumblegunTexture,float num)
+        public void InitializeArsenal(Texture2D pistolTexture, Texture2D shotgunTexture, Texture2D railgunTexture, Texture2D machinegunTexture, Texture2D bumblegunTexture,float num, SoundFX SoundLibrary)
         {
             arsenal.Add(
                 new GunData(
@@ -196,7 +194,7 @@ namespace Spaceman
                     false,                                                  // unlocked
                     0,                                                      // cooldown
                     new StandardProjectile(pistolTexture, 5, -1, 10,        // projectile data
-                    "click1"),                                              // sound 
+                    "click1",SoundLibrary),                                 // sound 
                     false,                                                  // automatic
                     13,                                                     // barrel X
                     8,                                                      // barrel Y
@@ -205,16 +203,16 @@ namespace Spaceman
                 );
 
             arsenal.Add(
-                new GunData("Flouroantimonic Shotgun", false, 15, new StandardProjectile(shotgunTexture, 5, 15, 20, "click2"), false, 16, 8, 10, 6));
+                new GunData("Flouroantimonic Shotgun", false, 15, new StandardProjectile(shotgunTexture, 5, 15, 20, "click2", SoundLibrary), false, 16, 8, 10, 6));
 
             arsenal.Add(
-                new GunData("IT-6.7 Rail Gun", false, 5, new StandardProjectile(railgunTexture, 5, -1, 50, "click1"), false, 14, 8, 9, 9));
+                new GunData("IT-6.7 Rail Gun", false, 5, new StandardProjectile(railgunTexture, 5, -1, 50, "click1", SoundLibrary), false, 14, 8, 9, 9));
 
             arsenal.Add(
-                new GunData("Magmatorque Nail-Gun", false, 7, new StandardProjectile(machinegunTexture, 6, -1, 10, "click1"), true, 18, 7, 10, 6));
+                new GunData("Magmatorque Nail-Gun", false, 7, new StandardProjectile(machinegunTexture, 6, -1, 10, "click1", SoundLibrary), true, 18, 7, 10, 6));
              
             arsenal.Add(
-                new GunData("Symbionic Hive-Oscilator", false, 5, new SinusoidalProjectile(bumblegunTexture, 2.2, -1, 20, 7, 2, true,(StringConverter("bees",num))), true, 17, 9, 10, 5));
+                new GunData("Symbionic Hive-Oscilator", false, 5, new SinusoidalProjectile(bumblegunTexture, 2.2, -1, 20, 7, 2, true,"bees", SoundLibrary), true, 17, 9, 10, 5));
 
         }
         
@@ -227,19 +225,6 @@ namespace Spaceman
                                 1,
                                 false,
                                 null);
-        }
-
-        public string StringConverter(string s,float num)
-        {
-            int number = 0;
-            switch (s)
-            {
-                case "bees":
-                number = (int)num % 3+1;
-                    break;
-            };
-            return (s + number);
-
         }
 
 

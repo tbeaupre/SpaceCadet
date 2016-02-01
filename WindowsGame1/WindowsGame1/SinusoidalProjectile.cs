@@ -19,8 +19,8 @@ namespace Spaceman
         private double shift = 1;
         private bool random;
 
-        public SinusoidalProjectile(Texture2D texture, double bulletVel, int lifeSpan, int damage, double amplitude, double frequency, bool random, string sound)
-            : base(texture, bulletVel, lifeSpan, damage, sound)
+        public SinusoidalProjectile(Texture2D texture, double bulletVel, int lifeSpan, int damage, double amplitude, double frequency, bool random, string sound,SoundFX effect)
+            : base(texture, bulletVel, lifeSpan, damage, sound,effect)
         {
             this.bulletVel = bulletVel;
             this.amplitude = amplitude / 10;

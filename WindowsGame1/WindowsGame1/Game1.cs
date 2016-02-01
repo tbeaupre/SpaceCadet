@@ -24,6 +24,7 @@ namespace Spaceman
 
         public List<Guns> unlockedGuns = new List<Guns>();
         public List<Song> MusicLibrary = new List<Song>();
+        public SoundFX SoundLibrary = new SoundFX();
         public int currentSong;
         public Map[] worldMap;
 
@@ -229,7 +230,7 @@ namespace Spaceman
 
             liquidPlayer = new Liquid(LiquidSpacemanTexture, spaceManX, spaceManY);
 
-            player.InitializeArsenal(PistolBulletTexture, ShotgunBulletTexture, RailgunBulletTexture, MachinegunBulletTexture, BumblegunBulletTexture,rnd.Next());// Placeholder Textures. Put bullet textures here.
+            player.InitializeArsenal(PistolBulletTexture, ShotgunBulletTexture, RailgunBulletTexture, MachinegunBulletTexture, BumblegunBulletTexture,rnd.Next(),SoundLibrary);// Placeholder Textures. Put bullet textures here.
             player.InitializeGunOverlay(gunsAngleUpTexture, gunsAngleDownTexture, gunsTexture);
 
             healthBarOverlayTexture = this.Content.Load<Texture2D>("HUD\\HealthBarOverlay2");
@@ -744,7 +745,7 @@ namespace Spaceman
         {
             worldMap[currentRoom].enemyProjectiles.Add(
                 new Projectile(
-                    new StandardProjectile(bioSnailProjectileTexture, origin.projectileData.GetDamage(), -1, origin.projectileData.GetDamage(),"click1"),
+                    new StandardProjectile(bioSnailProjectileTexture, origin.projectileData.GetDamage(), -1, origin.projectileData.GetDamage(),"click1", SoundLibrary),
                     origin.mirrorX ? Directions.right : Directions.left,
                     origin,
                     worldMap[currentRoom].mapCoordinates,
@@ -752,7 +753,7 @@ namespace Spaceman
                     origin.worldY + origin.projectileData.yOffset,
                     origin.projectileData.frameNum,
                     origin.mirrorX,
-                    new SoundFX("click1")));
+                    "click1", SoundLibrary));
         }
 
         public void callMenuFunction(String function)

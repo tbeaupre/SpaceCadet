@@ -24,6 +24,5 @@ namespace Spaceman
         Projectile CreateProjectile(Directions direction, ISprite origin, Vector2 mapCoords, double worldX, double worldY, bool mirrorX);
         void UpdateProjectile(Projectile projectile, Game1 game);
         void DestroyProjectile(Projectile projectile);
-        void playSound();
     }
 }

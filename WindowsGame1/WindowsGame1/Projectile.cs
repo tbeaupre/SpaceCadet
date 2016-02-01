@@ -23,7 +23,8 @@ namespace Spaceman
         private bool delete = false;
         private int random;
 
-        public Projectile(IProjectileData data, Directions direction, ISprite origin, Vector2 mapCoordinates, double worldX, double worldY, int frameNum, bool mirrorX, SoundFX Sound)
+
+        public Projectile(IProjectileData data, Directions direction, ISprite origin, Vector2 mapCoordinates, double worldX, double worldY, int frameNum, bool mirrorX, string cue, SoundFX effect)
             : base(worldX, worldY, data.GetTexture(), new Vector2((float)worldX - mapCoordinates.X, (float)worldY - mapCoordinates.Y), data.GetNumFrames(), frameNum, mirrorX)
         {
             Random rnd = new Random();
@@ -33,12 +34,28 @@ namespace Spaceman
             this.life = 0;
             this.damage = data.GetDamage();
             this.direction = direction;
-            Sound.Play();
+            effect.Play(StringConverter(cue));
         }
 
         public void Delete()
         {
             this.delete = true;
+        }
+
+        public string StringConverter(string s)
+        {
+            int number;
+            switch (s)
+            {
+                case "bees":
+                    number = (random % 3) + 1;
+                    return (s + number);
+                    break;
+                default:
+                    return s;
+                    break;
+            }
+
         }
 
         public bool GetDelete()
