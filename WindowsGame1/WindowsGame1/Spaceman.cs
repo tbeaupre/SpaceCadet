@@ -116,6 +116,11 @@ namespace Spaceman
             return currentGun;
         }
 
+        public double GetXGroundMomentum()
+        {
+            return xGroundMomentum;
+        }
+
         public void SetCurrentGun(int index)
         {
             this.currentGun = index;

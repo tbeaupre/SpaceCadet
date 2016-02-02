@@ -770,8 +770,8 @@ namespace Spaceman
         public void UpdateObjects()
         {
             player.UpdateSprite(this);
-            liquidPlayer.UpdateLiquid(6, player.destRect.Y);
             worldMap[currentRoom].UpdateMap(this);
+            liquidPlayer.UpdateLiquid(worldMap[currentRoom].mapCoordinates.X, player.GetXGroundMomentum(), player.direction);
             UpdateMapAssets();
             UpdateSpawns();
             UpdatePickUps();

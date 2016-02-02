@@ -30,10 +30,10 @@ namespace Spaceman
         {
             return new Vector2((float)destRect.X, (float)destRect.Y);
         }
-        public void SetDestCoord(int X, int Y)
+        public void SetDestCoord(Vector2 coords)
         {
-            destRect.X += X;
-            destRect.Y += Y;
+            destRect.X += coords.X;
+            destRect.Y += coords.Y;
         }
         public void SetMapCollide(bool m) {
             mapCollide = m;

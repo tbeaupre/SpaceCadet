@@ -47,116 +47,40 @@ namespace Spaceman
         {
             return dropletList[i];
         }
-        public void UpdateLiquid(double speed, double h)
-        {
-
-            int dir=0;
-            if (speed > 0) dir = 1;
-            if (speed < 0) dir = -1;
-            if (speed == 0) dir = 0;
-
-            
-                switch (dir)
+        public void UpdateLiquid(double dist,double movespeed, Directions dir)
+        { 
+                int rotation = (int) (dist / movespeed);
+                if (rotation % 2 ==0 && movespeed != 0)
                 {
-                    case 1:
-                        for (int i = 0; i < 17; i++)
+                    if (dir == Directions.right)
+                    {
                         {
-                            int drop = CheckDrop(dropletList[i], dropletList[i + 1]);
-                            if ((dropletList[i].GetDestRect().Y) <= h + 13 && CheckBigDrop() == 1)
+                            for (int i = 0; i < 17; i++)
                             {
-                                if (drop == 0)
-                                {
-                                    dropletList[i].SetDestCoord(2, 0);
-                                }
-                                if (drop == 1)
-                                {
-                                    dropletList[i].SetDestCoord(+1, +1);
-
-                                    if (dropletList[i].GetMapCollide() == false)
-                                {
-                                    dropletList[i].SetDestCoord(0, +1);
-                                }
-                                }
-
-                                if (CheckDrop(dropletList[17], dropletList[0]) == 0)
-                                {
-                                    dropletList[17].SetDestCoord(2, 0);
-                                }
-                                if (CheckDrop(dropletList[17], dropletList[0]) == 1)
-                                {
-                                    dropletList[17].SetDestCoord(+1, +1);
-
-                                    if (dropletList[17].GetMapCollide() == false)
-                                    {
-                                        dropletList[17].SetDestCoord(0, +1);
-                                    }
-                                }
-                            }
-                            if (drop == -1)
-                            {
-                                dropletList[i].SetDestCoord(+1, -1);
-                            }
-                            if (CheckDrop(dropletList[17], dropletList[0]) == -1)
-                            {
-                                dropletList[17].SetDestCoord(+1, -1);
+                                Vector2 drop = CheckDrop(dropletList[i], dropletList[i + 1]);
+                                dropletList[i].SetDestCoord(drop);
+                                dropletList[17].SetDestCoord(CheckDrop(dropletList[17], dropletList[0]));
                             }
                         }
-                    
-                        break;
-                    case -1:
-                        for (int i = 17; i > 0; i--)
+                    }
+                    if (dir == Directions.left)
+                    {
                         {
-                            int drop = CheckDrop(dropletList[i], dropletList[i - 1]);
-                            if ((dropletList[i].GetDestRect().Y) <= h + 13 && CheckBigDrop() == 1)
+                            for (int i = 17; i > 0; i--)
                             {
-                                if (drop == 0)
-                                {
-                                    dropletList[i].SetDestCoord(-2, 0);
-                                }
-                                if (drop == 1)
-                                {
-                                    dropletList[i].SetDestCoord(-1, 1);
-
-                                    if (dropletList[i].GetMapCollide() == false)
-                                    {
-                                        dropletList[i].SetDestCoord(0, +1);
-                                    }
-                                }
-
-                                if (CheckDrop(dropletList[0], dropletList[17]) == 0)
-                                {
-                                    dropletList[0].SetDestCoord(-2, 0);
-                                }
-                                if (CheckDrop(dropletList[0], dropletList[17]) == 1)
-                                {
-                                    dropletList[0].SetDestCoord(-1, +1);
-
-                                    if (dropletList[0].GetMapCollide() == false)
-                                    {
-                                        dropletList[0].SetDestCoord(0, +1);
-                                    }
-                                }
-
-                            }
-                            if (drop == -1)
-                            {
-                                dropletList[i].SetDestCoord(-1, -1);
-                            }
-                            if (CheckDrop(dropletList[0], dropletList[17]) == -1)
-                            {
-                                dropletList[0].SetDestCoord(-1, -1);
+                                Vector2 drop = CheckDrop(dropletList[i], dropletList[i - 1]);
+                                dropletList[i].SetDestCoord(drop);
+                                dropletList[0].SetDestCoord(CheckDrop(dropletList[0], dropletList[17]));
                             }
                         }
-                        break;
-                case 0:
-                    break;
+                    }
                 }
-        }
-
+            }
+        
         //returns immediate drop in y between two pixels
-        private int CheckDrop(Droplet d1, Droplet d2)
+        private Vector2 CheckDrop(Droplet d1, Droplet d2)
         {
-            return (int)(d2.GetDestRect().Y - d1.GetDestRect().Y);
+            return (d2.GetDestRect() - d1.GetDestRect());
         }
 
         //returns largest change in Y across all 
@@ -165,16 +89,16 @@ namespace Spaceman
             int max = 0;
             for (int i = 0; i < 17; i++)
             {
-                int next = Math.Abs(CheckDrop(dropletList[i], dropletList[i + 1]));
+                int next = (int) Math.Abs(CheckDrop(dropletList[i], dropletList[i + 1]).Y);
                 if (next > max)
                 {
                     max = next;
                 }
 
             }
-            if (Math.Abs(CheckDrop(dropletList[17], dropletList[0])) > max)
+            if (Math.Abs(CheckDrop(dropletList[17], dropletList[0]).Y) > max)
             {
-                max = Math.Abs(CheckDrop(dropletList[17], dropletList[0]));
+                max = (int) Math.Abs(CheckDrop(dropletList[17], dropletList[0]).Y);
             }
 
             return max;
