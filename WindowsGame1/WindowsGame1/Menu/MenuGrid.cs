@@ -11,53 +11,113 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Spaceman
 {
-    class MenuGrid : IMenu
+    public class MenuGrid : IMenu
     {
         public Texture2D background;
         public IMenuItem[,] items;
-        int currentItemX;
+        private int currentItemX;
         int currentItemY;
-        int numRows;
-        int numColumns;
-        public Vector2 itemZone; // X is the Y value and Y is the Height of the item zone;
+        int itemsHeight;
+        int itemsWidth;
+        Rectangle itemZone;
         private string click1 = "click2";
         private string click2 = "click1";
-        SoundFX sound;
+        private SoundFX sound;
 
-        public MenuGrid(Texture2D background, IMenuItem[,] items, Vector2 itemZone)
+        public IMenuItem GetMenuItem(int x, int y)
+        {
+            return this.items[x, y];
+        }
+
+        public int GetItemsHeight()
+        {
+            return this.itemsHeight;
+        }
+
+        public int GetItemsWidth()
+        {
+            return this.itemsWidth;
+        }
+
+        public Rectangle GetItemZone()
+        {
+            return this.itemZone;
+        }
+
+        public Texture2D GetBackground()
+        {
+            return this.background;
+        }
+
+        public SoundFX GetSound()
+        {
+            return this.sound;
+        }
+
+        public string GetClick1()
+        {
+            return this.click1;
+        }
+
+        public string GetClick2()
+        {
+            return this.click2;
+        }
+
+        public int GetCurrentItemX()
+        {
+            return this.currentItemX;
+        }
+
+        public int GetCurrentItemY()
+        {
+            return this.currentItemY;
+        }
+
+        public void SetItemX(int x)
+        {
+            this.currentItemX = x;
+        }
+
+        public void SetItemY(int y)
+        {
+            this.currentItemY = y;
+        }
+
+        public MenuGrid(Texture2D background, IMenuItem[,] items, Rectangle itemZone)
         {
             this.background = background;
             this.items = items;
             this.currentItemX = 0;
             this.currentItemY = 0;
-            this.numRows = items.GetUpperBound(0);
-            this.numColumns = items.GetUpperBound(1);
+            this.itemsWidth = items.GetUpperBound(0) + 1;
+            this.itemsHeight = items.GetUpperBound(1) + 1;
             this.itemZone = itemZone;
             this.items[0, 0].SetIsHighlighted(true);
             sound = new SoundFX();
-            
         }
 
         public void ChangeCurrentItem(int changeXBy, int changeYBy)
         {
             this.currentItemX += changeXBy;
-            if (this.currentItemX < 0) this.currentItemX = this.numColumns - 1;
-            if (this.currentItemX >= this.numColumns) this.currentItemX = 0;
+            if (this.currentItemX < 0) this.currentItemX = this.itemsWidth - 1;
+            if (this.currentItemX >= this.itemsWidth) this.currentItemX = 0;
 
             this.currentItemY += changeYBy;
-            if (this.currentItemY < 0) this.currentItemY = this.numRows - 1;
-            if (this.currentItemY >= this.numRows) this.currentItemY = 0;
+            if (this.currentItemY < 0) this.currentItemY = this.itemsHeight - 1;
+            if (this.currentItemY >= this.itemsHeight) this.currentItemY = 0;
         }
 
         public void OpenMenu(Game1 game)
         {
             this.currentItemX = 0;
             this.currentItemY = 0;
+            this.items[currentItemX, currentItemY].SetIsHighlighted(true);
             game.lastMenu = game.currentMenu;
             game.currentMenu = this;
         }
 
-        public void UpdateMenu(Game1 game)
+        public virtual void UpdateMenu(Game1 game)
         {
             if (game.newkeys.IsKeyDown(Keys.Down) && game.oldkeys.IsKeyUp(Keys.Down))
             {
@@ -89,8 +149,15 @@ namespace Spaceman
             }
             if (game.newkeys.IsKeyDown(Game1.fire) && game.oldkeys.IsKeyUp(Game1.fire))
             {
-                items[currentItemX, currentItemY].ActivateItem(game);
+                items[currentItemX, currentItemY].ActivateItem(game, this);
                 sound.Play(click2);
+            }
+        }
+
+        public void Disable()
+        {
+            foreach (IMenuItem i in items) {
+                i.SetIsHighlighted(false);
             }
         }
     }

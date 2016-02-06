@@ -40,8 +40,9 @@ namespace Spaceman
 			return this.isHighlighted;
 		}
 
-		void IMenuItem.ActivateItem(Game1 game)
+		void IMenuItem.ActivateItem(Game1 game, IMenu from)
 		{
+            from.Disable();
 			game.callMenuFunction(function);
 			if (goesTo == null)
 			{

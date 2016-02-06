@@ -11,61 +11,34 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Spaceman
 {
-	public class MenuList : IMenu
+	public class MenuList : MenuGrid, IMenu 
 	{
-		public Texture2D background;
-		public List<IMenuItem> items;
-		int currentItem;
-		public int numItems;
-		public Vector2 itemZone; // X is the Y value and Y is the Height of the item zone;
-        private SoundFX sound;
-
-
-		public MenuList(Texture2D background, List<IMenuItem> items, Vector2 itemZone)
+		public MenuList(Texture2D background, IMenuItem[,] items, Vector2 itemZone)
+            : base(background, items, new Rectangle(0, (int)itemZone.X, 0, (int)itemZone.Y))
 		{
-			this.background = background;
-			this.items = items;
-			this.currentItem = 0;
-			this.numItems = items.Count;
-			this.itemZone = itemZone;
-			this.items[0].SetIsHighlighted(true);
-            sound = new SoundFX();
+            
         }
 
-		public void ChangeCurrentItem(int changeBy)
+		public override void UpdateMenu(Game1 game)
 		{
-			this.currentItem += changeBy;
-			if (this.currentItem < 0) this.currentItem = this.numItems - 1;
-			if (this.currentItem >= this.numItems) this.currentItem = 0;
-		}
-
-		public void OpenMenu(Game1 game)
-		{
-			this.currentItem = 0;
-			game.lastMenu = game.currentMenu;
-			game.currentMenu = this;
-		}
-
-		public void UpdateMenu(Game1 game)
-		{
-			if (game.newkeys.IsKeyDown(Keys.Down) && game.oldkeys.IsKeyUp(Keys.Down))
-			{
-                items[currentItem].SetIsHighlighted(false);
-				ChangeCurrentItem(1);
-				items[currentItem].SetIsHighlighted(true);
-                sound.Play("click1");
-			}
-			if (game.newkeys.IsKeyDown(Keys.Up) && game.oldkeys.IsKeyUp(Keys.Up))
+            if (game.newkeys.IsKeyDown(Keys.Down) && game.oldkeys.IsKeyUp(Keys.Down))
             {
-				items[currentItem].SetIsHighlighted(false);
-				ChangeCurrentItem(-1);
-				items[currentItem].SetIsHighlighted(true);
-                sound.Play("click1");
+                items[GetCurrentItemX(), GetCurrentItemY()].SetIsHighlighted(false);
+                ChangeCurrentItem(0, 1);
+                items[GetCurrentItemX(), GetCurrentItemY()].SetIsHighlighted(true);
+                GetSound().Play(GetClick1());
             }
-			if (game.newkeys.IsKeyDown(Game1.fire) && game.oldkeys.IsKeyUp(Game1.fire))
-			{
-				items[currentItem].ActivateItem(game);
-                sound.Play("click2");
+            if (game.newkeys.IsKeyDown(Keys.Up) && game.oldkeys.IsKeyUp(Keys.Up))
+            {
+                items[GetCurrentItemX(), GetCurrentItemY()].SetIsHighlighted(false);
+                ChangeCurrentItem(0, -1);
+                items[GetCurrentItemX(), GetCurrentItemY()].SetIsHighlighted(true);
+                GetSound().Play(GetClick1());
+            }
+            if (game.newkeys.IsKeyDown(Game1.fire) && game.oldkeys.IsKeyUp(Game1.fire))
+            {
+                items[GetCurrentItemX(), GetCurrentItemY()].ActivateItem(game, this);
+                GetSound().Play(GetClick2());
             }
         }
 	}

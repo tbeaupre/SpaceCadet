@@ -139,14 +139,17 @@ namespace Spaceman
         public IMenu currentMenu;
         public IMenu lastMenu;
 
-        MenuList mainMenu;
-        List<IMenuItem> mainMenuItems;
+        IMenu mainMenu;
+        IMenuItem[,] mainMenuItems;
 
-        MenuList startMenu;
-        List<IMenuItem> startMenuItems;
+        IMenu startMenu;
+        IMenuItem[,] startMenuItems;
 
         public MenuList saveStationMenu;
-        List<IMenuItem> saveStationMenuItems;
+        IMenuItem[,] saveStationMenuItems;
+
+        IMenu alterSuitMenu;
+        IMenuItem[,] alterSuitMenuItems;
 
         #endregion
 
@@ -230,7 +233,7 @@ namespace Spaceman
 
             liquidPlayer = new Liquid(LiquidSpacemanTexture, spaceManX, spaceManY);
 
-            player.InitializeArsenal(PistolBulletTexture, ShotgunBulletTexture, RailgunBulletTexture, MachinegunBulletTexture, BumblegunBulletTexture,rnd.Next(),SoundLibrary);// Placeholder Textures. Put bullet textures here.
+            player.InitializeArsenal(PistolBulletTexture, ShotgunBulletTexture, RailgunBulletTexture, MachinegunBulletTexture, BumblegunBulletTexture, rnd.Next(), SoundLibrary);
             player.InitializeGunOverlay(gunsAngleUpTexture, gunsAngleDownTexture, gunsTexture);
 
             healthBarOverlayTexture = this.Content.Load<Texture2D>("HUD\\HealthBarOverlay2");
@@ -265,21 +268,26 @@ namespace Spaceman
 
             #region Menu Setup
 
-            startMenuItems = new List<IMenuItem>();
-            startMenuItems.Add(new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\NewMenuItem"), null));
-            startMenuItems.Add(new ActionMenuItem(this.Content.Load<Texture2D>("Menu\\LoadMenuItem"), null, "loadMenuItem"));
+            startMenuItems = new IMenuItem[,] {
+                { new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\NewMenuItem"), null), new ActionMenuItem(this.Content.Load<Texture2D>("Menu\\LoadMenuItem"), null, "loadMenuItem")} };
             startMenu = new MenuList(this.Content.Load<Texture2D>("Menu\\MainMenu"), startMenuItems, new Vector2(600, 200));
 
-            mainMenuItems = new List<IMenuItem>();
-            mainMenuItems.Add(new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\StartMenuItem"), startMenu));
-            mainMenuItems.Add(new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\OptionsMenuItem"), startMenu));
+            mainMenuItems = new IMenuItem[,] {
+                { new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\StartMenuItem"), startMenu), new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\OptionsMenuItem"), startMenu)} };
             mainMenu = new MenuList(this.Content.Load<Texture2D>("Menu\\MainMenu"), mainMenuItems, new Vector2(600, 200));
             currentMenu = mainMenu;
 
-            saveStationMenuItems = new List<IMenuItem>();
-            saveStationMenuItems.Add(new ActionMenuItem(this.Content.Load<Texture2D>("Menu\\SaveMenuItem"), null, "saveMenuItem"));
-            saveStationMenuItems.Add(new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\AlterSuitMenuItem"), null));
+            alterSuitMenuItems = new IMenuItem[,] {
+                { new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\BoostJumpMenuItem"), null), new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\LockedUpgradeMenuItem"), null) },
+                { new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\WarpMenuItem"), null), new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\LockedUpgradeMenuItem"), null) },
+                { new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\LockedUpgradeMenuItem"), null), new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\LockedUpgradeMenuItem"), null) },
+                { new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\LockedUpgradeMenuItem"), null), new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\LockedUpgradeMenuItem"), null) } };
+            alterSuitMenu = new MenuGrid(this.Content.Load<Texture2D>("Menu\\SaveStationMenu"), alterSuitMenuItems, new Rectangle(360, 240, 1201, 520));
+
+            saveStationMenuItems = new IMenuItem[,] {
+                { new ActionMenuItem(this.Content.Load<Texture2D>("Menu\\SaveMenuItem"), null, "saveMenuItem"), new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\AlterSuitMenuItem"), alterSuitMenu)} };
             saveStationMenu = new MenuList(this.Content.Load<Texture2D>("Menu\\SaveStationMenu"), saveStationMenuItems, new Vector2(340, 200));
+
 
             #endregion
 
@@ -469,45 +477,85 @@ namespace Spaceman
             if (currentMenu != null)
             {
                 spriteBatch.Begin();
-                DrawMenu((MenuList)currentMenu);
+                DrawMenu(currentMenu);
                 base.Draw(gameTime);
                 spriteBatch.End();
             }
         }
 
-        public void DrawMenu(MenuList menu)
+        //public void DrawMenu(MenuList menu)
+        //{
+        //    int rectX = (graphics.PreferredBackBufferWidth - menu.background.Width) / 2;
+        //    int rectY = (graphics.PreferredBackBufferHeight - menu.background.Height) / 2;
+        //    spriteBatch.Draw(menu.background,
+        //        new Rectangle(
+        //            rectX,
+        //            rectY,
+        //            menu.background.Width,
+        //            menu.background.Height),
+        //        null,
+        //        Color.White);
+        //    int deltaY = (int)menu.itemZone.Y / menu.numItems;
+        //    for (int i = 0; i < menu.items.Count; i++)
+        //    {
+        //        IMenuItem item = menu.items[i];
+        //        Rectangle sourceRect;
+        //        if (item.GetIsHighlighted())
+        //        {
+        //            sourceRect = new Rectangle(0, item.GetTexture().Height / 2, item.GetTexture().Width, item.GetTexture().Height / 2);
+        //        }
+        //        else
+        //        {
+        //            sourceRect = new Rectangle(0, 0, item.GetTexture().Width, item.GetTexture().Height / 2);
+        //        }
+        //        spriteBatch.Draw(item.GetTexture(),
+        //            new Rectangle(
+        //                rectX + (menu.background.Width / 2) - (item.GetTexture().Width / 2),
+        //                rectY + (int)menu.itemZone.X + (deltaY * i),
+        //                item.GetTexture().Width,
+        //                item.GetTexture().Height / 2),
+        //            sourceRect,
+        //            Color.White);
+        //    }
+        //}
+
+        public void DrawMenu(IMenu menu)
         {
-            int rectX = (graphics.PreferredBackBufferWidth - menu.background.Width) / 2;
-            int rectY = (graphics.PreferredBackBufferHeight - menu.background.Height) / 2;
-            spriteBatch.Draw(menu.background,
+            int rectX = (graphics.PreferredBackBufferWidth - menu.GetBackground().Width) / 2;
+            int rectY = (graphics.PreferredBackBufferHeight - menu.GetBackground().Height) / 2;
+            spriteBatch.Draw(menu.GetBackground(),
                 new Rectangle(
                     rectX,
                     rectY,
-                    menu.background.Width,
-                    menu.background.Height),
+                    menu.GetBackground().Width,
+                    menu.GetBackground().Height),
                 null,
                 Color.White);
-            int deltaY = (int)menu.itemZone.Y / menu.numItems;
-            for (int i = 0; i < menu.items.Count; i++)
+            int deltaX = menu.GetItemZone().Width / menu.GetItemsWidth();
+            int deltaY = menu.GetItemZone().Height / menu.GetItemsHeight();
+            for (int j = 0; j < menu.GetItemsHeight(); j++)
             {
-                IMenuItem item = menu.items[i];
-                Rectangle sourceRect;
-                if (item.GetIsHighlighted())
+                for (int i = 0; i < menu.GetItemsWidth(); i++)
                 {
-                    sourceRect = new Rectangle(0, item.GetTexture().Height / 2, item.GetTexture().Width, item.GetTexture().Height / 2);
+                    IMenuItem item = menu.GetMenuItem(i,j);
+                    Rectangle sourceRect;
+                    if (item.GetIsHighlighted())
+                    {
+                        sourceRect = new Rectangle(0, item.GetTexture().Height / 2, item.GetTexture().Width, item.GetTexture().Height / 2);
+                    }
+                    else
+                    {
+                        sourceRect = new Rectangle(0, 0, item.GetTexture().Width, item.GetTexture().Height / 2);
+                    }
+                    spriteBatch.Draw(item.GetTexture(),
+                        new Rectangle(
+                            (menu.GetItemsWidth() == 1? rectX + (menu.GetBackground().Width / 2) - (item.GetTexture().Width / 2)  : rectX + (int)menu.GetItemZone().X + (deltaX * i)),
+                            rectY + menu.GetItemZone().Y + (deltaY * j),
+                            item.GetTexture().Width,
+                            item.GetTexture().Height / 2),
+                        sourceRect,
+                        Color.White);
                 }
-                else
-                {
-                    sourceRect = new Rectangle(0, 0, item.GetTexture().Width, item.GetTexture().Height / 2);
-                }
-                spriteBatch.Draw(item.GetTexture(),
-                    new Rectangle(
-                        rectX + (menu.background.Width / 2) - (item.GetTexture().Width / 2),
-                        rectY + (int)menu.itemZone.X + (deltaY * i),
-                        item.GetTexture().Width,
-                        item.GetTexture().Height / 2),
-                    sourceRect,
-                    Color.White);
             }
         }
 
@@ -1096,6 +1144,7 @@ namespace Spaceman
         public void OpenSaveStationMenu()
         {
             this.currentMenu = saveStationMenu;
+            this.currentMenu.OpenMenu(this);
         }
     }
 }

@@ -16,6 +16,6 @@ namespace Spaceman
 		Texture2D GetTexture();
 		void SetIsHighlighted(bool val);
 		bool GetIsHighlighted();
-		void ActivateItem(Game1 game);
+		void ActivateItem(Game1 game, IMenu from);
 	}
 }

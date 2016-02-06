@@ -50,10 +50,8 @@ namespace Spaceman
                 case "bees":
                     number = (random % 3) + 1;
                     return (s + number);
-                    break;
                 default:
                     return s;
-                    break;
             }
 
         }

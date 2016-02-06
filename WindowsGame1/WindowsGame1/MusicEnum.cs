@@ -7,6 +7,6 @@ namespace Spaceman
 {
     public enum Songs
     {
-        demo,
+        demo, keys, drums, bass
     }
 }

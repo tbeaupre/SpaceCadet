@@ -14,10 +14,10 @@ namespace Spaceman
 	class PortalMenuItem : IMenuItem
 	{
 		Texture2D texture;
-		MenuList goesTo;
+		IMenu goesTo;
 		bool isHighlighted = false;
 
-		public PortalMenuItem(Texture2D texture, MenuList goesTo)
+		public PortalMenuItem(Texture2D texture, IMenu goesTo)
 		{
 			this.texture = texture;
 			this.goesTo = goesTo;
@@ -38,8 +38,9 @@ namespace Spaceman
 			return this.isHighlighted;
 		}
 
-		void IMenuItem.ActivateItem(Game1 game)
+		void IMenuItem.ActivateItem(Game1 game, IMenu from)
 		{
+            from.Disable();
 			if (goesTo == null)
 			{
 				game.currentMenu = null;
