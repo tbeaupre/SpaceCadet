@@ -239,7 +239,7 @@ namespace Spaceman
                 7,
                 false);
 
-            liquidPlayer = new Liquid(LiquidSpacemanTexture, spaceManX, spaceManY);
+            liquidPlayer = new Liquid(LiquidSpacemanTexture, spaceManX, spaceManY, this);
 
             player.InitializeArsenal(PistolBulletTexture, ShotgunBulletTexture, RailgunBulletTexture, MachinegunBulletTexture, BumblegunBulletTexture, rnd.Next(), SoundLibrary);
             player.InitializeGunOverlay(gunsAngleUpTexture, gunsAngleDownTexture, gunsTexture);
@@ -507,7 +507,7 @@ namespace Spaceman
                     DrawSprite(player.GetGuns(), 0.5f, player.GetColor());
                     for (int i = 0; i < 18; i++)
                     {
-                        DrawSprite(liquidPlayer.Pixel(i), 0.6f);
+                       DrawSprite(liquidPlayer.Pixel(i), 0.6f);
                     }
 
                     DrawOverlay(boostJump, 0.5f, Color.White);

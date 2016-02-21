@@ -737,17 +737,18 @@ namespace Spaceman
                         
                     }
                     break;
-                case PowerUps.Liquid:
-                    if (IsKeyPressed(key))
-                    {
-                        if (cooldown.Iterate())
-                            cooldown.SetCooldown();
-                    }
-                    else
-                    {
-                        cooldown.Iterate();
-                    }
-                    break;
+                //case PowerUps.Liquid:
+                //    if (IsKeyPressed(key))
+                //    {
+                //        if (cooldown.Iterate())
+                //            cooldown.SetCooldown();
+                //    }
+                //    else
+                //    {
+                //        cooldown.Iterate();
+                //    }
+                //    if(cooldown.GetCurrent() > cooldown.GetMax)
+                //    break;
             }
         }
 

@@ -250,3 +250,6 @@ C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin
 C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Sounds\sound effects.xgs
 C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.Xact.dll
 C:\Users\tbopes\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Microsoft.Xna.Framework.Xact.xml
+C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\BoostJumpMenuItem.xnb
+C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\LockedUpgradeMenuItem.xnb
+C:\Users\Finn\Documents\GitHub\SpaceCadetFriends\WindowsGame1\WindowsGame1\bin\x86\Debug\Content\Menu\WarpMenuItem.xnb

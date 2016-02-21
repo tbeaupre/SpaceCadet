@@ -18,13 +18,14 @@ namespace Spaceman
         Texture2D pixel;
         int X;
         int Y;
+        Game1 game;
 
-
-        public Liquid(Texture2D pixel, int X, int Y)
+        public Liquid(Texture2D pixel, int X, int Y, Game1 game)
         {
             this.pixel = pixel;
             this.X = X;
             this.Y = Y;
+            this.game = game;
             dropletList = new List<Droplet>();
             for (int h = 0; h <= 1; h++)
             {
@@ -47,12 +48,12 @@ namespace Spaceman
         {
             return dropletList[i];
         }
+
         public void UpdateLiquid(double dist,double movespeed, Directions dir)
-        { 
-                int rotation = (int) (dist / movespeed);
-                if (rotation % 2 ==0 && movespeed != 0)
+        {
+            double rotation = 0;
                 {
-                    if (dir == Directions.right)
+                if (dir == Directions.right && dist - rotation >= 1)
                     {
                         {
                             for (int i = 0; i < 17; i++)
@@ -61,7 +62,8 @@ namespace Spaceman
                                 dropletList[i].SetDestCoord(drop);
                                 dropletList[17].SetDestCoord(CheckDrop(dropletList[17], dropletList[0]));
                             }
-                        }
+                        rotation = dist;
+                    }
                     }
                     if (dir == Directions.left)
                     {
@@ -78,6 +80,7 @@ namespace Spaceman
             }
         
         //returns immediate drop in y between two pixels
+
         private Vector2 CheckDrop(Droplet d1, Droplet d2)
         {
             return (d2.GetDestRect() - d1.GetDestRect());
@@ -87,7 +90,7 @@ namespace Spaceman
         private int CheckBigDrop()
         {
             int max = 0;
-            for (int i = 0; i < 17; i++)
+            for (int i = 0; i <dropletList.Count; i++)
             {
                 int next = (int) Math.Abs(CheckDrop(dropletList[i], dropletList[i + 1]).Y);
                 if (next > max)

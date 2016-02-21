@@ -16,7 +16,6 @@ namespace Spaceman
     {
         private Vector2 destCoord;
         private bool cornered;
-        private bool mapCollide = true;
         public Droplet(Texture2D pixel, Vector2 destCoord, int numFrames, int frameNum)
             : base(pixel, destCoord, numFrames, frameNum, false)
         {
@@ -35,13 +34,12 @@ namespace Spaceman
             destRect.X += coords.X;
             destRect.Y += coords.Y;
         }
-        public void SetMapCollide(bool m) {
-            mapCollide = m;
-        }
-        public bool GetMapCollide()
-        {
-            return mapCollide;
-        }
 
+
+        public bool MapCollide(Game1 game)
+        {
+            if (CollisionDetector.CheckMapCollision((int)destRect.X,(int) destRect.Y+1, this, game.worldMap[game.currentRoom])) return true;
+            else return false;
+        }
     }
 }

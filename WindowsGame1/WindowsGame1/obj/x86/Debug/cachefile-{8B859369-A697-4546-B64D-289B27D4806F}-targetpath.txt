@@ -46,6 +46,9 @@ Content\Bullets\RailgunBullet.xnb
 Content\Bullets\ShotgunBullet.xnb
 Content\LiquidSpaceman.xnb
 Content\PickUps\PowerUps\BoostJumpPickUp.xnb
+Content\Menu\BoostJumpMenuItem.xnb
+Content\Menu\LockedUpgradeMenuItem.xnb
+Content\Menu\WarpMenuItem.xnb
 Content\Music\demo\demo.xgs
 Content\Music\demo\demoSoundBank.xsb
 Content\Music\demo\demoWaveBank.xwb
