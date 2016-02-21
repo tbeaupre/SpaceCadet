@@ -148,8 +148,14 @@ namespace Spaceman
         public MenuList saveStationMenu;
         IMenuItem[,] saveStationMenuItems;
 
-        IMenu alterSuitMenu;
-        IMenuItem[,] alterSuitMenuItems;
+        IMenu alterSuitTab1Menu;
+        IMenuItem[,] alterSuitTab1MenuItems;
+
+        IMenu alterSuitTab2Menu;
+        IMenuItem[,] alterSuitTab2MenuItems;
+
+        IMenu alterSuitTab3Menu;
+        IMenuItem[,] alterSuitTab3MenuItems;
 
         #endregion
 
@@ -201,7 +207,9 @@ namespace Spaceman
             //powerUpManager.UnlockPowerUp(PowerUps.BoostJump);
             powerUpManager.UnlockPowerUp(PowerUps.Warp);
             powerUpManager.UnlockPowerUp(PowerUps.Liquid);
-            powerUpManager.UpdateAbilities(PowerUps.BoostJump, PowerUps.Warp, PowerUps.Liquid);
+            powerUpManager.UnlockPowerUp(PowerUps.NULL);
+            //powerUpManager.UpdateAbilities(PowerUps.BoostJump, PowerUps.Warp, PowerUps.Liquid);
+            powerUpManager.UpdateAbilities(PowerUps.NULL, PowerUps.NULL, PowerUps.NULL);
 
             boostJumpPickUpTexture = this.Content.Load<Texture2D>("PickUps\\PowerUps\\BoostJumpPickUp");
 
@@ -269,24 +277,71 @@ namespace Spaceman
             #region Menu Setup
 
             startMenuItems = new IMenuItem[,] {
-                { new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\NewMenuItem"), null), new ActionMenuItem(this.Content.Load<Texture2D>("Menu\\LoadMenuItem"), null, "loadMenuItem")} };
-            startMenu = new MenuList(this.Content.Load<Texture2D>("Menu\\MainMenu"), startMenuItems, new Vector2(600, 200));
+                { new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\NewMenuItem"), null), new ActionMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LoadMenuItem"), null, "loadMenuItem")} };
+            startMenu = new MenuList(this.Content.Load<Texture2D>("Menu\\Backgrounds\\MainMenu"), startMenuItems, new Vector2(600, 200));
 
             mainMenuItems = new IMenuItem[,] {
-                { new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\StartMenuItem"), startMenu), new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\OptionsMenuItem"), startMenu)} };
-            mainMenu = new MenuList(this.Content.Load<Texture2D>("Menu\\MainMenu"), mainMenuItems, new Vector2(600, 200));
+                { new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\StartMenuItem"), startMenu), new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\OptionsMenuItem"), startMenu)} };
+            mainMenu = new MenuList(this.Content.Load<Texture2D>("Menu\\Backgrounds\\MainMenu"), mainMenuItems, new Vector2(600, 200));
             currentMenu = mainMenu;
 
-            alterSuitMenuItems = new IMenuItem[,] {
-                { new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\BoostJumpMenuItem"), null), new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\LockedUpgradeMenuItem"), null) },
-                { new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\WarpMenuItem"), null), new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\LockedUpgradeMenuItem"), null) },
-                { new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\LockedUpgradeMenuItem"), null), new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\LockedUpgradeMenuItem"), null) },
-                { new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\LockedUpgradeMenuItem"), null), new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\LockedUpgradeMenuItem"), null) } };
-            alterSuitMenu = new MenuGrid(this.Content.Load<Texture2D>("Menu\\SaveStationMenu"), alterSuitMenuItems, new Rectangle(360, 240, 1201, 520));
+            alterSuitTab1MenuItems = new IMenuItem[,] {
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\BoostJumpMenuItem"), null, PowerUps.BoostJump),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                    new AlterSuitTabMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\AlterSuitActiveTabItem"), 418, 807, "AlterSuitTab1Menu") },
+
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\WarpMenuItem"), null, PowerUps.Warp),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                    new AlterSuitTabMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\AlterSuitNonActiveTabItem"), 675, 821, "AlterSuitTab2Menu") },
+
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                    new AlterSuitTabMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\AlterSuitNonActiveTabItem"), 932, 821, "AlterSuitTab3Menu") },
+
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                    new ActionMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\SaveMenuItem"), null, "saveSuit", 1213, 830) } };
+            alterSuitTab1Menu = new PowerUpMenu(this.Content.Load<Texture2D>("Menu\\Backgrounds\\AlterSuit1Menu"), alterSuitTab1MenuItems, new Rectangle(360, 240, 1201, 780), "AlterSuitTab1Menu");
+
+            alterSuitTab2MenuItems = new IMenuItem[,] {
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\BoostJumpMenuItem"), null, PowerUps.BoostJump),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                    new AlterSuitTabMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\AlterSuitNonActiveTabItem"), 418, 821, "AlterSuitTab1Menu") },
+
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\WarpMenuItem"), null, PowerUps.Warp),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                    new AlterSuitTabMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\AlterSuitActiveTabItem"), 675, 807, "AlterSuitTab2Menu") },
+
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                    new AlterSuitTabMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\AlterSuitNonActiveTabItem"), 932, 821, "AlterSuitTab3Menu") },
+
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                    new ActionMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\SaveMenuItem"), null, "saveSuit", 1213, 830) } };
+            alterSuitTab2Menu = new PowerUpMenu(this.Content.Load<Texture2D>("Menu\\Backgrounds\\AlterSuit2Menu"), alterSuitTab2MenuItems, new Rectangle(360, 240, 1201, 780), "AlterSuitTab2Menu");
+
+            alterSuitTab3MenuItems = new IMenuItem[,] {
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\BoostJumpMenuItem"), null, PowerUps.BoostJump),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                    new AlterSuitTabMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\AlterSuitNonActiveTabItem"), 418, 821, "AlterSuitTab1Menu") },
+
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\WarpMenuItem"), null, PowerUps.Warp),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                    new AlterSuitTabMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\AlterSuitNonActiveTabItem"), 675, 821, "AlterSuitTab2Menu") },
+
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                    new AlterSuitTabMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\AlterSuitActiveTabItem"), 932, 807, "AlterSuitTab3Menu") },
+
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                    new ActionMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\SaveMenuItem"), null, "saveSuit", 1213, 830) } };
+            alterSuitTab3Menu = new PowerUpMenu(this.Content.Load<Texture2D>("Menu\\Backgrounds\\AlterSuit3Menu"), alterSuitTab3MenuItems, new Rectangle(360, 240, 1201, 780), "AlterSuitTab3Menu");
 
             saveStationMenuItems = new IMenuItem[,] {
-                { new ActionMenuItem(this.Content.Load<Texture2D>("Menu\\SaveMenuItem"), null, "saveMenuItem"), new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\AlterSuitMenuItem"), alterSuitMenu)} };
-            saveStationMenu = new MenuList(this.Content.Load<Texture2D>("Menu\\SaveStationMenu"), saveStationMenuItems, new Vector2(340, 200));
+                { new ActionMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\SaveMenuItem"), null, "saveMenuItem"), new PortalMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\AlterSuitMenuItem"), alterSuitTab1Menu)} };
+            saveStationMenu = new MenuList(this.Content.Load<Texture2D>("Menu\\Backgrounds\\SaveStationMenu"), saveStationMenuItems, new Vector2(340, 200));
 
 
             #endregion
@@ -539,20 +594,17 @@ namespace Spaceman
                 {
                     IMenuItem item = menu.GetMenuItem(i,j);
                     Rectangle sourceRect;
-                    if (item.GetIsHighlighted())
-                    {
-                        sourceRect = new Rectangle(0, item.GetTexture().Height / 2, item.GetTexture().Width, item.GetTexture().Height / 2);
-                    }
-                    else
-                    {
-                        sourceRect = new Rectangle(0, 0, item.GetTexture().Width, item.GetTexture().Height / 2);
-                    }
-                    spriteBatch.Draw(item.GetTexture(),
-                        new Rectangle(
-                            (menu.GetItemsWidth() == 1? rectX + (menu.GetBackground().Width / 2) - (item.GetTexture().Width / 2)  : rectX + (int)menu.GetItemZone().X + (deltaX * i)),
+                    sourceRect = item.GetSourceRect();
+
+                    Rectangle destRect;
+                    if (item.GetAnchorRect() == null) destRect = new Rectangle(
+                            (menu.GetItemsWidth() == 1 ? rectX + (menu.GetBackground().Width / 2) - (item.GetTexture().Width / 2) : rectX + (int)menu.GetItemZone().X + (deltaX * i)),
                             rectY + menu.GetItemZone().Y + (deltaY * j),
-                            item.GetTexture().Width,
-                            item.GetTexture().Height / 2),
+                            sourceRect.Width,
+                            sourceRect.Height);
+                    else destRect = (Rectangle)item.GetAnchorRect();
+                    spriteBatch.Draw(item.GetTexture(),
+                        destRect,
                         sourceRect,
                         Color.White);
                 }
@@ -804,7 +856,7 @@ namespace Spaceman
                     "click1", SoundLibrary));
         }
 
-        public void callMenuFunction(String function)
+        public void callMenuFunction(String function, IMenu from)
         {
             switch (function)
             {
@@ -1099,7 +1151,7 @@ namespace Spaceman
         public void UnlockPowerUp(PowerUps pu)
         {
             this.powerUpManager.UnlockPowerUp(pu);
-            powerUpManager.UpdateAbilities(PowerUps.BoostJump, PowerUps.Warp, PowerUps.Liquid);
+            //powerUpManager.UpdateAbilities(PowerUps.BoostJump, PowerUps.Warp, PowerUps.Liquid);
             UpdateAttributes(powerUpManager.currentPowerUps);
         }
 
@@ -1145,6 +1197,23 @@ namespace Spaceman
         {
             this.currentMenu = saveStationMenu;
             this.currentMenu.OpenMenu(this);
+        }
+
+        public void OpenMenu(String key)
+        {
+            switch (key)
+            {
+                case "AlterSuitTab1Menu":
+                    this.alterSuitTab1Menu.OpenMenu(this);
+                    break;
+                case "AlterSuitTab2Menu":
+                    this.alterSuitTab2Menu.OpenMenu(this);
+                    break;
+                case "AlterSuitTab3Menu":
+                    this.alterSuitTab3Menu.OpenMenu(this);
+                    break;
+
+            }
         }
     }
 }

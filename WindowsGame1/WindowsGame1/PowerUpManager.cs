@@ -34,6 +34,13 @@ namespace Spaceman
                 currentPowerUps.Add(PowerUps.NULL);
         }
 
+        public void UpdateAbility (PowerUps pu, int index)
+        {
+            if (unlockedPowerUps.Contains(pu))
+                currentPowerUps[index] = pu;
+            else currentPowerUps[index] = PowerUps.NULL;
+        }
+
 		public void UnlockPowerUp(PowerUps pu)
 		{
 			if (!unlockedPowerUps.Contains(pu) && pu != PowerUps.NULL)

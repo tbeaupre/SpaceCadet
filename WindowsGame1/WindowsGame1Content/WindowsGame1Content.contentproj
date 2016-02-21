@@ -199,21 +199,21 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu\MainMenu.png">
+    <Compile Include="Menu\Backgrounds\MainMenu.png">
       <Name>MainMenu</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu\StartMenuItem.png">
+    <Compile Include="Menu\Items\StartMenuItem.png">
       <Name>StartMenuItem</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu\OptionsMenuItem.png">
+    <Compile Include="Menu\Items\OptionsMenuItem.png">
       <Name>OptionsMenuItem</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -269,31 +269,31 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu\AlterSuitMenuItem.png">
+    <Compile Include="Menu\Items\AlterSuitMenuItem.png">
       <Name>AlterSuitMenuItem</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Menu\SaveMenuItem.png">
+    <Compile Include="Menu\Items\SaveMenuItem.png">
       <Name>SaveMenuItem</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu\SaveStationMenu.png">
+    <Compile Include="Menu\Backgrounds\SaveStationMenu.png">
       <Name>SaveStationMenu</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu\LoadMenuItem.png">
+    <Compile Include="Menu\Items\LoadMenuItem.png">
       <Name>LoadMenuItem</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Menu\NewMenuItem.png">
+    <Compile Include="Menu\Items\NewMenuItem.png">
       <Name>NewMenuItem</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -374,22 +374,51 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu\BoostJumpMenuItem.png">
+    <Compile Include="Menu\Items\BoostJumpMenuItem.png">
       <Name>BoostJumpMenuItem</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu\LockedUpgradeMenuItem.png">
+    <Compile Include="Menu\Items\LockedUpgradeMenuItem.png">
       <Name>LockedUpgradeMenuItem</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu\WarpMenuItem.png">
+    <Compile Include="Menu\Items\WarpMenuItem.png">
       <Name>WarpMenuItem</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Menu\Backgrounds\AlterSuit1Menu.png">
+      <Name>AlterSuit1Menu</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Menu\Backgrounds\AlterSuit2Menu.png">
+      <Name>AlterSuit2Menu</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Menu\Backgrounds\AlterSuit3Menu.png">
+      <Name>AlterSuit3Menu</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Menu\Items\AlterSuitNonActiveTabItem.png">
+      <Name>AlterSuitNonActiveTabItem</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Menu\Items\AlterSuitActiveTabItem.png">
+      <Name>AlterSuitActiveTabItem</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

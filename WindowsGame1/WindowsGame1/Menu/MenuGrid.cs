@@ -108,7 +108,13 @@ namespace Spaceman
             if (this.currentItemY >= this.itemsHeight) this.currentItemY = 0;
         }
 
-        public void OpenMenu(Game1 game)
+        public void SetCurrentItem(int x, int y)
+        {
+            this.currentItemX = x;
+            this.currentItemY = y;
+        }
+
+        public virtual void OpenMenu(Game1 game)
         {
             this.currentItemX = 0;
             this.currentItemY = 0;
@@ -149,9 +155,14 @@ namespace Spaceman
             }
             if (game.newkeys.IsKeyDown(Game1.fire) && game.oldkeys.IsKeyUp(Game1.fire))
             {
-                items[currentItemX, currentItemY].ActivateItem(game, this);
-                sound.Play(click2);
+                ActivateItem(game);
             }
+        }
+
+        public virtual void ActivateItem(Game1 game)
+        {
+            items[currentItemX, currentItemY].ActivateItem(game, this);
+            sound.Play(click2);
         }
 
         public void Disable()

@@ -21,7 +21,7 @@ namespace Spaceman
 		private int currentHeadFrame;
 		public Rectangle headSource;
 		public Rectangle bodySource;
-		public Directions direction; // 1 = left, 2 = upLeft, 3 = up, 4 = upRight, 5 = right, 6 = down
+		public Directions direction;
 		private ActionStatus bodyStatus;
 		private int runCycleStart = 3;
 		private int jumpsRemaining;
@@ -33,7 +33,7 @@ namespace Spaceman
         KeyboardState newkeys;
 		KeyboardState oldkeys;
 		int gunCooldown;
-        const int TURN_FRAMES = 10;
+        const int TURN_FRAMES = 20;
         const int SKID_FRAMES = 20;
         List<GunData> arsenal = new List<GunData>();
         GunOverlay guns;
@@ -665,7 +665,7 @@ namespace Spaceman
                         SetYVel(game.jumpSpeed);
                     jumpsRemaining--;
                     SetBodyStatus(new ActionStatus(ActionStates.Fall, status.duration));
-
+                    xGroundMomentum = 0;
                     if (jumpsRemaining != 0)
                     {
                         if (xGroundMomentum > 0) xAirMomentum = game.moveSpeed - game.GetDirectionalInfluence();
@@ -1219,11 +1219,6 @@ namespace Spaceman
 			{
 				if (status.duration > 0) status.duration--;
 			}
-			if (newkeys.IsKeyDown(Game1.special1))
-			{
-				this.destRect.Height = 2;
-			}
-			else this.destRect.Height = this.texture.Height;
 		}
 	}
 }

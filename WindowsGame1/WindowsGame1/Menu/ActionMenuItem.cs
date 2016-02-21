@@ -11,46 +11,38 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Spaceman
 {
-	class ActionMenuItem : IMenuItem
+	public class ActionMenuItem : PortalMenuItem, IMenuItem
 	{
-		Texture2D texture;
-		MenuList goesTo;
-		bool isHighlighted = false;
 		String function;
 
-		public ActionMenuItem(Texture2D texture, MenuList goesTo, String function)
+		public ActionMenuItem(Texture2D texture, IMenu goesTo, String function)
+            :base(texture, goesTo)
 		{
-			this.texture = texture;
-			this.goesTo = goesTo;
 			this.function = function;
 		}
 
-		Texture2D IMenuItem.GetTexture()
-		{
-			return this.texture;
-		}
+        public ActionMenuItem(Texture2D texture, IMenu goesTo, String function, int anchorX, int anchorY)
+            : base(texture, goesTo, anchorX, anchorY)
+        {
+            this.function = function;
+        }
 
-		void IMenuItem.SetIsHighlighted(bool val)
-		{
-			this.isHighlighted = val;
-		}
+        public String GetFunction()
+        {
+            return this.function;
+        }
 
-		bool IMenuItem.GetIsHighlighted()
-		{
-			return this.isHighlighted;
-		}
-
-		void IMenuItem.ActivateItem(Game1 game, IMenu from)
+		public override void ActivateItem(Game1 game, IMenu from)
 		{
             from.Disable();
-			game.callMenuFunction(function);
-			if (goesTo == null)
+			game.callMenuFunction(function, from);
+			if (GetGoesTo() == null)
 			{
 				game.currentMenu = null;
 			}
 			else
 			{
-				goesTo.OpenMenu(game);
+				GetGoesTo().OpenMenu(game);
 			}
 		}
 	}

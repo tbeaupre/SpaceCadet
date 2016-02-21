@@ -11,8 +11,6 @@ namespace Spaceman
         AudioEngine engine;
         SoundBank SB;
         WaveBank WB;
-        AudioCategory firstCat;
-
 
         Cue first;
 

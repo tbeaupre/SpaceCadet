@@ -17,5 +17,7 @@ namespace Spaceman
 		void SetIsHighlighted(bool val);
 		bool GetIsHighlighted();
 		void ActivateItem(Game1 game, IMenu from);
+        Rectangle GetSourceRect();
+        Nullable<Rectangle> GetAnchorRect();
 	}
 }

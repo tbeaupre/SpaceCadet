@@ -11,34 +11,58 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Spaceman
 {
-	class PortalMenuItem : IMenuItem
+	public class PortalMenuItem : IMenuItem
 	{
 		Texture2D texture;
 		IMenu goesTo;
 		bool isHighlighted = false;
+        Nullable<Rectangle> anchorRect;
 
-		public PortalMenuItem(Texture2D texture, IMenu goesTo)
+        public PortalMenuItem(Texture2D texture, IMenu goesTo)
 		{
 			this.texture = texture;
 			this.goesTo = goesTo;
+            this.anchorRect = null;
 		}
 
-		Texture2D IMenuItem.GetTexture()
+        public PortalMenuItem(Texture2D texture, IMenu goesTo, int anchorX, int anchorY)
+        {
+            this.texture = texture;
+            this.goesTo = goesTo;
+            this.anchorRect = new Rectangle(anchorX, anchorY, texture.Width, texture.Height / 2);
+        }
+
+        public IMenu GetGoesTo()
+        {
+            return this.goesTo;
+        }
+
+		public Texture2D GetTexture()
 		{
 			return this.texture;
 		}
 
-		void IMenuItem.SetIsHighlighted(bool val)
+		public void SetIsHighlighted(bool val)
 		{
 			this.isHighlighted = val;
 		}
 
-		bool IMenuItem.GetIsHighlighted()
+		public bool GetIsHighlighted()
 		{
 			return this.isHighlighted;
 		}
 
-		void IMenuItem.ActivateItem(Game1 game, IMenu from)
+        public virtual Nullable<Rectangle> GetAnchorRect()
+        {
+            return anchorRect;
+        }
+
+        public void SetAnchorRect(Nullable<Rectangle> rect)
+        {
+            this.anchorRect = rect;
+        }
+
+        public virtual void ActivateItem(Game1 game, IMenu from)
 		{
             from.Disable();
 			if (goesTo == null)
@@ -50,5 +74,10 @@ namespace Spaceman
 				goesTo.OpenMenu(game);
 			}
 		}
-	}
+
+        public virtual Rectangle GetSourceRect()
+        {
+            return new Rectangle(0, (GetIsHighlighted()? GetTexture().Height / 2 : 0), GetTexture().Width, GetTexture().Height / 2);
+        }
+    }
 }

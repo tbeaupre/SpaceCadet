@@ -77,8 +77,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Battery.cs" />
+    <Compile Include="Menu\AlterSuitTabMenuItem.cs" />
     <Compile Include="Menu\IMenu.cs" />
     <Compile Include="Menu\MenuGrid.cs" />
+    <Compile Include="Menu\PowerUpMenu.cs" />
+    <Compile Include="Menu\PowerUpMenuItem.cs" />
     <Compile Include="SoundFX.cs" />
     <Compile Include="Cooldown.cs" />
     <Compile Include="LiquidPowerup\Droplet.cs" />
