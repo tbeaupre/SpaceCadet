@@ -52,7 +52,6 @@ namespace Spaceman
         public RenderTarget2D lowRes;
 
         public Spaceman player;
-        public Liquid liquidPlayer;
         Texture2D spaceManHeadTexture;
         Texture2D spaceManBodyTexture;
 
@@ -106,7 +105,7 @@ namespace Spaceman
         Texture2D saveStationTexture;
 
         Texture2D boostJumpTexture;
-        Texture2D LiquidSpacemanTexture;
+        Texture2D liquidSpacemanTexture;
 
         Texture2D boostJumpPickUpTexture;
         public BoostJump boostJump;
@@ -230,7 +229,7 @@ namespace Spaceman
             spaceManTexture = this.Content.Load<Texture2D>("Spaceman");
             spaceManHeadTexture = this.Content.Load<Texture2D>("Spaceman Heads");
             spaceManBodyTexture = this.Content.Load<Texture2D>("Spaceman Body");
-            LiquidSpacemanTexture = Content.Load<Texture2D>("LiquidSpaceman");
+            liquidSpacemanTexture = Content.Load<Texture2D>("LiquidSpaceman");
 
             player = new Spaceman(spaceManBodyTexture,
                 spaceManHeadTexture,
@@ -239,8 +238,7 @@ namespace Spaceman
                 7,
                 false);
 
-            liquidPlayer = new Liquid(LiquidSpacemanTexture, spaceManX, spaceManY, this);
-
+            player.InitializeLiquid(liquidSpacemanTexture, spaceManX, spaceManY, this);
             player.InitializeArsenal(PistolBulletTexture, ShotgunBulletTexture, RailgunBulletTexture, MachinegunBulletTexture, BumblegunBulletTexture, rnd.Next(), SoundLibrary);
             player.InitializeGunOverlay(gunsAngleUpTexture, gunsAngleDownTexture, gunsTexture);
 
@@ -507,7 +505,8 @@ namespace Spaceman
                     DrawSprite(player.GetGuns(), 0.5f, player.GetColor());
                     for (int i = 0; i < 18; i++)
                     {
-                       DrawSprite(liquidPlayer.Pixel(i), 0.6f);
+                        player.GetLiquidPlayer().Pixel(i).UpdateCoords(worldMap[currentRoom].offset);
+                        DrawSprite(player.GetLiquidPlayer().Pixel(i), 0.6f);
                     }
 
                     DrawOverlay(boostJump, 0.5f, Color.White);
@@ -871,7 +870,7 @@ namespace Spaceman
         {
             player.UpdateSprite(this);
             worldMap[currentRoom].UpdateMap(this);
-            liquidPlayer.UpdateLiquid(worldMap[currentRoom].mapCoordinates.X, player.GetXGroundMomentum(), player.direction);
+            //liquidPlayer.UpdateLiquid(worldMap[currentRoom].mapCoordinates.X, player.GetXGroundMomentum(), player.direction);
             UpdateMapAssets();
             UpdateSpawns();
             UpdatePickUps();

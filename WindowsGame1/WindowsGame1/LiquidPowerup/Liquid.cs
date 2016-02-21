@@ -19,6 +19,13 @@ namespace Spaceman
         int X;
         int Y;
         Game1 game;
+        const int ROTATION_FRAMES = 3;
+        Cooldown rotationCooldown = new Cooldown(ROTATION_FRAMES);
+
+        public Cooldown GetRotationCooldown()
+        {
+            return this.rotationCooldown;
+        }
 
         public Liquid(Texture2D pixel, int X, int Y, Game1 game)
         {
@@ -33,54 +40,80 @@ namespace Spaceman
                 {
                     if (h == 0)
                     {
-                        dropletList.Add(new Droplet(pixel, new Vector2(X + w + 1, Y + 13 + h), 18, w));
+                        dropletList.Add(new Droplet(pixel, new Vector2(X + w + 1, Y + 13 + h), 18, w, new Vector2(X,Y)));
                     }
                     else
                     {
-                        dropletList.Add(new Droplet(pixel, new Vector2(X + 9 - w, Y + 13 + h), 18, w + 9));
+                        dropletList.Add(new Droplet(pixel, new Vector2(X + 9 - w, Y + 13 + h), 18, w + 9, new Vector2(X, Y)));
                     }
                 }
             }
         }
 
 
-        public ISprite Pixel(int i)
+        public Droplet Pixel(int i)
         {
             return dropletList[i];
         }
 
-        public void UpdateLiquid(double dist,double movespeed, Directions dir)
+        //public void UpdateLiquid(double dist, double movespeed, Directions dir)
+        //{
+        //    double rotation = 0;
+        //    {
+        //        if (dir == Directions.right && dist - rotation >= 1)
+        //        {
+        //            {
+        //                for (int i = 0; i < 17; i++)
+        //                {
+        //                    Vector2 drop = CheckDrop(dropletList[i], dropletList[i + 1]);
+        //                    dropletList[i].OffsetDestCoord(drop);
+        //                    dropletList[17].OffsetDestCoord(CheckDrop(dropletList[17], dropletList[0]));
+        //                }
+        //                rotation = dist;
+        //            }
+        //        }
+        //        if (dir == Directions.left)
+        //        {
+        //            {
+        //                for (int i = 17; i > 0; i--)
+        //                {
+        //                    Vector2 drop = CheckDrop(dropletList[i], dropletList[i - 1]);
+        //                    dropletList[i].OffsetDestCoord(drop);
+        //                    dropletList[0].OffsetDestCoord(CheckDrop(dropletList[0], dropletList[17]));
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+
+        public void Rotate(Directions dir, Vector2 mapOffset)
         {
-            double rotation = 0;
+            if (dir == Directions.right)
+            {
                 {
-                if (dir == Directions.right && dist - rotation >= 1)
+                    for (int i = 0; i < 17; i++)
                     {
-                        {
-                            for (int i = 0; i < 17; i++)
-                            {
-                                Vector2 drop = CheckDrop(dropletList[i], dropletList[i + 1]);
-                                dropletList[i].SetDestCoord(drop);
-                                dropletList[17].SetDestCoord(CheckDrop(dropletList[17], dropletList[0]));
-                            }
-                        rotation = dist;
-                    }
-                    }
-                    if (dir == Directions.left)
-                    {
-                        {
-                            for (int i = 17; i > 0; i--)
-                            {
-                                Vector2 drop = CheckDrop(dropletList[i], dropletList[i - 1]);
-                                dropletList[i].SetDestCoord(drop);
-                                dropletList[0].SetDestCoord(CheckDrop(dropletList[0], dropletList[17]));
-                            }
-                        }
+                        Vector2 drop = CheckDrop(dropletList[i], dropletList[i + 1]);
+                        dropletList[i].OffsetDestCoord(drop);
+                        dropletList[17].OffsetDestCoord(CheckDrop(dropletList[17], dropletList[0]));
                     }
                 }
             }
+            if (dir == Directions.left)
+            {
+                {
+                    for (int i = 17; i > 0; i--)
+                    {
+                        Vector2 drop = CheckDrop(dropletList[i], dropletList[i - 1]);
+                        dropletList[i].OffsetDestCoord(drop);
+                        dropletList[0].OffsetDestCoord(CheckDrop(dropletList[0], dropletList[17]));
+                    }
+                }
+            }
+            
+        }
         
         //returns immediate drop in y between two pixels
-
         private Vector2 CheckDrop(Droplet d1, Droplet d2)
         {
             return (d2.GetDestRect() - d1.GetDestRect());

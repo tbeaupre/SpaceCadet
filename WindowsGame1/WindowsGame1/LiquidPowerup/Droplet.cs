@@ -14,27 +14,34 @@ namespace Spaceman
 {
     public class Droplet : Sprite
     {
-        private Vector2 destCoord;
+        private Vector2 destOffsetCoord;
+        Vector2 origin;
         private bool cornered;
-        public Droplet(Texture2D pixel, Vector2 destCoord, int numFrames, int frameNum)
-            : base(pixel, destCoord, numFrames, frameNum, false)
+        public Droplet(Texture2D pixel, Vector2 destCoordOffset, int numFrames, int frameNum, Vector2 origin)
+            : base(pixel, destCoordOffset, numFrames, frameNum, false)
         {
-            this.destCoord = destCoord;
+            this.destOffsetCoord = destCoordOffset - origin;
+            this.origin = origin;
         }
-        public void setCornered(bool cornered)
+        public void SetCornered(bool cornered)
         {
             this.cornered = cornered;
         }
         public new Vector2 GetDestRect()
         {
-            return new Vector2((float)destRect.X, (float)destRect.Y);
+            return origin + destOffsetCoord;
         }
-        public void SetDestCoord(Vector2 coords)
+        public void OffsetDestCoord(Vector2 coords)
         {
-            destRect.X += coords.X;
-            destRect.Y += coords.Y;
+            destOffsetCoord.X += coords.X;
+            destOffsetCoord.Y += coords.Y;
         }
 
+        public void UpdateCoords(Vector2 offset)
+        {
+            destRect.X = origin.X + destOffsetCoord.X + offset.X;
+            destRect.Y = origin.Y + destOffsetCoord.Y + offset.Y;
+        }
 
         public bool MapCollide(Game1 game)
         {

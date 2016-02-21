@@ -56,6 +56,13 @@ namespace Spaceman
         double maxHealth = 100;
         double currentHealth = 50;
 
+        Liquid liquidPlayer;
+
+        public Liquid GetLiquidPlayer()
+        {
+            return this.liquidPlayer;
+        }
+
         public int GetDestRectXOffset()
         {
             return this.destRectXOffset;
@@ -191,6 +198,11 @@ namespace Spaceman
             this.yVel = 0;
 			this.gunCooldown = 0;
 		}
+
+        public void InitializeLiquid(Texture2D liquidSpacemanTexture, int spaceManX, int spaceManY, Game1 game)
+        {
+            liquidPlayer = new Liquid(liquidSpacemanTexture, spaceManX, spaceManY, game);
+        }
         public void InitializeArsenal(Texture2D pistolTexture, Texture2D shotgunTexture, Texture2D railgunTexture, Texture2D machinegunTexture, Texture2D bumblegunTexture,float num, SoundFX SoundLibrary)
         {
             arsenal.Add(
@@ -856,6 +868,12 @@ namespace Spaceman
 			{
 				game.worldMap[game.currentRoom].ChangeCoords(0, -1);
 			}
+            if (liquidPlayer.GetRotationCooldown().Iterate() && Math.Abs(xOffset) > 1)
+            {
+                liquidPlayer.Rotate(direction, game.worldMap[game.currentRoom].offset);
+                liquidPlayer.GetRotationCooldown().SetCooldown();
+            }
+            //liquidPlayer.Rotate(Math.Abs(xOffset), direction);
         }
 
         public int FindYOffset(Game1 game)
