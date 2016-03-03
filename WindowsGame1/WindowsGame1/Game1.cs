@@ -206,9 +206,10 @@ namespace Spaceman
             //powerUpManager.UnlockPowerUp(PowerUps.BoostJump);
             powerUpManager.UnlockPowerUp(PowerUps.Warp);
             powerUpManager.UnlockPowerUp(PowerUps.Liquid);
+            powerUpManager.UnlockPowerUp(PowerUps.None);
             powerUpManager.UnlockPowerUp(PowerUps.NULL);
             //powerUpManager.UpdateAbilities(PowerUps.BoostJump, PowerUps.Warp, PowerUps.Liquid);
-            powerUpManager.UpdateAbilities(PowerUps.NULL, PowerUps.NULL, PowerUps.NULL);
+            powerUpManager.UpdateAbilities(PowerUps.None, PowerUps.None, PowerUps.None);
 
             boostJumpPickUpTexture = this.Content.Load<Texture2D>("PickUps\\PowerUps\\BoostJumpPickUp");
 
@@ -283,57 +284,58 @@ namespace Spaceman
             mainMenu = new MenuList(this.Content.Load<Texture2D>("Menu\\Backgrounds\\MainMenu"), mainMenuItems, new Vector2(600, 200));
             currentMenu = mainMenu;
 
+            String menuItemsAbilities = "Menu\\Items\\Abilities\\";
             alterSuitTab1MenuItems = new IMenuItem[,] {
-                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\BoostJumpMenuItem"), null, PowerUps.BoostJump),
-                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "NoUpgradeMenuItem"), null, PowerUps.None),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "LockedUpgradeMenuItem"), null, PowerUps.NULL),
                     new AlterSuitTabMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\AlterSuitActiveTabItem"), 418, 807, "AlterSuitTab1Menu") },
 
-                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\WarpMenuItem"), null, PowerUps.Warp),
-                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "BoostJumpMenuItem"), null, PowerUps.BoostJump),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "LockedUpgradeMenuItem"), null, PowerUps.NULL),
                     new AlterSuitTabMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\AlterSuitNonActiveTabItem"), 675, 821, "AlterSuitTab2Menu") },
 
-                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
-                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "WarpMenuItem"), null, PowerUps.Warp),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "LockedUpgradeMenuItem"), null, PowerUps.NULL),
                     new AlterSuitTabMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\AlterSuitNonActiveTabItem"), 932, 821, "AlterSuitTab3Menu") },
 
-                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
-                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "LockedUpgradeMenuItem"), null, PowerUps.NULL),
                     new ActionMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\SaveMenuItem"), null, "saveSuit", 1213, 830) } };
             alterSuitTab1Menu = new PowerUpMenu(this.Content.Load<Texture2D>("Menu\\Backgrounds\\AlterSuit1Menu"), alterSuitTab1MenuItems, new Rectangle(360, 240, 1201, 780), "AlterSuitTab1Menu");
 
             alterSuitTab2MenuItems = new IMenuItem[,] {
-                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\BoostJumpMenuItem"), null, PowerUps.BoostJump),
-                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "NoUpgradeMenuItem"), null, PowerUps.None),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "LockedUpgradeMenuItem"), null, PowerUps.NULL),
                     new AlterSuitTabMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\AlterSuitNonActiveTabItem"), 418, 821, "AlterSuitTab1Menu") },
 
-                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\WarpMenuItem"), null, PowerUps.Warp),
-                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "BoostJumpMenuItem"), null, PowerUps.BoostJump),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "LockedUpgradeMenuItem"), null, PowerUps.NULL),
                     new AlterSuitTabMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\AlterSuitActiveTabItem"), 675, 807, "AlterSuitTab2Menu") },
 
-                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
-                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "WarpMenuItem"), null, PowerUps.Warp),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "LockedUpgradeMenuItem"), null, PowerUps.NULL),
                     new AlterSuitTabMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\AlterSuitNonActiveTabItem"), 932, 821, "AlterSuitTab3Menu") },
 
-                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
-                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "LockedUpgradeMenuItem"), null, PowerUps.NULL),
                     new ActionMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\SaveMenuItem"), null, "saveSuit", 1213, 830) } };
             alterSuitTab2Menu = new PowerUpMenu(this.Content.Load<Texture2D>("Menu\\Backgrounds\\AlterSuit2Menu"), alterSuitTab2MenuItems, new Rectangle(360, 240, 1201, 780), "AlterSuitTab2Menu");
 
             alterSuitTab3MenuItems = new IMenuItem[,] {
-                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\BoostJumpMenuItem"), null, PowerUps.BoostJump),
-                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "NoUpgradeMenuItem"), null, PowerUps.None),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "LockedUpgradeMenuItem"), null, PowerUps.NULL),
                     new AlterSuitTabMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\AlterSuitNonActiveTabItem"), 418, 821, "AlterSuitTab1Menu") },
 
-                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\WarpMenuItem"), null, PowerUps.Warp),
-                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "BoostJumpMenuItem"), null, PowerUps.BoostJump),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "LockedUpgradeMenuItem"), null, PowerUps.NULL),
                     new AlterSuitTabMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\AlterSuitNonActiveTabItem"), 675, 821, "AlterSuitTab2Menu") },
 
-                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
-                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "WarpMenuItem"), null, PowerUps.Warp),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "LockedUpgradeMenuItem"), null, PowerUps.NULL),
                     new AlterSuitTabMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\AlterSuitActiveTabItem"), 932, 807, "AlterSuitTab3Menu") },
 
-                { new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
-                    new PowerUpMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                { new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "LockedUpgradeMenuItem"), null, PowerUps.NULL),
+                    new PowerUpMenuItem(this.Content.Load<Texture2D>(menuItemsAbilities + "LockedUpgradeMenuItem"), null, PowerUps.NULL),
                     new ActionMenuItem(this.Content.Load<Texture2D>("Menu\\Items\\SaveMenuItem"), null, "saveSuit", 1213, 830) } };
             alterSuitTab3Menu = new PowerUpMenu(this.Content.Load<Texture2D>("Menu\\Backgrounds\\AlterSuit3Menu"), alterSuitTab3MenuItems, new Rectangle(360, 240, 1201, 780), "AlterSuitTab3Menu");
 

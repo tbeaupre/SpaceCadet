@@ -10,6 +10,7 @@ namespace Spaceman
         NULL,
         BoostJump,
         Warp,
-        Liquid
+        Liquid,
+        None
     };
 }

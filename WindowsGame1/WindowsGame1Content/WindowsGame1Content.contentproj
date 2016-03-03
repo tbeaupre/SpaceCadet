@@ -374,21 +374,21 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu\Items\BoostJumpMenuItem.png">
+    <Compile Include="Menu\Items\Abilities\BoostJumpMenuItem.png">
       <Name>BoostJumpMenuItem</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu\Items\LockedUpgradeMenuItem.png">
+    <Compile Include="Menu\Items\Abilities\LockedUpgradeMenuItem.png">
       <Name>LockedUpgradeMenuItem</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu\Items\WarpMenuItem.png">
+    <Compile Include="Menu\Items\Abilities\WarpMenuItem.png">
       <Name>WarpMenuItem</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -419,6 +419,13 @@
     </Compile>
     <Compile Include="Menu\Items\AlterSuitActiveTabItem.png">
       <Name>AlterSuitActiveTabItem</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Menu\Items\Abilities\NoUpgradeMenuItem.png">
+      <Name>NoUpgradeMenuItem</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

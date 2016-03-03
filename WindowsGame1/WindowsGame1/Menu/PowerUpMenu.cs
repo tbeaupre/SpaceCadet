@@ -19,8 +19,8 @@ namespace Spaceman
         public PowerUpMenu (Texture2D background, IMenuItem[,] items, Rectangle itemZone, String key)
             :base(background, items, itemZone)
         {
-            selected = (PowerUpMenuItem)items[0, 1];
-            selected.SetSelected(true);
+            selected = (PowerUpMenuItem)items[0, 0];
+            selected.SetIsSelected(true);
             this.key = key;
         }
 
@@ -33,11 +33,21 @@ namespace Spaceman
         {
             if (this.items[GetCurrentItemX(), GetCurrentItemY()] is PowerUpMenuItem)
             {
-                selected.SetSelected(false);
-                selected = (PowerUpMenuItem)items[GetCurrentItemX(), GetCurrentItemY()];
-                selected.SetSelected(true);
+                PowerUpMenuItem newSelected = (PowerUpMenuItem)items[GetCurrentItemX(), GetCurrentItemY()];
+                if (selected != newSelected &&
+                    game.GetPowerUpManager().GetUnlockedPowerUps().Contains(newSelected.GetPowerUp()) &&
+                    !game.GetPowerUpManager().AbilityUsed(newSelected.GetPowerUp()) &&
+                    newSelected.GetPowerUp() != PowerUps.NULL)
+                {
+                    selected.SetIsSelected(false);
+                    selected = newSelected;
+                    base.ActivateItem(game);
+                }
             }
-            base.ActivateItem(game);
+            else
+            {
+                base.ActivateItem(game);
+            }
         }
 
         public int GetIndex()
@@ -79,6 +89,21 @@ namespace Spaceman
             this.items[GetCurrentItemX(), GetCurrentItemY()].SetIsHighlighted(true);
             game.lastMenu = game.currentMenu;
             game.currentMenu = this;
+        }
+
+        public override void UpdateMenu(Game1 game)
+        {
+            foreach (IMenuItem i in items)
+            {
+                if (i is PowerUpMenuItem)
+                {
+                    PowerUpMenuItem i2 = (PowerUpMenuItem)i;
+                    if (!i2.GetIsSelected() && game.GetPowerUpManager().AbilityUsed(i2.GetPowerUp()))
+                        i2.SetAbilityUsed(true);
+                    else i2.SetAbilityUsed(false);
+                }
+            }
+            base.UpdateMenu(game);
         }
     }
 }

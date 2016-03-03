@@ -41,6 +41,12 @@ namespace Spaceman
             else currentPowerUps[index] = PowerUps.NULL;
         }
 
+        public bool AbilityUsed (PowerUps pu)
+        {
+            if (pu == PowerUps.None) return false;
+            return(currentPowerUps.Contains(pu));
+        }
+
 		public void UnlockPowerUp(PowerUps pu)
 		{
 			if (!unlockedPowerUps.Contains(pu) && pu != PowerUps.NULL)
