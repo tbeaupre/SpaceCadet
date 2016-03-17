@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.IO;
+using Spaceman.MapGeneration;
 
 namespace Spaceman
 {
@@ -203,6 +204,12 @@ namespace Spaceman
         /// </summary>
         protected override void Initialize()
         {
+            // Testing for random block creation
+            Block block = new Block(BlockEnum.DL, 3, 3, rnd);
+            Block block2 = new Block(BlockEnum.DL, 3, 3, rnd);
+            Block block3 = new Block(BlockEnum.DL, 3, 3, rnd);
+            Block block4 = block;
+
             //powerUpManager.UnlockPowerUp(PowerUps.BoostJump);
             powerUpManager.UnlockPowerUp(PowerUps.Warp);
             powerUpManager.UnlockPowerUp(PowerUps.Liquid);

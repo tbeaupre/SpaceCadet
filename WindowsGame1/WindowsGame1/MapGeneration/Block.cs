@@ -7,7 +7,7 @@ namespace Spaceman.MapGeneration
 {
     class Block
     {
-        Random rnd = new Random();
+        Random rnd;
         int subWidth;
         int subHeight;
 
@@ -15,13 +15,27 @@ namespace Spaceman.MapGeneration
         public EdgeStates[,] edgeStatesArray;
         public BlockEnum[,] finalBlockArray;
 
-        public Block (BlockEnum blockType, int subWidth, int subHeight)
+        public Block (BlockEnum blockType, int subWidth, int subHeight, Random rnd)
         {
+            this.rnd = rnd;
             this.blockType = blockType;
-            this.subWidth = subWidth;
-            this.subHeight = subHeight;
+            this.subWidth = 3;
+            this.subHeight = 3;
             edgeStatesArray = new EdgeStates[subWidth, subHeight];
             finalBlockArray = new BlockEnum[subWidth, subHeight];
+            InitEdgeStatesArray();
+            InitFinalBlockArray();
+        }
+
+        public void InitFinalBlockArray()
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    finalBlockArray[i, j] = GetBlock(edgeStatesArray[i, j]);
+                }
+            }
         }
         
         public void InitEdgeStatesArray()
@@ -68,6 +82,7 @@ namespace Spaceman.MapGeneration
                     edgeStatesArray[0, 2].U = EdgeState.Either;
                     edgeStatesArray[1, 1].L = EdgeState.Open;
                 }
+                MakeConcreteEdgeStates();
             }
         }
 
@@ -139,7 +154,7 @@ namespace Spaceman.MapGeneration
 
         private EdgeState GetRandomEdgeState()
         {
-            if (rnd.Next(1) == 0) return EdgeState.Open;
+            if (rnd.Next(0,2) == 0) return EdgeState.Open;
             else return EdgeState.Closed;
         }
     }

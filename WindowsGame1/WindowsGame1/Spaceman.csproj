@@ -77,6 +77,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Battery.cs" />
+    <Compile Include="MapGeneration\Block.cs" />
+    <Compile Include="MapGeneration\BlockEnum.cs" />
+    <Compile Include="MapGeneration\EdgeState.cs" />
+    <Compile Include="MapGeneration\EdgeStates.cs" />
     <Compile Include="Menu\AlterSuitTabMenuItem.cs" />
     <Compile Include="Menu\IMenu.cs" />
     <Compile Include="Menu\MenuGrid.cs" />

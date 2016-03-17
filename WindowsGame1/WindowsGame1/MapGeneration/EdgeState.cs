@@ -5,7 +5,10 @@ using System.Text;
 
 namespace Spaceman.MapGeneration
 {
-    class EdgeState
+    public enum EdgeState
     {
+        Open,
+        Closed,
+        Either
     }
 }
