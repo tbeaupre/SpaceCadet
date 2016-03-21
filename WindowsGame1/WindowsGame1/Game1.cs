@@ -114,6 +114,8 @@ namespace Spaceman
         Texture2D blockTexture;
         Texture2D blockHitboxTexture;
         // Testing for random block creation
+        int testX = 0;
+        int testY = 0;
         Room testRoom;
 
         #region Map Resources
@@ -553,11 +555,20 @@ namespace Spaceman
 
         public void DrawRoom(Room room)
         {
+            if (Keyboard.GetState().IsKeyDown(Keys.Left))
+                testX -= 5;
+            if (Keyboard.GetState().IsKeyDown(Keys.Right))
+                testX += 5;
+            if (Keyboard.GetState().IsKeyDown(Keys.Up))
+                testY -= 5;
+            if (Keyboard.GetState().IsKeyDown(Keys.Down))
+                testY += 5;
+
             for (int j = 0; j < room.GetFinalBlockArrayHeight(); j++)
             {
                 for (int i = 0; i < room.GetFinalBlockArrayWidth(); i++)
                 {
-                    Rectangle destRect = new Rectangle(blockTexture.Height * i, blockTexture.Height * j, blockTexture.Height, blockTexture.Height);
+                    Rectangle destRect = new Rectangle(blockTexture.Height * i + testX, blockTexture.Height * j + testY, blockTexture.Height, blockTexture.Height);
                     Rectangle sourceRect = new Rectangle(blockTexture.Height * (int)room.GetFinalBlockArray()[i, j], 0, blockTexture.Height, blockTexture.Height);
                     //spriteBatch.Draw(blockHitboxTexture, destRect, sourceRect, Color.White);
                     spriteBatch.Draw(blockTexture, destRect, sourceRect, Color.White);
