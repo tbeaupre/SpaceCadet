@@ -7,28 +7,6 @@ namespace Spaceman.MapGeneration
 {
     public enum BlockEnum
     {
-        ////Caves
-        //U,
-        //R,
-        //D,
-        //L,
-        ////Tunnels
-        //UD,
-        //RL,
-        ////Turns
-        //UR,
-        //RD,
-        //DL,
-        //LU,
-        ////Single Walls
-        //URD,
-        //RDL,
-        //DLU,
-        //LUR,
-        ////Others
-        //Open,
-        //Closed
-
         Closed,
         L,
         D,

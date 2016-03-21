@@ -111,6 +111,11 @@ namespace Spaceman
         Texture2D boostJumpPickUpTexture;
         public BoostJump boostJump;
 
+        Texture2D blockTexture;
+        Texture2D blockHitboxTexture;
+        // Testing for random block creation
+        Room testRoom;
+
         #region Map Resources
 
         public Vector2 initMapCoordinates = new Vector2(560, 100); // technically the world coordinates of the top left-hand corner of the screen
@@ -204,11 +209,10 @@ namespace Spaceman
         /// </summary>
         protected override void Initialize()
         {
+            blockTexture = this.Content.Load<Texture2D>("MapGeneration\\BlockImages");
+            blockHitboxTexture = this.Content.Load<Texture2D>("MapGeneration\\BlockHitbox");
             // Testing for random block creation
-            Block block = new Block(BlockEnum.DL, 3, 3, rnd);
-            Block block2 = new Block(BlockEnum.DL, 3, 3, rnd);
-            Block block3 = new Block(BlockEnum.DL, 3, 3, rnd);
-            Block block4 = block;
+            testRoom = new Room(2, BlockEnum.UL, rnd);
 
             //powerUpManager.UnlockPowerUp(PowerUps.BoostJump);
             powerUpManager.UnlockPowerUp(PowerUps.Warp);
@@ -526,6 +530,7 @@ namespace Spaceman
                 DrawSprite(healthBarOverlay, 0.1f);
                 DrawEnergyBar();
                 DrawHealthBar();
+                DrawRoom(testRoom);
                 base.Draw(gameTime);
                 spriteBatch.End();
 
@@ -546,41 +551,19 @@ namespace Spaceman
             }
         }
 
-        //public void DrawMenu(MenuList menu)
-        //{
-        //    int rectX = (graphics.PreferredBackBufferWidth - menu.background.Width) / 2;
-        //    int rectY = (graphics.PreferredBackBufferHeight - menu.background.Height) / 2;
-        //    spriteBatch.Draw(menu.background,
-        //        new Rectangle(
-        //            rectX,
-        //            rectY,
-        //            menu.background.Width,
-        //            menu.background.Height),
-        //        null,
-        //        Color.White);
-        //    int deltaY = (int)menu.itemZone.Y / menu.numItems;
-        //    for (int i = 0; i < menu.items.Count; i++)
-        //    {
-        //        IMenuItem item = menu.items[i];
-        //        Rectangle sourceRect;
-        //        if (item.GetIsHighlighted())
-        //        {
-        //            sourceRect = new Rectangle(0, item.GetTexture().Height / 2, item.GetTexture().Width, item.GetTexture().Height / 2);
-        //        }
-        //        else
-        //        {
-        //            sourceRect = new Rectangle(0, 0, item.GetTexture().Width, item.GetTexture().Height / 2);
-        //        }
-        //        spriteBatch.Draw(item.GetTexture(),
-        //            new Rectangle(
-        //                rectX + (menu.background.Width / 2) - (item.GetTexture().Width / 2),
-        //                rectY + (int)menu.itemZone.X + (deltaY * i),
-        //                item.GetTexture().Width,
-        //                item.GetTexture().Height / 2),
-        //            sourceRect,
-        //            Color.White);
-        //    }
-        //}
+        public void DrawRoom(Room room)
+        {
+            for (int j = 0; j < room.GetFinalBlockArrayHeight(); j++)
+            {
+                for (int i = 0; i < room.GetFinalBlockArrayWidth(); i++)
+                {
+                    Rectangle destRect = new Rectangle(blockTexture.Height * i, blockTexture.Height * j, blockTexture.Height, blockTexture.Height);
+                    Rectangle sourceRect = new Rectangle(blockTexture.Height * (int)room.GetFinalBlockArray()[i, j], 0, blockTexture.Height, blockTexture.Height);
+                    //spriteBatch.Draw(blockHitboxTexture, destRect, sourceRect, Color.White);
+                    spriteBatch.Draw(blockTexture, destRect, sourceRect, Color.White);
+                }
+            }
+        }
 
         public void DrawMenu(IMenu menu)
         {

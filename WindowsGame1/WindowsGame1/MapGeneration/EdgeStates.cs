@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Spaceman.MapGeneration
 {
-    class EdgeStates
+    public class EdgeStates
     {
         public EdgeState U;
         public EdgeState R;

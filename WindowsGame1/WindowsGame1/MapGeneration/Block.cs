@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Spaceman.MapGeneration
 {
-    class Block
+    public class Block
     {
         Random rnd;
         int subWidth;
@@ -14,17 +14,43 @@ namespace Spaceman.MapGeneration
         BlockEnum blockType;
         public EdgeStates[,] edgeStatesArray;
         public BlockEnum[,] finalBlockArray;
+        public EdgeStates[,] omniEdgeArray;
 
-        public Block (BlockEnum blockType, int subWidth, int subHeight, Random rnd)
+        public Block (BlockEnum blockType, EdgeStates[,] omniBlockArray, int x, int y, int depth, Random rnd)
         {
             this.rnd = rnd;
             this.blockType = blockType;
             this.subWidth = 3;
             this.subHeight = 3;
+            this.omniEdgeArray = omniBlockArray;
             edgeStatesArray = new EdgeStates[subWidth, subHeight];
             finalBlockArray = new BlockEnum[subWidth, subHeight];
             InitEdgeStatesArray();
             InitFinalBlockArray();
+            HandleDepth(x, y, depth - 1);
+        }
+
+        public EdgeStates[,] GetOmniBlockArray()
+        {
+            return omniEdgeArray;
+        }
+
+        public void HandleDepth(int x, int y, int depth)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    if (depth <= 0)
+                    {
+                        omniEdgeArray[x * 3 + i, y * 3 + j] = edgeStatesArray[i, j];
+                    }
+                    else {
+                        Block tempBlock = new Block(finalBlockArray[i, j], omniEdgeArray, x * 3 + i, y * 3 + j, depth, rnd);
+                        this.omniEdgeArray = tempBlock.GetOmniBlockArray();
+                    }
+                }
+            }
         }
 
         public void InitFinalBlockArray()
@@ -130,7 +156,7 @@ namespace Spaceman.MapGeneration
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    // If you aren't in the first row or collumn
+                    // If you aren't in the first row or column
                     if (j != 0)
                     {
                         edgeStatesArray[i, j].U = edgeStatesArray[i, j - 1].D;
