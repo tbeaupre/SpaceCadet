@@ -113,9 +113,12 @@ namespace Spaceman
 
         Texture2D blockTexture;
         Texture2D blockHitboxTexture;
+        Texture2D currentBlockTexture;
         // Testing for random block creation
         int testX = 0;
         int testY = 0;
+        const int TEST_DEPTH = 2;
+        const BlockEnum TEST_BLOCK_TYPE = BlockEnum.UL;
         Room testRoom;
 
         #region Map Resources
@@ -213,8 +216,9 @@ namespace Spaceman
         {
             blockTexture = this.Content.Load<Texture2D>("MapGeneration\\BlockImages");
             blockHitboxTexture = this.Content.Load<Texture2D>("MapGeneration\\BlockHitbox");
+            currentBlockTexture = blockTexture;
             // Testing for random block creation
-            testRoom = new Room(2, BlockEnum.UL, rnd);
+            testRoom = new Room(TEST_DEPTH, TEST_BLOCK_TYPE, rnd);
 
             //powerUpManager.UnlockPowerUp(PowerUps.BoostJump);
             powerUpManager.UnlockPowerUp(PowerUps.Warp);
@@ -532,7 +536,6 @@ namespace Spaceman
                 DrawSprite(healthBarOverlay, 0.1f);
                 DrawEnergyBar();
                 DrawHealthBar();
-                DrawRoom(testRoom);
                 base.Draw(gameTime);
                 spriteBatch.End();
 
@@ -548,6 +551,7 @@ namespace Spaceman
             {
                 spriteBatch.Begin();
                 DrawMenu(currentMenu);
+                DrawRoom(testRoom);
                 base.Draw(gameTime);
                 spriteBatch.End();
             }
@@ -555,14 +559,29 @@ namespace Spaceman
 
         public void DrawRoom(Room room)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            if (newkeys.IsKeyDown(Keys.O) && oldkeys.IsKeyUp(Keys.O))
+                testRoom = new Room(TEST_DEPTH, TEST_BLOCK_TYPE, rnd);
+
+            if (newkeys.IsKeyDown(Keys.I) && oldkeys.IsKeyUp(Keys.I))
+                testRoom.fixEdges();
+
+            if (newkeys.IsKeyDown(Keys.U) && oldkeys.IsKeyUp(Keys.U))
+                testRoom.widenTunnels(2);
+
+            if (newkeys.IsKeyDown(Keys.Left))
                 testX -= 5;
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            if (newkeys.IsKeyDown(Keys.Right))
                 testX += 5;
-            if (Keyboard.GetState().IsKeyDown(Keys.Up))
+            if (newkeys.IsKeyDown(Keys.Up))
                 testY -= 5;
-            if (Keyboard.GetState().IsKeyDown(Keys.Down))
+            if (newkeys.IsKeyDown(Keys.Down))
                 testY += 5;
+
+            if (newkeys.IsKeyDown(Keys.P) && oldkeys.IsKeyUp(Keys.P))
+            {
+                if (currentBlockTexture == blockTexture) currentBlockTexture = blockHitboxTexture;
+                else currentBlockTexture = blockTexture;
+            }
 
             for (int j = 0; j < room.GetFinalBlockArrayHeight(); j++)
             {
@@ -570,8 +589,7 @@ namespace Spaceman
                 {
                     Rectangle destRect = new Rectangle(blockTexture.Height * i + testX, blockTexture.Height * j + testY, blockTexture.Height, blockTexture.Height);
                     Rectangle sourceRect = new Rectangle(blockTexture.Height * (int)room.GetFinalBlockArray()[i, j], 0, blockTexture.Height, blockTexture.Height);
-                    //spriteBatch.Draw(blockHitboxTexture, destRect, sourceRect, Color.White);
-                    spriteBatch.Draw(blockTexture, destRect, sourceRect, Color.White);
+                    spriteBatch.Draw(currentBlockTexture, destRect, sourceRect, Color.White);
                 }
             }
         }

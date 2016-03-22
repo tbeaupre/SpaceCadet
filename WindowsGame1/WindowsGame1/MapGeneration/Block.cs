@@ -59,7 +59,7 @@ namespace Spaceman.MapGeneration
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    finalBlockArray[i, j] = GetBlock(edgeStatesArray[i, j]);
+                    finalBlockArray[i, j] = edgeStatesArray[i, j].toBlock();
                 }
             }
         }
@@ -78,7 +78,7 @@ namespace Spaceman.MapGeneration
             // Change specific EdgeState blocks depended upon what the overall block is.
             if (blockType != BlockEnum.Open && blockType != BlockEnum.Closed)
             {
-                EdgeStates bigEdges = GetEdgeStates(blockType);
+                EdgeStates bigEdges = BlockFunctions.GetEdgeStates(blockType);
                 edgeStatesArray[1, 1] = new EdgeStates(EdgeState.Either, EdgeState.Either, EdgeState.Either, EdgeState.Either);
                 if (bigEdges.U == EdgeState.Open)
                 {
@@ -112,44 +112,6 @@ namespace Spaceman.MapGeneration
             }
         }
 
-        // Returns the block type associated with a certain set of edgestates
-        private BlockEnum GetBlock(EdgeStates edges)
-        {
-            int result = 0;
-            if (edges.U == EdgeState.Open) result += 8;
-            if (edges.R == EdgeState.Open) result += 4;
-            if (edges.D == EdgeState.Open) result += 2;
-            if (edges.L == EdgeState.Open) result += 1;
-            return (BlockEnum)result;
-        }
-
-        // Returns the edgestates associated with a certain block type
-        private EdgeStates GetEdgeStates(BlockEnum block)
-        {
-            EdgeStates result = new EdgeStates(false); // Creates a new set of edges that are all closed
-            if ((int)block - 8 >= 0)
-            {
-                result.U = EdgeState.Open;
-                block -= 8;
-            }
-            if ((int)block - 4 >= 0)
-            {
-                result.R = EdgeState.Open;
-                block -= 4;
-            }
-            if ((int)block - 2 >= 0)
-            {
-                result.D = EdgeState.Open;
-                block -= 2;
-            }
-            if ((int)block - 1 >= 0)
-            {
-                result.L = EdgeState.Open;
-                block -= 1;
-            }
-            return result;
-        }
-
         private void MakeConcreteEdgeStates()
         {
             for (int j = 0; j < 3; j++)
@@ -180,7 +142,7 @@ namespace Spaceman.MapGeneration
 
         private EdgeState GetRandomEdgeState()
         {
-            if (rnd.Next(0,2) == 0) return EdgeState.Open;
+            if (rnd.Next(0,3) == 0) return EdgeState.Open;
             else return EdgeState.Closed;
         }
     }

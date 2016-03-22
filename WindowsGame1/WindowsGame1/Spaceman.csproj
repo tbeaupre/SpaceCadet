@@ -79,6 +79,7 @@
     <Compile Include="Battery.cs" />
     <Compile Include="MapGeneration\Block.cs" />
     <Compile Include="MapGeneration\BlockEnum.cs" />
+    <Compile Include="MapGeneration\BlockFunctions.cs" />
     <Compile Include="MapGeneration\EdgeState.cs" />
     <Compile Include="MapGeneration\EdgeStates.cs" />
     <Compile Include="MapGeneration\Room.cs" />
